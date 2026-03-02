@@ -114,7 +114,7 @@ The system works fully with local markdown and CSV files. These integrations enh
 
 ## Getting Started Guide
 
-Full step-by-step setup for non-technical users: [dawsonschrader.com/tools/ai-cmo](https://dawsonschrader.com/tools/ai-cmo)
+Full step-by-step setup for non-technical users: [dawsonschrader.com/tools/ai-csuite](https://dawsonschrader.com/tools/ai-csuite)
 
 ## License
 
