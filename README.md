@@ -112,6 +112,24 @@ The system works fully with local markdown and CSV files. These integrations enh
 | **Google Docs** | Collaborative briefs | Specify in client CLAUDE.md |
 | **Typefully** | Draft social posts for X + LinkedIn | `TYPEFULLY_API_KEY` env var + config file |
 
+## Marketing Skills
+
+In addition to the core AI-CMO skill, the plugin includes specialized marketing skills for deeper work:
+
+| Skill | What It Does |
+|-------|-------------|
+| `email-sequence` | Design email sequences, drip campaigns, and lifecycle automation |
+| `content-strategy` | Long-form content planning — topic clusters, buyer journey mapping, searchable vs. shareable |
+| `marketing-psychology` | 70+ psychological frameworks for hooks, CTAs, messaging, and pricing |
+| `seo-audit` | Structured 7-dimension SEO audit (crawlability, Core Web Vitals, on-page, content quality) |
+| `analytics-tracking` | UTM frameworks, GA4 events, GTM patterns, and conversion tracking setup |
+
+These skills share client context with AI-CMO and are triggered by natural language — just describe what you need.
+
+## Credits
+
+The marketing skills (`email-sequence`, `content-strategy`, `marketing-psychology`, `seo-audit`, `analytics-tracking`) are adapted from [marketingskills](https://github.com/coreyhaines31/marketingskills) by [Corey Haines](https://corey.co). Thank you Corey for building such a comprehensive, well-organized collection of marketing frameworks. The original skills are licensed under MIT and have been adapted here to integrate with the AI-CMO client knowledge system.
+
 ## Getting Started Guide
 
 Full step-by-step setup for non-technical users: [dawsonschrader.com/tools/ai-csuite](https://dawsonschrader.com/tools/ai-csuite)
