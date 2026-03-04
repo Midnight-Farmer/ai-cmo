@@ -21,12 +21,12 @@ Just finished onboarding? Here's how to get rolling:
 
 **End of week: Check in**
 - After a few days, log metrics for your published content: `log performance for [client]`
-- Get next week's plan: `/ai-csuite:generate-week [client]`
+- Get next week's plan: `/ai-cmo:generate-week [client]`
 
 **After your first month:**
 - Run `analyze performance for [client]` to see what's working
 - Run `update whats working for [client]` to capture insights
-- Run `/ai-csuite:generate-month [client]` to get next month's strategy
+- Run `/ai-cmo:generate-month [client]` to get next month's strategy
 - From here, you're in the regular weekly/monthly rhythm described below
 
 ---
@@ -47,7 +47,7 @@ Just finished onboarding? Here's how to get rolling:
    - Note what performed above or below expectations
 
 2. **Weekly Planning (15-30 min):**
-   - Run `/ai-csuite:generate-week [client]`
+   - Run `/ai-cmo:generate-week [client]`
    - Review the generated plan
    - Adjust based on any real-time considerations (trends, events, client updates)
    - If using Typefully, say "push to typefully" to create drafts
@@ -82,7 +82,7 @@ Just finished onboarding? Here's how to get rolling:
    - Note whether on track, ahead, or behind
 
 5. **Next Month Planning:**
-   - Run `/ai-csuite:generate-month [client]`
+   - Run `/ai-cmo:generate-month [client]`
    - The new monthly plan should reflect learnings from the review
 
 ---

@@ -1,6 +1,6 @@
 {
-  "name": "ai-csuite",
-  "version": "1.0.0",
-  "description": "AI C-Suite — AI-powered executive advisors for your business. CMO (marketing strategy), with COO and CFO coming soon.",
+  "name": "ai-cmo",
+  "version": "1.1.0",
+  "description": "AI-CMO — Your AI Chief Marketing Officer. Data-driven content strategy, brand voice, and performance tracking inside Claude Code.",
   "author": "Midnight-Farmer"
 }

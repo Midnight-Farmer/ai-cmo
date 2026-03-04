@@ -241,7 +241,7 @@ Ask about:
    1. Review your weekly plan and pick the easiest 1-2 pieces to create first
    2. After publishing, run: log content for [client]
    3. After a few days, log the performance: log performance for [client]
-   4. Next Monday, run: /ai-csuite:generate-week [client] to get your next week's plan
+   4. Next Monday, run: /ai-cmo:generate-week [client] to get your next week's plan
    ```
 
 7. **Confirm onboarding is complete** and let the user know they can say `brief me on [client]` anytime for a refresher

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Initialize a new AI C-Suite client folder structure.
+Initialize a new AI-CMO client folder structure.
 
 Usage:
     init-client.py <client-name> --path <base-path>

@@ -1,4 +1,4 @@
-# [CLIENT NAME] - AI C-Suite Instructions
+# [CLIENT NAME] - AI-CMO Instructions
 
 ## Client Overview
 

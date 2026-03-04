@@ -1,8 +1,6 @@
-# AI C-Suite
+# AI-CMO
 
-AI-powered executive advisors for your business, built as a [Claude Code](https://claude.ai/claude-code) plugin.
-
-**AI-CMO** (Chief Marketing Officer) is live now. AI-COO and AI-CFO are coming soon.
+Your AI Chief Marketing Officer, built as a [Claude Code](https://claude.ai/claude-code) plugin.
 
 ## What It Does
 
@@ -20,7 +18,7 @@ Each client gets their own isolated knowledge base. The system learns from your 
 ## Install
 
 ```
-/plugin install Midnight-Farmer/ai-csuite
+/plugin install Midnight-Farmer/ai-cmo
 ```
 
 Requires [Claude Code](https://claude.ai/claude-code) (CLI or Desktop app with Claude Pro/Max plan).
@@ -28,7 +26,7 @@ Requires [Claude Code](https://claude.ai/claude-code) (CLI or Desktop app with C
 ## Quick Start
 
 ```
-/ai-csuite:new-client my-business
+/ai-cmo:new-client my-business
 ```
 
 This runs a guided ~20 minute interview that builds your complete marketing profile. You'll leave with your first monthly and weekly content plans ready to execute.
@@ -37,11 +35,11 @@ This runs a guided ~20 minute interview that builds your complete marketing prof
 
 | Command | What It Does |
 |---------|-------------|
-| `/ai-csuite:new-client [name]` | Create client folder + run guided onboarding |
-| `/ai-csuite:generate-week [client]` | Weekly plan: 5-7 pieces with hooks, scripts, shot lists |
-| `/ai-csuite:generate-month [client]` | Monthly strategy: themes, content mix, 4-week breakdown |
-| `/ai-csuite:generate-biweekly [client]` | Two-week plan: 10-14 pieces across 2 weeks |
-| `/ai-csuite:overview [client]` | Structured summary of a client + conversational Q&A |
+| `/ai-cmo:new-client [name]` | Create client folder + run guided onboarding |
+| `/ai-cmo:generate-week [client]` | Weekly plan: 5-7 pieces with hooks, scripts, shot lists |
+| `/ai-cmo:generate-month [client]` | Monthly strategy: themes, content mix, 4-week breakdown |
+| `/ai-cmo:generate-biweekly [client]` | Two-week plan: 10-14 pieces across 2 weeks |
+| `/ai-cmo:overview [client]` | Structured summary of a client + conversational Q&A |
 
 ## Natural Language Commands
 
@@ -63,7 +61,7 @@ These work by just typing them — no slash needed:
 
 ## Client Folder Structure
 
-Each client gets a shared root (used across all AI roles) plus role-specific subdirectories:
+Each client gets a shared root plus role-specific subdirectories:
 
 ```
 clients/[client-name]/
@@ -87,8 +85,8 @@ clients/[client-name]/
 │   └── outputs/
 │       ├── monthly-briefs/
 │       └── weekly-briefs/
-├── operations/                    # AI-COO (coming soon)
-└── finance/                       # AI-CFO (coming soon)
+├── operations/                    # Future — separate AI-COO plugin
+└── finance/                       # Future — separate AI-CFO plugin
 ```
 
 ## Your Weekly Rhythm
@@ -126,13 +124,24 @@ In addition to the core AI-CMO skill, the plugin includes specialized marketing 
 
 These skills share client context with AI-CMO and are triggered by natural language — just describe what you need.
 
+## Recommended: Humanizer
+
+AI-CMO directs strategy — but when you need Claude to write or polish copy, pair it with [Humanizer](https://github.com/blader/humanizer). It strips 24 common AI writing patterns (significance inflation, em dash overuse, filler hedging, etc.) so your captions and scripts sound like a person wrote them.
+
+```
+mkdir -p ~/.claude/skills
+git clone https://github.com/blader/humanizer.git ~/.claude/skills/humanizer
+```
+
+Once installed, just ask Claude to "humanize" any output. Works great with the weekly plan captions and video scripts.
+
 ## Credits
 
 The marketing skills (`email-sequence`, `content-strategy`, `marketing-psychology`, `seo-audit`, `analytics-tracking`) are adapted from [marketingskills](https://github.com/coreyhaines31/marketingskills) by [Corey Haines](https://corey.co). Thank you Corey for building such a comprehensive, well-organized collection of marketing frameworks. The original skills are licensed under MIT and have been adapted here to integrate with the AI-CMO client knowledge system.
 
 ## Getting Started Guide
 
-Full step-by-step setup for non-technical users: [dawsonschrader.com/tools/ai-csuite](https://dawsonschrader.com/tools/ai-csuite)
+Full step-by-step setup for non-technical users: [dawsonschrader.com/tools/ai-cmo](https://dawsonschrader.com/tools/ai-cmo)
 
 ## License
 
