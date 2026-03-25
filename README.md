@@ -1,28 +1,37 @@
-# AI-CMO: Your AI Marketing Strategist
+# AI-CMO
 
-AI-CMO is a Claude Code plugin that acts as your strategic marketing advisor. Tell it about your business, and it gives you monthly, bi-weekly, and weekly content plans — what to post, what to say, what format to use, and why. You create the content; it directs the strategy.
+Your AI Chief Marketing Officer, built as a [Claude Code](https://claude.ai/claude-code) plugin.
 
-## Prerequisites
+## What It Does
 
-- [Claude Code](https://claude.com/claude-code) installed
-- A business you want to market
-- ~20 minutes for the initial setup conversation
+AI-CMO is a strategic marketing advisor that helps you make data-driven content decisions. It doesn't create final content — it directs strategy. You get:
 
-## Getting Started
+- **Monthly content strategies** with themes, content mix, and experiments to run
+- **Bi-weekly execution plans** with performance data pulls and platform research
+- **Weekly content plans** with hooks, scripts, shot lists, and captions for 5-7 pieces
+- **Performance tracking** that feeds back into smarter plans over time
+- **Brand voice guidelines** extracted from your actual writing and content examples
+- **Customer personas** built on the StoryBrand framework
+- **Revenue attribution** connecting content to business outcomes
+- **Operational memory** that persists decisions and context across sessions
 
-Install the plugin in Claude Code:
+Each client gets their own isolated knowledge base. The system learns from your performance data and gets smarter over time.
+
+## Install
 
 ```
 /plugin install Midnight-Farmer/ai-cmo
 ```
 
-Then say:
+Requires [Claude Code](https://claude.ai/claude-code) (CLI or Desktop app with Claude Pro/Max plan).
+
+## Quick Start
 
 ```
-new client my-business-name
+/ai-cmo:new-client my-business
 ```
 
-That's it. The AI walks you through everything from there — no marketing knowledge required.
+This runs a guided ~20 minute interview that builds your complete marketing profile. You'll leave with your first monthly and weekly content plans ready to execute.
 
 ## What the Onboarding Covers
 
@@ -101,9 +110,47 @@ clients/[client-name]/
 
 ## Optional Integrations
 
-- **Google Drive/Docs** — Save plans to shared folders as Word documents
-- **Google Sheets** — Track content and performance in shared spreadsheets instead of local CSV files
-- **Typefully** — Push draft social posts directly to Typefully for X and LinkedIn scheduling
+The system works fully with local markdown and CSV files. These integrations enhance the workflow but are never required.
+
+| Integration | What It Does | Setup |
+|-------------|-------------|-------|
+| **Google Drive** | Store deliverables in shared folders | Add folder ID to client CLAUDE.md |
+| **Google Sheets** | Collaborative tracking dashboards | Add spreadsheet IDs to client CLAUDE.md |
+| **Google Docs** | Collaborative briefs | Specify in client CLAUDE.md |
+| **Typefully** | Draft social posts for X + LinkedIn | `TYPEFULLY_API_KEY` env var + config file |
+
+## Marketing Skills
+
+In addition to the core AI-CMO skill, the plugin includes specialized marketing skills for deeper work:
+
+| Skill | What It Does |
+|-------|-------------|
+| `email-sequence` | Design email sequences, drip campaigns, and lifecycle automation |
+| `content-strategy` | Long-form content planning — topic clusters, buyer journey mapping, searchable vs. shareable |
+| `marketing-psychology` | 70+ psychological frameworks for hooks, CTAs, messaging, and pricing |
+| `seo-audit` | Structured 7-dimension SEO audit (crawlability, Core Web Vitals, on-page, content quality) |
+| `analytics-tracking` | UTM frameworks, GA4 events, GTM patterns, and conversion tracking setup |
+
+These skills share client context with AI-CMO and are triggered by natural language — just describe what you need.
+
+## Recommended: Humanizer
+
+AI-CMO directs strategy — but when you need Claude to write or polish copy, pair it with [Humanizer](https://github.com/blader/humanizer). It strips 24 common AI writing patterns (significance inflation, em dash overuse, filler hedging, etc.) so your captions and scripts sound like a person wrote them.
+
+```
+mkdir -p ~/.claude/skills
+git clone https://github.com/blader/humanizer.git ~/.claude/skills/humanizer
+```
+
+Once installed, just ask Claude to "humanize" any output. Works great with the weekly plan captions and video scripts.
+
+## Credits
+
+The marketing skills (`email-sequence`, `content-strategy`, `marketing-psychology`, `seo-audit`, `analytics-tracking`) are adapted from [marketingskills](https://github.com/coreyhaines31/marketingskills) by [Corey Haines](https://corey.co). Thank you Corey for building such a comprehensive, well-organized collection of marketing frameworks. The original skills are licensed under MIT and have been adapted here to integrate with the AI-CMO client knowledge system.
+
+## Getting Started Guide
+
+Full step-by-step setup for non-technical users: [dawsonschrader.com/tools/ai-cmo](https://dawsonschrader.com/tools/ai-cmo)
 
 ## License
 
