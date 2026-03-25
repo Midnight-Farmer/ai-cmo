@@ -1,0 +1,7 @@
+{
+  "name": "ai-cmo",
+  "version": "2.0.0",
+  "description": "AI Chief Marketing Officer — strategic marketing advisor for content strategy, planning, and performance tracking across multiple clients.",
+  "skills": ["skills/ai-cmo"],
+  "commands": ["commands"]
+}

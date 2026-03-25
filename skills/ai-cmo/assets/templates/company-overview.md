@@ -1,4 +1,13 @@
-# Client Overview: [CLIENT NAME]
+---
+title: Company Overview
+description: Company info, positioning, competitive landscape, seasonal calendar
+category: strategy
+last_updated: [DATE]
+status: active
+priority: high
+---
+
+# Company Overview: [CLIENT NAME]
 
 ## Company Information
 
@@ -10,12 +19,11 @@
 | Location | |
 | Website | |
 | Team Size | |
-| Primary Contact | |
 
 ## Business Overview
 
 ### What They Do
-[Describe the core business, products/services offered]
+[Core business, products/services offered]
 
 ### Who They Serve
 [Primary customer segments, B2B/B2C, geographic focus]
@@ -23,44 +31,13 @@
 ### Business Model
 [How they make money, pricing model, sales cycle]
 
-## Marketing Objectives
-
-### 90-Day Goals
-1. [Primary goal with specific metric]
-2. [Secondary goal]
-3. [Tertiary goal]
-
-### Long-Term Vision
-[Where they want to be in 1-2 years from a marketing perspective]
-
-## Current Marketing State
-
-### Active Platforms
-| Platform | Handle | Followers | Posting Frequency | Primary Purpose |
-|----------|--------|-----------|-------------------|-----------------|
-| Instagram | | | | |
-| LinkedIn | | | | |
-| TikTok | | | | |
-| YouTube | | | | |
-| Email | | | | |
-| Other | | | | |
-
-### What's Currently Working
-- [List current wins]
-
-### What's Not Working
-- [List current challenges]
-
-### Previous Marketing Efforts
-[Notable past campaigns, what was tried, results]
-
 ## Key Differentiators
 
 ### Unique Value Proposition
 [What makes them different from competitors]
 
 ### Proof Points
-- [Specific results, awards, certifications, etc.]
+- [Specific results, awards, certifications]
 
 ### Secret Sauce
 [What they do better than anyone else]
@@ -72,10 +49,9 @@
 |------------|-------------------|----------------|---------------|
 | | | | |
 | | | | |
-| | | | |
 
 ### Market Position
-[Where the client sits in the market - premium, mid-market, budget, etc.]
+[Premium, mid-market, budget, etc.]
 
 ## Seasonal Considerations
 
@@ -87,7 +63,7 @@
 | Q4 | | |
 
 ### Key Dates
-- [Industry events, holidays, launches that matter]
+- [Industry events, holidays, launches]
 
 ## Additional Context
 
@@ -103,4 +79,3 @@
 ---
 
 *Last updated: [Date]*
-*Completed by: [Name]*

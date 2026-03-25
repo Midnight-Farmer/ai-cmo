@@ -10,23 +10,30 @@ Example:
 
 Creates the full client directory structure with template files:
     clients/acme-corp/
+    ├── company-overview.md
+    ├── contacts.md
     ├── .claude/CLAUDE.md
-    ├── knowledge/
-    │   ├── 00-client-overview.md
-    │   ├── voice-guidelines.md
-    │   ├── personas-storybrand.md
-    │   ├── goals-and-benchmarks.md
-    │   └── whats-working.md
-    ├── tracking/
-    │   ├── content-log.csv
-    │   ├── performance.csv
-    │   └── revenue-attribution.csv
-    ├── content/our-content/
-    ├── content/competitors/
-    ├── transcripts/
-    └── outputs/
-        ├── monthly-briefs/
-        └── weekly-briefs/
+    ├── marketing/
+    │   ├── knowledge/
+    │   │   ├── voice-guidelines.md
+    │   │   ├── personas-storybrand.md
+    │   │   ├── goals-and-benchmarks.md
+    │   │   └── whats-working.md
+    │   ├── tracking/
+    │   │   ├── content-log.csv
+    │   │   ├── performance.csv
+    │   │   └── revenue-attribution.csv
+    │   ├── content/our-content/
+    │   ├── content/competitors/
+    │   ├── research/
+    │   ├── transcripts/
+    │   ├── memory/
+    │   │   ├── MEMORY.md
+    │   │   └── logs/
+    │   └── outputs/
+    │       ├── monthly-briefs/
+    │       ├── weekly-briefs/
+    │       └── biweekly-briefs/
 """
 
 import sys
@@ -41,11 +48,6 @@ def find_templates_dir():
     templates_dir = script_dir.parent / "assets" / "templates"
     if templates_dir.exists():
         return templates_dir
-    # Fallback: check the old _templates location
-    workspace_root = script_dir.parent.parent
-    old_templates = workspace_root / "_templates"
-    if old_templates.exists():
-        return old_templates
     return None
 
 
@@ -62,13 +64,16 @@ def init_client(client_name, base_path):
     # Create directory structure
     dirs = [
         ".claude",
-        "knowledge",
-        "tracking",
-        "content/our-content",
-        "content/competitors",
-        "transcripts",
-        "outputs/monthly-briefs",
-        "outputs/weekly-briefs",
+        "marketing/knowledge",
+        "marketing/tracking",
+        "marketing/content/our-content",
+        "marketing/content/competitors",
+        "marketing/research",
+        "marketing/transcripts",
+        "marketing/memory/logs",
+        "marketing/outputs/monthly-briefs",
+        "marketing/outputs/weekly-briefs",
+        "marketing/outputs/biweekly-briefs",
     ]
 
     for d in dirs:
@@ -77,18 +82,22 @@ def init_client(client_name, base_path):
 
     # Map template files to destinations
     template_map = {
-        # Knowledge files
-        "00-client-overview.md": "knowledge/00-client-overview.md",
-        "voice-guidelines.md": "knowledge/voice-guidelines.md",
-        "personas-storybrand.md": "knowledge/personas-storybrand.md",
-        "goals-and-benchmarks.md": "knowledge/goals-and-benchmarks.md",
-        "whats-working.md": "knowledge/whats-working.md",
-        # Tracking files
-        "content-log.csv": "tracking/content-log.csv",
-        "performance.csv": "tracking/performance.csv",
-        "revenue-attribution.csv": "tracking/revenue-attribution.csv",
+        # Shared root files
+        "company-overview.md": "company-overview.md",
+        "contacts.md": "contacts.md",
         # Client CLAUDE.md
         "CLIENT-CLAUDE.md": ".claude/CLAUDE.md",
+        # Knowledge files (under marketing/)
+        "voice-guidelines.md": "marketing/knowledge/voice-guidelines.md",
+        "personas-storybrand.md": "marketing/knowledge/personas-storybrand.md",
+        "goals-and-benchmarks.md": "marketing/knowledge/goals-and-benchmarks.md",
+        "whats-working.md": "marketing/knowledge/whats-working.md",
+        # Tracking files (under marketing/)
+        "content-log.csv": "marketing/tracking/content-log.csv",
+        "performance.csv": "marketing/tracking/performance.csv",
+        "revenue-attribution.csv": "marketing/tracking/revenue-attribution.csv",
+        # Memory
+        "MEMORY.md": "marketing/memory/MEMORY.md",
     }
 
     if templates_dir:
@@ -115,14 +124,16 @@ def init_client(client_name, base_path):
             else:
                 dest.write_text(f"# {dest_path.split('/')[-1].replace('.md', '').replace('-', ' ').title()}\n\n[To be completed during onboarding]\n")
 
-    # Replace placeholder in CLAUDE.md
-    claude_md = client_dir / ".claude" / "CLAUDE.md"
-    if claude_md.exists():
-        content = claude_md.read_text()
-        display_name = client_name.replace("-", " ").title()
-        content = content.replace("[Client Name]", display_name)
-        content = content.replace("[client-name]", client_name)
-        claude_md.write_text(content)
+    # Replace placeholders in all markdown templates
+    for dest_path in template_map.values():
+        dest = client_dir / dest_path
+        if dest.exists() and dest_path.endswith(".md"):
+            content = dest.read_text()
+            display_name = client_name.replace("-", " ").title()
+            content = content.replace("[Client Name]", display_name)
+            content = content.replace("[CLIENT NAME]", display_name.upper())
+            content = content.replace("[client-name]", client_name)
+            dest.write_text(content)
 
     print(f"\nClient '{client_name}' initialized at {client_dir}")
     print("\nNext: Run through the onboarding interview to populate knowledge files.")

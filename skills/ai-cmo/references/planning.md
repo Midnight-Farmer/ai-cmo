@@ -90,3 +90,9 @@ Monday morning (or end of previous week). Weekly plans are the tactical executio
 - Scripts should be concise and action-oriented. The human team will adapt them during filming.
 - Shot lists should optimize for efficiency — group similar setups together for batch filming.
 - Caption starting points give direction without being final copy. The hook line matters most.
+
+---
+
+## Bi-Weekly Plans
+
+For bi-weekly plan procedures (which include performance data pulls and platform research), see `references/biweekly.md`. Bi-weekly plans are ideal for clients with batch production schedules or team handoff workflows.

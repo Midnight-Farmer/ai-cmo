@@ -1,6 +1,6 @@
 # AI-CMO: Your AI Marketing Strategist
 
-AI-CMO is a Claude Code skill that acts as your strategic marketing advisor. Tell it about your business, and it gives you monthly and weekly content plans — what to post, what to say, what format to use, and why. You create the content; it directs the strategy.
+AI-CMO is a Claude Code plugin that acts as your strategic marketing advisor. Tell it about your business, and it gives you monthly, bi-weekly, and weekly content plans — what to post, what to say, what format to use, and why. You create the content; it directs the strategy.
 
 ## Prerequisites
 
@@ -10,7 +10,13 @@ AI-CMO is a Claude Code skill that acts as your strategic marketing advisor. Tel
 
 ## Getting Started
 
-Install the skill in Claude Code, then say:
+Install the plugin in Claude Code:
+
+```
+/plugin install Midnight-Farmer/ai-cmo
+```
+
+Then say:
 
 ```
 new client my-business-name
@@ -39,23 +45,35 @@ After onboarding, you'll have:
 - **Your first monthly plan** — a month of content strategy broken into weekly themes
 - **Your first weekly plan** — specific content pieces with hooks, key messages, and direction you can start creating today
 - **A tracking system** — ready to log content and performance data from day one
+- **A memory system** — the AI remembers decisions, preferences, and context across sessions
 
 ## After Setup
 
 The system runs on a simple rhythm:
 
 - **Weekly:** Get a content plan (`weekly plan for [client]`), create and publish, log what you posted
+- **Bi-weekly:** Get a two-week execution plan with research and performance data (`biweekly plan for [client]`)
 - **Monthly:** Review performance, update insights, get next month's strategy
 - **Quarterly:** Reassess goals, set new targets
 
-## All Commands
+## Slash Commands
 
 | Command | What It Does |
 |---------|-------------|
-| `new client [name]` | Set up a new client with guided onboarding |
+| `/ai-cmo:new-client [name]` | Set up a new client with guided onboarding |
+| `/ai-cmo:generate-week [client]` | Generate this week's content plan with optional Typefully drafts |
+| `/ai-cmo:generate-month [client]` | Generate next month's content strategy |
+| `/ai-cmo:generate-biweekly [client]` | Generate a two-week plan with performance data and research |
+| `/ai-cmo:overview [client]` | Get a structured client summary and enter Q&A mode |
+
+## Natural Language Commands
+
+| Command | What It Does |
+|---------|-------------|
 | `brief me on [client]` | Get a summary of a client's strategy and ask questions |
 | `monthly plan for [client]` | Generate next month's content strategy |
 | `weekly plan for [client]` | Generate this week's specific content plan |
+| `biweekly plan for [client]` | Generate a two-week execution plan |
 | `analyze performance for [client]` | Review data and find patterns |
 | `update whats working for [client]` | Refresh performance insights |
 | `revenue report for [client]` | Analyze lead and revenue attribution |
@@ -64,8 +82,29 @@ The system runs on a simple rhythm:
 | `log performance for [client]` | Record engagement metrics |
 | `log lead for [client]` | Record a new lead |
 
+## Client Folder Structure
+
+```
+clients/[client-name]/
+├── company-overview.md           # Shared across all roles
+├── contacts.md                   # Key people and partners
+├── .claude/CLAUDE.md             # Client-specific instructions
+├── marketing/
+│   ├── knowledge/                # Strategy documents
+│   ├── tracking/                 # CSV data (content, performance, revenue)
+│   ├── content/                  # Published content + competitors
+│   ├── research/                 # Competitive analysis, audits
+│   ├── transcripts/              # Call recordings, interviews
+│   ├── memory/                   # Operational memory across sessions
+│   └── outputs/                  # Generated plans and briefs
+```
+
 ## Optional Integrations
 
 - **Google Drive/Docs** — Save plans to shared folders as Word documents
 - **Google Sheets** — Track content and performance in shared spreadsheets instead of local CSV files
 - **Typefully** — Push draft social posts directly to Typefully for X and LinkedIn scheduling
+
+## License
+
+MIT

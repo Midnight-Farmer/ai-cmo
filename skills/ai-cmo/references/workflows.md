@@ -87,6 +87,26 @@ Just finished onboarding? Here's how to get rolling:
 
 ---
 
+## Bi-Weekly Workflow (Alternative to Weekly)
+
+Some clients work better on a bi-weekly cadence — especially those with batch production schedules (shoot days every 2 weeks) or team handoff workflows.
+
+| When | Task | Time |
+|------|------|------|
+| Every other Monday | Performance data pull + platform research | 30 min |
+| Every other Monday | Generate bi-weekly plan | 45-60 min |
+| Throughout the 2 weeks | Log content as published | 5 min per piece |
+| End of cycle | Log performance for all content | 15 min |
+
+### Bi-Weekly Monday Detail
+
+1. **Data Pull (15 min):** Pull fresh performance data from platform APIs (or review manually-logged data)
+2. **Research (15 min):** Search for current platform best practices and trends
+3. **Planning (30-45 min):** Run `biweekly plan for [client]` — generates 10-14 pieces with scripts, captions, shot lists
+4. **Team Handoff:** Share via Google Sheets template or markdown file
+
+---
+
 ## Quarterly Workflow
 
 Every 90 days:
