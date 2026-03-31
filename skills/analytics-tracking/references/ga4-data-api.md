@@ -119,15 +119,15 @@ For multiple clients, use per-client env vars:
 
 ```bash
 # In ~/.zshrc.local
-export GA4_PROPERTY_ID="123456789"
-export GA4_PROPERTY_ID_OTHERCLIENT="987654321"
+export GA4_PROPERTY_ID_CLIENTA="123456789"
+export GA4_PROPERTY_ID_CLIENTB="987654321"
 export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.config/google/ga4-service-account.json"
 ```
 
 Then call with explicit property ID:
 
 ```bash
-uv run ga4_pull.py --property-id $GA4_PROPERTY_ID top-pages
+uv run ga4_pull.py --property-id $GA4_PROPERTY_ID_CLIENTA top-pages
 ```
 
 ## Troubleshooting

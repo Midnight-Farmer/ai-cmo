@@ -24,7 +24,7 @@ Then append a row to `tracking/content-log.csv`:
 content_id,date_published,platform,format,title_description,content_url,theme_topic,hook_used,cta_type,created_by,status,notes
 ```
 
-**Content ID format:** `[CLIENT-PREFIX]-[YYYYMMDD]-[SEQ]` (e.g., `PP-20260215-01` for Acme Corp)
+**Content ID format:** `[CLIENT-PREFIX]-[YYYYMMDD]-[SEQ]` (e.g., `AC-20260215-01` for Acme Corp)
 
 If the client uses Google Sheets instead of CSV, append to the configured spreadsheet.
 
