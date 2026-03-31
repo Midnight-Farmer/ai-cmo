@@ -15,4 +15,4 @@ The user wants a monthly content strategy. Read `skills/ai-cmo/references/planni
 3. Review performance data and what's working
 4. Generate month-level strategy with 4-week breakdown
 5. Include hypotheses to test, production planning, metrics targets
-6. Save to `marketing/outputs/monthly-briefs/`
+6. Save to `outputs/monthly-briefs/`

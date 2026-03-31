@@ -1,5 +1,5 @@
 ---
-title: Company Overview
+title: Client Overview
 description: Company info, positioning, competitive landscape, seasonal calendar
 category: strategy
 last_updated: [DATE]

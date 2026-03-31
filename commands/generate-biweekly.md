@@ -17,5 +17,5 @@ The user wants a bi-weekly content plan. Read `skills/ai-cmo/references/biweekly
    b. Research current platform best practices and trends
 4. Generate 10-14 content pieces across two weeks
 5. Include performance snapshot, tests to run, scripts, captions, shot list
-6. Save markdown to `marketing/outputs/biweekly-briefs/`
+6. Save markdown to `outputs/biweekly-briefs/`
 7. If Google Sheets template is configured, copy and fill the template
