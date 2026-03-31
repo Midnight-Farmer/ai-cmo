@@ -336,7 +336,7 @@ def main():
 
     args = parser.parse_args()
 
-    customer_id = args.customer_id or os.environ.get("GOOGLE_ADS_CUSTOMER_ID") or os.environ.get("GOOGLE_ADS_CUSTOMER_ID_CARLSON")
+    customer_id = args.customer_id or os.environ.get("GOOGLE_ADS_CUSTOMER_ID")
     if not customer_id:
         print("Error: No customer ID. Set GOOGLE_ADS_CUSTOMER_ID env var or pass --customer-id", file=sys.stderr)
         sys.exit(1)

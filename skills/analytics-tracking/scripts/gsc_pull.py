@@ -19,8 +19,8 @@ Authentication (tries in order):
 
 Environment variables:
     GSC_SITE_URL         — Search Console site URL (or pass --site-url)
-                           e.g. "sc-domain:carlsonprojectsinc.com"
-                           or "https://www.carlsonprojectsinc.com/"
+                           e.g. "sc-domain:example.com"
+                           or "https://www.example.com/"
     GA4_OAUTH_CLIENT     — path to OAuth client JSON (or pass --oauth-client)
 
 Commands:
@@ -115,8 +115,8 @@ def get_site_url(site_url: str | None = None) -> str:
             "Error: No site URL. Set GSC_SITE_URL env var or pass --site-url\n"
             "\n"
             "Examples:\n"
-            '  --site-url "sc-domain:carlsonprojectsinc.com"\n'
-            '  --site-url "https://www.carlsonprojectsinc.com/"',
+            '  --site-url "sc-domain:example.com"\n'
+            '  --site-url "https://www.example.com/"',
             file=sys.stderr,
         )
         sys.exit(1)
