@@ -14,5 +14,5 @@ The user wants a weekly content plan. Read `skills/ai-cmo/references/planning.md
 2. Read the client's `.claude/CLAUDE.md` and knowledge files
 3. Check for a current monthly plan to align with
 4. Generate 5-7 content pieces with hooks, scripts, shot lists, captions
-5. Save to `marketing/outputs/weekly-briefs/`
+5. Save to `outputs/weekly-briefs/`
 6. If Typefully is configured, offer to create drafts

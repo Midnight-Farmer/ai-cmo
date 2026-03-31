@@ -74,6 +74,7 @@ The system runs on a simple rhythm:
 | `/ai-cmo:generate-month [client]` | Generate next month's content strategy |
 | `/ai-cmo:generate-biweekly [client]` | Generate a two-week plan with performance data and research |
 | `/ai-cmo:overview [client]` | Get a structured client summary and enter Q&A mode |
+| `/ai-cmo:organize-shoot [path] [client]` | Organize raw shoot day footage into content-piece folders using AI |
 
 ## Natural Language Commands
 
@@ -95,17 +96,19 @@ The system runs on a simple rhythm:
 
 ```
 clients/[client-name]/
-├── company-overview.md           # Shared across all roles
-├── contacts.md                   # Key people and partners
 ├── .claude/CLAUDE.md             # Client-specific instructions
-├── marketing/
-│   ├── knowledge/                # Strategy documents
-│   ├── tracking/                 # CSV data (content, performance, revenue)
-│   ├── content/                  # Published content + competitors
-│   ├── research/                 # Competitive analysis, audits
-│   ├── transcripts/              # Call recordings, interviews
-│   ├── memory/                   # Operational memory across sessions
-│   └── outputs/                  # Generated plans and briefs
+├── knowledge/                    # Strategy documents
+│   ├── 00-client-overview.md     # Company info, positioning, landscape
+│   ├── voice-guidelines.md       # Brand voice, messaging pillars
+│   ├── personas-storybrand.md    # Audience segments, StoryBrand framework
+│   ├── goals-and-benchmarks.md   # 90-day goals, KPIs
+│   └── whats-working.md          # Performance patterns, hooks, timing
+├── tracking/                     # CSV data (content, performance, revenue)
+├── content/                      # Published content + competitors
+├── research/                     # Competitive analysis, audits
+├── transcripts/                  # Call recordings, interviews
+├── memory/                       # Operational memory across sessions
+└── outputs/                      # Generated plans and briefs
 ```
 
 ## Optional Integrations

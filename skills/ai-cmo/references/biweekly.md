@@ -26,13 +26,13 @@ Before writing the brief, run these two steps simultaneously:
 If the client has platform API access configured (e.g., Meta Graph API for Instagram, analytics exports):
 
 1. Pull post-level insights for the period since the last brief
-2. Save raw data to `marketing/tracking/` (platform-specific CSV)
+2. Save raw data to `tracking/` (platform-specific CSV)
 3. Identify top 3 and bottom 3 performers
 4. Check if previous tests showed results
-5. Update `marketing/knowledge/whats-working.md` with new patterns
+5. Update `knowledge/whats-working.md` with new patterns
 6. Reference specific data points in the brief's performance section
 
-If no API access, review manually-logged data in `marketing/tracking/performance.csv`.
+If no API access, review manually-logged data in `tracking/performance.csv`.
 
 #### Step 2: Research Current Platform Best Practices
 
@@ -47,9 +47,9 @@ Search for what's working on social media right now — not just the primary pla
 - Posting frequency and timing data
 
 **What to do with the research:**
-1. Save research doc to `marketing/outputs/platform-research-YYYY-MM.md`
+1. Save research doc to `outputs/platform-research-YYYY-MM.md`
 2. Extract 3-5 specific, actionable tactics to test this cycle
-3. Update `marketing/knowledge/whats-working.md` if anything contradicts existing advice
+3. Update `knowledge/whats-working.md` if anything contradicts existing advice
 4. Include a "What We're Testing This Cycle" section in the brief
 
 **Sources to prioritize:** Buffer, Hootsuite, Later, Social Media Examiner, Sprout Social, Kapwing, platform-specific official announcements. Prefer data-backed findings over opinion pieces.
@@ -58,10 +58,10 @@ Search for what's working on social media right now — not just the primary pla
 
 1. **Read client context:**
    - Client's `.claude/CLAUDE.md`
-   - All files in `marketing/knowledge/`
+   - All files in `knowledge/`
 
 2. **Check for a current monthly plan:**
-   - Look in `marketing/outputs/monthly-briefs/` for this month's plan
+   - Look in `outputs/monthly-briefs/` for this month's plan
    - Align the bi-weekly plan with the current month's themes and objectives
 
 3. **Structure the brief:**
@@ -97,7 +97,7 @@ Search for what's working on social media right now — not just the primary pla
    - Post-shoot editing and publishing
 
 4. **Save the plan:**
-   - Markdown: `marketing/outputs/biweekly-briefs/YYYY-MM-DD-biweekly-brief.md`
+   - Markdown: `outputs/biweekly-briefs/YYYY-MM-DD-biweekly-brief.md`
    - If client has Google Sheets template configured, copy and fill it
    - If client has Google Drive configured, save to shared folder
 

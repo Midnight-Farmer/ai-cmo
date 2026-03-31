@@ -11,38 +11,34 @@ You provide direction and examples, but final copy, graphics, videos, and postin
 
 ## How Client Data Is Organized
 
-Each client lives in their own folder under `clients/[client-name]/`. Shared files sit at the client root; marketing-specific data lives under `marketing/`:
+Each client lives in their own folder under `clients/[client-name]/`:
 
 ```
 clients/[client-name]/
-├── company-overview.md           # Shared — company info, positioning, landscape
-├── contacts.md                   # Shared — key people, team, partners
 ├── .claude/CLAUDE.md             # Client-specific instructions (read this FIRST)
-├── marketing/                    # AI-CMO domain
-│   ├── knowledge/
-│   │   ├── voice-guidelines.md       # Brand voice, tone, messaging pillars
-│   │   ├── personas-storybrand.md    # Audience segments, StoryBrand framework
-│   │   ├── goals-and-benchmarks.md   # 90-day goals, KPIs, campaigns
-│   │   ├── whats-working.md          # Performance patterns, hooks, timing
-│   │   └── typefully-config.md       # Typefully API config (if integrated)
-│   ├── tracking/
-│   │   ├── content-log.csv           # Published content records
-│   │   ├── performance.csv           # Engagement metrics
-│   │   └── revenue-attribution.csv   # Lead and revenue tracking
-│   ├── content/
-│   │   ├── our-content/              # Client's published content
-│   │   └── competitors/              # Competitor examples
-│   ├── research/                     # Competitive analysis, platform audits
-│   ├── transcripts/                  # Call recordings, interviews
-│   ├── memory/
-│   │   ├── MEMORY.md                 # Curated summaries (<200 lines)
-│   │   └── logs/                     # Daily session logs (YYYY-MM-DD.md)
-│   └── outputs/
-│       ├── monthly-briefs/
-│       ├── weekly-briefs/
-│       └── biweekly-briefs/
-├── operations/                   # Future — AI-COO plugin
-└── finance/                      # Future — AI-CFO plugin
+├── knowledge/
+│   ├── 00-client-overview.md         # Company info, positioning, landscape
+│   ├── voice-guidelines.md           # Brand voice, tone, messaging pillars
+│   ├── personas-storybrand.md        # Audience segments, StoryBrand framework
+│   ├── goals-and-benchmarks.md       # 90-day goals, KPIs, campaigns
+│   ├── whats-working.md              # Performance patterns, hooks, timing
+│   └── [integration configs]         # GA4, HubSpot, Typefully, etc. (per client)
+├── tracking/
+│   ├── content-log.csv               # Published content records
+│   ├── performance.csv               # Engagement metrics
+│   └── revenue-attribution.csv       # Lead and revenue tracking
+├── content/
+│   ├── our-content/                  # Client's published content
+│   └── competitors/                  # Competitor examples
+├── research/                         # Competitive analysis, platform audits
+├── transcripts/                      # Call recordings, interviews
+├── memory/
+│   ├── MEMORY.md                     # Curated summaries (<200 lines)
+│   └── logs/                         # Daily session logs (YYYY-MM-DD.md)
+└── outputs/
+    ├── monthly-briefs/
+    ├── weekly-briefs/
+    └── biweekly-briefs/
 ```
 
 **Before working on any client, always read their `.claude/CLAUDE.md` first.** It contains client-specific priorities, voice reminders, integration details, and current campaign context.
@@ -64,7 +60,7 @@ priority: high | medium | low
 
 ### Memory System
 
-Each client has a two-layer operational memory under `marketing/memory/`:
+Each client has a two-layer operational memory under `memory/`:
 
 **MEMORY.md** — Curated summaries kept under 200 lines. Contains:
 - Key people (names, roles, notes)
@@ -109,9 +105,9 @@ These commands are straightforward enough to execute without loading reference f
 
 When the user says "brief me on [client]":
 
-1. Read the client's `.claude/CLAUDE.md` and `company-overview.md`
-2. Read all files in `marketing/knowledge/`
-3. Check `marketing/memory/MEMORY.md` for operational context
+1. Read the client's `.claude/CLAUDE.md`
+2. Read all files in `knowledge/` (including `00-client-overview.md`)
+3. Check `memory/MEMORY.md` for operational context
 4. Provide a structured summary covering: company overview and positioning, target audience segments, brand voice and messaging, current goals and KPIs, content mix and what's working, current priorities
 5. Stay in conversational mode — answer follow-up questions by referencing the knowledge files (read-only, don't make changes)
 
@@ -121,15 +117,15 @@ When the user says "update strategy for [client]" followed by what they want cha
 
 1. Parse the requested change from what the user said
 2. Identify which knowledge file(s) need updating:
-   - Content mix/cadence → `marketing/knowledge/whats-working.md`, `marketing/knowledge/goals-and-benchmarks.md`
-   - Voice/tone → `marketing/knowledge/voice-guidelines.md`
-   - Goals/KPIs → `marketing/knowledge/goals-and-benchmarks.md`
-   - Audience segments → `marketing/knowledge/personas-storybrand.md`, client `CLAUDE.md`
+   - Content mix/cadence → `knowledge/whats-working.md`, `knowledge/goals-and-benchmarks.md`
+   - Voice/tone → `knowledge/voice-guidelines.md`
+   - Goals/KPIs → `knowledge/goals-and-benchmarks.md`
+   - Audience segments → `knowledge/personas-storybrand.md`, client `CLAUDE.md`
    - General preferences → client `CLAUDE.md`
 3. Read current state of the identified files
 4. Make the updates
 5. Confirm what changed and which files were modified
-6. Log the change to `marketing/memory/logs/`
+6. Log the change to `memory/logs/`
 
 ## Working Principles
 
@@ -147,13 +143,13 @@ These principles govern every recommendation and plan you produce:
 
 ## Output Formats
 
-Plans are saved as markdown to the client's `marketing/outputs/` folder. If the client's `.claude/CLAUDE.md` specifies a Google Drive path or other output format (like Google Sheets for bi-weekly briefs), follow those client-specific instructions.
+Plans are saved as markdown to the client's `outputs/` folder. If the client's `.claude/CLAUDE.md` specifies a Google Drive path or other output format (like Google Sheets for bi-weekly briefs), follow those client-specific instructions.
 
 For DOCX conversion (when a client needs Word format), use pandoc with the client's reference template:
 
 ```bash
 pandoc "[input.md]" \
-  --reference-doc="[client]/marketing/outputs/reference-template.docx" \
+  --reference-doc="[client]/outputs/reference-template.docx" \
   -f markdown-auto_identifiers \
   -o "[output-path].docx"
 ```
@@ -185,27 +181,36 @@ The system can connect to external services. Each integration is optional and co
 | **Google Docs** | Create briefs directly as Google Docs | Client `.claude/CLAUDE.md` |
 | **Google Sheets** | Track data in shared spreadsheets (alternative to CSV) | Client `.claude/CLAUDE.md` |
 | **Google Slides** | Create presentations for client reviews | Client `.claude/CLAUDE.md` |
-| **Typefully** | Create draft social posts for X and LinkedIn | `marketing/knowledge/typefully-config.md` |
+| **Typefully** | Create draft social posts for X and LinkedIn | `knowledge/typefully-config.md` |
 
 For detailed integration setup and API procedures, read `references/integrations.md`.
 
 ## Resources
 
 ### references/
+
+**Core procedures:**
 - `planning.md` — Detailed procedures for monthly and weekly plan generation
 - `biweekly.md` — Bi-weekly plan procedures: performance data pull, platform research, two-week content planning
+- `biweekly-brief-protocol.md` — Step-by-step protocol for bi-weekly briefs: data pulls, Google Sheets template workflow, formatting rules
+- `monthly-planning-protocol.md` — Monthly plan protocol: pre-plan review questions, what to include/exclude
 - `analysis.md` — Performance analysis, revenue reporting, and updating what's working
-- `onboarding.md` — Complete new client onboarding workflow: guided discovery, content example analysis, automatic voice extraction, and ends with first monthly + weekly plans ready to execute
+- `onboarding.md` — Complete new client onboarding workflow: guided discovery, content example analysis, automatic voice extraction, first plans
 - `tracking.md` — Content logging, performance tracking, and revenue attribution procedures
-- `typefully.md` — Typefully API integration: generating weekly drafts, creating ad-hoc drafts, checking status
 - `output-formats.md` — Complete templates for monthly plans, weekly plans, and performance reports
 - `workflows.md` — Weekly and monthly workflow cadences, review processes
+
+**Integrations (generic procedures — client-specific config lives in client `knowledge/`):**
 - `integrations.md` — Google Workspace and external service setup
+- `typefully.md` — Typefully API integration: generating weekly drafts, creating ad-hoc drafts, checking status
+- `ga4-integration.md` — GA4 Data API setup, authentication, common queries, what to track
+- `hubspot-integration.md` — HubSpot CRM API, pipeline management, leads dashboard patterns
+- `marketing-dashboard.md` — Live analytics dashboard architecture, deployment, data sources
+- `hybrid-workflow.md` — AI + freelance + in-house content production system
 
 ### assets/templates/
 Client onboarding templates copied during `new client` setup:
-- `company-overview.md` — Shared company info (placed at client root)
-- `contacts.md` — Key contacts (placed at client root)
+- `00-client-overview.md` — Company info, positioning, competitive landscape (placed in `knowledge/`)
 - `CLIENT-CLAUDE.md` — Client-specific instructions template
 - `voice-guidelines.md`, `personas-storybrand.md`, `goals-and-benchmarks.md`, `whats-working.md`
 - `content-log.csv`, `performance.csv`, `revenue-attribution.csv`
@@ -213,3 +218,36 @@ Client onboarding templates copied during `new client` setup:
 
 ### scripts/
 - `init-client.py` — Initializes a new client folder structure with all templates
+
+## Extending the System
+
+When you build a new workflow, protocol, or integration for a specific client, follow this process to decide whether it should be shared across all clients.
+
+### Build first, split when proven
+
+1. **Build it in the client's `knowledge/` folder first.** Get it working. Iterate until it's reliable. The client folder is your workshop.
+
+2. **When a workflow is proven and would benefit other clients, split it:**
+   - **Generic procedure** → new file in the plugin's `references/` folder
+     - Strip all client-specific values (IDs, URLs, names, credentials, team members)
+     - Replace with instructions like "Look in the client's `knowledge/[filename].md` for..."
+     - Add a "Client-Specific Config" section at the end listing what values the client file should contain
+   - **Client config** → stays in (or gets trimmed to) the client's `knowledge/` folder
+     - Only the values: property IDs, API endpoints, sheet IDs, team names, account handles
+     - File name should match the reference file name for easy pairing
+
+3. **Update the command routing table** (above) if the new workflow should be triggered by natural language.
+
+4. **Update the onboarding flow** (`references/onboarding.md`) if new clients should get a template config file for this workflow during setup.
+
+### Naming convention
+
+Reference and client config files use matching names:
+- Plugin: `references/ga4-integration.md` (generic procedure)
+- Client: `knowledge/ga4-integration.md` (client-specific values)
+
+This lets you check: "Does this client have a `knowledge/ga4-integration.md`? If yes, this integration is configured. If no, skip it."
+
+### Proactive behavior
+
+When you build or update a client protocol that could benefit other clients, proactively suggest: "This workflow could be useful for other clients — want me to genericize it into the plugin?" Don't wait to be asked.

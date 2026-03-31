@@ -31,12 +31,14 @@ This creates:
 ```
 clients/[client-name]/
 ├── .claude/CLAUDE.md
-├── knowledge/ (all template files)
+├── knowledge/ (all template files including 00-client-overview.md)
 ├── tracking/ (CSV headers)
 ├── content/our-content/
 ├── content/competitors/
+├── research/
 ├── transcripts/
-└── outputs/monthly-briefs/ & weekly-briefs/
+├── memory/MEMORY.md & logs/
+└── outputs/monthly-briefs/, weekly-briefs/, & biweekly-briefs/
 ```
 
 ## Step 2: Discovery Interview

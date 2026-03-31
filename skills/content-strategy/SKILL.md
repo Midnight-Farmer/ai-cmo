@@ -16,11 +16,11 @@ This skill works alongside the `ai-cmo` skill and shares client context. When us
 **Load client context first:**
 Read the client's knowledge files before asking questions. Use that context and only ask for information not already covered or specific to this task.
 
-- `clients/[client-name]/company-overview.md` — company info, differentiators, landscape
-- `clients/[client-name]/marketing/knowledge/voice-guidelines.md` — brand voice, tone, messaging pillars
-- `clients/[client-name]/marketing/knowledge/personas-storybrand.md` — audience segments, StoryBrand framework
-- `clients/[client-name]/marketing/knowledge/goals-and-benchmarks.md` — 90-day goals, KPIs
-- `clients/[client-name]/marketing/knowledge/whats-working.md` — performance patterns, hooks, timing
+- `clients/[client-name]/knowledge/00-client-overview.md` — company info, differentiators, landscape
+- `clients/[client-name]/knowledge/voice-guidelines.md` — brand voice, tone, messaging pillars
+- `clients/[client-name]/knowledge/personas-storybrand.md` — audience segments, StoryBrand framework
+- `clients/[client-name]/knowledge/goals-and-benchmarks.md` — 90-day goals, KPIs
+- `clients/[client-name]/knowledge/whats-working.md` — performance patterns, hooks, timing
 
 Gather this context (ask if not provided):
 

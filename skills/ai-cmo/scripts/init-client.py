@@ -10,30 +10,28 @@ Example:
 
 Creates the full client directory structure with template files:
     clients/acme-corp/
-    ├── company-overview.md
-    ├── contacts.md
     ├── .claude/CLAUDE.md
-    ├── marketing/
-    │   ├── knowledge/
-    │   │   ├── voice-guidelines.md
-    │   │   ├── personas-storybrand.md
-    │   │   ├── goals-and-benchmarks.md
-    │   │   └── whats-working.md
-    │   ├── tracking/
-    │   │   ├── content-log.csv
-    │   │   ├── performance.csv
-    │   │   └── revenue-attribution.csv
-    │   ├── content/our-content/
-    │   ├── content/competitors/
-    │   ├── research/
-    │   ├── transcripts/
-    │   ├── memory/
-    │   │   ├── MEMORY.md
-    │   │   └── logs/
-    │   └── outputs/
-    │       ├── monthly-briefs/
-    │       ├── weekly-briefs/
-    │       └── biweekly-briefs/
+    ├── knowledge/
+    │   ├── 00-client-overview.md
+    │   ├── voice-guidelines.md
+    │   ├── personas-storybrand.md
+    │   ├── goals-and-benchmarks.md
+    │   └── whats-working.md
+    ├── tracking/
+    │   ├── content-log.csv
+    │   ├── performance.csv
+    │   └── revenue-attribution.csv
+    ├── content/our-content/
+    ├── content/competitors/
+    ├── research/
+    ├── transcripts/
+    ├── memory/
+    │   ├── MEMORY.md
+    │   └── logs/
+    └── outputs/
+        ├── monthly-briefs/
+        ├── weekly-briefs/
+        └── biweekly-briefs/
 """
 
 import sys
@@ -64,16 +62,16 @@ def init_client(client_name, base_path):
     # Create directory structure
     dirs = [
         ".claude",
-        "marketing/knowledge",
-        "marketing/tracking",
-        "marketing/content/our-content",
-        "marketing/content/competitors",
-        "marketing/research",
-        "marketing/transcripts",
-        "marketing/memory/logs",
-        "marketing/outputs/monthly-briefs",
-        "marketing/outputs/weekly-briefs",
-        "marketing/outputs/biweekly-briefs",
+        "knowledge",
+        "tracking",
+        "content/our-content",
+        "content/competitors",
+        "research",
+        "transcripts",
+        "memory/logs",
+        "outputs/monthly-briefs",
+        "outputs/weekly-briefs",
+        "outputs/biweekly-briefs",
     ]
 
     for d in dirs:
@@ -82,22 +80,20 @@ def init_client(client_name, base_path):
 
     # Map template files to destinations
     template_map = {
-        # Shared root files
-        "company-overview.md": "company-overview.md",
-        "contacts.md": "contacts.md",
         # Client CLAUDE.md
         "CLIENT-CLAUDE.md": ".claude/CLAUDE.md",
-        # Knowledge files (under marketing/)
-        "voice-guidelines.md": "marketing/knowledge/voice-guidelines.md",
-        "personas-storybrand.md": "marketing/knowledge/personas-storybrand.md",
-        "goals-and-benchmarks.md": "marketing/knowledge/goals-and-benchmarks.md",
-        "whats-working.md": "marketing/knowledge/whats-working.md",
-        # Tracking files (under marketing/)
-        "content-log.csv": "marketing/tracking/content-log.csv",
-        "performance.csv": "marketing/tracking/performance.csv",
-        "revenue-attribution.csv": "marketing/tracking/revenue-attribution.csv",
+        # Knowledge files
+        "00-client-overview.md": "knowledge/00-client-overview.md",
+        "voice-guidelines.md": "knowledge/voice-guidelines.md",
+        "personas-storybrand.md": "knowledge/personas-storybrand.md",
+        "goals-and-benchmarks.md": "knowledge/goals-and-benchmarks.md",
+        "whats-working.md": "knowledge/whats-working.md",
+        # Tracking files
+        "content-log.csv": "tracking/content-log.csv",
+        "performance.csv": "tracking/performance.csv",
+        "revenue-attribution.csv": "tracking/revenue-attribution.csv",
         # Memory
-        "MEMORY.md": "marketing/memory/MEMORY.md",
+        "MEMORY.md": "memory/MEMORY.md",
     }
 
     if templates_dir:
