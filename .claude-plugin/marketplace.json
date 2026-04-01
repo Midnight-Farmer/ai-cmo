@@ -1,0 +1,13 @@
+{
+  "name": "ai-cmo",
+  "owner": {
+    "name": "Midnight Farmer"
+  },
+  "plugins": [
+    {
+      "name": "ai-cmo",
+      "source": "./",
+      "description": "AI Chief Marketing Officer — strategic marketing advisor for content strategy, planning, and performance tracking across multiple clients."
+    }
+  ]
+}
