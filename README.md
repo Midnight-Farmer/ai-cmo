@@ -1,159 +1,131 @@
 # AI-CMO
 
-Your AI Chief Marketing Officer, built as a [Claude Code](https://claude.ai/claude-code) plugin.
+Your AI marketing strategist. Clone it, open it in Claude Code, start talking.
 
-## What It Does
-
-AI-CMO is a strategic marketing advisor that helps you make data-driven content decisions. It doesn't create final content — it directs strategy. You get:
-
-- **Monthly content strategies** with themes, content mix, and experiments to run
-- **Bi-weekly execution plans** with performance data pulls and platform research
-- **Weekly content plans** with hooks, scripts, shot lists, and captions for 5-7 pieces
-- **Performance tracking** that feeds back into smarter plans over time
-- **Brand voice guidelines** extracted from your actual writing and content examples
-- **Customer personas** built on the StoryBrand framework
-- **Revenue attribution** connecting content to business outcomes
-- **Operational memory** that persists decisions and context across sessions
-
-Each client gets their own isolated knowledge base. The system learns from your performance data and gets smarter over time.
-
-## Install
-
-```
-/plugin install Midnight-Farmer/ai-cmo
-```
-
-Requires [Claude Code](https://claude.ai/claude-code) (CLI or Desktop app with Claude Pro/Max plan).
+AI-CMO is a strategic marketing advisor that manages content strategy, planning, and performance tracking across multiple clients. It directs strategy — it doesn't create final content. You get data-driven content plans, brand voice guidelines, performance tracking, and an operational memory that gets smarter over time.
 
 ## Quick Start
 
+```bash
+git clone https://github.com/Midnight-Farmer/ai-cmo.git
+cd ai-cmo
 ```
-/ai-cmo:new-client my-business
+
+Open the folder in [Claude Code](https://claude.ai/claude-code) (CLI, desktop app, or IDE extension). Then just say:
+
+```
+new client my-business
 ```
 
 This runs a guided ~20 minute interview that builds your complete marketing profile. You'll leave with your first monthly and weekly content plans ready to execute.
 
-## What the Onboarding Covers
+**Requirements:** Claude Code with a Claude Pro or Max plan.
 
-You'll have a guided conversation where you'll be asked about:
+## How It Works
 
-- **Your business** — what you do, who you serve, what makes you different
-- **Content examples** — share posts you've made or accounts you admire (the AI analyzes your style)
-- **Writing samples** — paste any natural writing (emails, texts, captions) so the AI captures your real voice
-- **Your customers** — who they are, what they struggle with, why they come to you
-- **Your goals** — what you want marketing to accomplish in the next 3 months
-- **Logistics** — how often you can post, who's creating content, what tools you use
+AI-CMO is conversational, not transactional. You don't need to memorize commands or invoke workflows in a specific order. Just talk to it like a colleague:
 
-You don't need to have answers to everything. The AI explains concepts as they come up and works with whatever you've got.
+- "What should we post this week?"
+- "How are we doing on Instagram?"
+- "I just got back from a shoot, footage is on the drive"
+- "The kitchen project is done — we need a reveal post"
 
-## What You Get
+The agent recognizes what you're saying, reads the right knowledge files, runs the right workflows, and suggests the next step. Workflows chain naturally — a shoot leads to organizing, which leads to a content review, which leads to editing priorities.
 
-After onboarding, you'll have:
+## What You Get After Setup
 
-- **A strategy profile** — files that capture your brand voice, audience, goals, and positioning
-- **Your first monthly plan** — a month of content strategy broken into weekly themes
-- **Your first weekly plan** — specific content pieces with hooks, key messages, and direction you can start creating today
-- **A tracking system** — ready to log content and performance data from day one
-- **A memory system** — the AI remembers decisions, preferences, and context across sessions
+- **Brand voice guidelines** extracted from your actual writing
+- **Customer personas** using the StoryBrand framework
+- **Monthly content strategies** with 4-week breakdowns and experiments
+- **Bi-weekly execution plans** with performance data pulls and platform research
+- **Weekly content plans** with hooks, scripts, shot lists, and caption direction
+- **Performance tracking** that feeds back into smarter plans
+- **Operational memory** that persists decisions and context across sessions
+- **Content asset index** tracking footage across any number of storage locations
 
-## After Setup
+## Available Workflows
 
-The system runs on a simple rhythm:
+These are available as slash commands and as natural language triggers:
 
-- **Weekly:** Get a content plan (`weekly plan for [client]`), create and publish, log what you posted
-- **Bi-weekly:** Get a two-week execution plan with research and performance data (`biweekly plan for [client]`)
-- **Monthly:** Review performance, update insights, get next month's strategy
-- **Quarterly:** Reassess goals, set new targets
+| What You Say | What Happens |
+|-------------|-------------|
+| "brief me on [client]" | Structured strategy summary + conversational Q&A |
+| "monthly plan for [client]" | Month-level strategy with weekly themes |
+| "biweekly plan for [client]" | Two-week execution plan with performance data |
+| "weekly plan for [client]" | Specific content pieces with scripts and captions |
+| "analyze performance" | Pattern identification from tracking data |
+| "update whats working" | Refresh performance insights |
+| "I just got back from a shoot" | Process and organize footage, then review for content ideas |
+| "where's the footage for [project]?" | Check the content asset index |
+| "new client [name]" | Guided onboarding interview |
+| "update strategy" | Change goals, voice, content mix, or other strategy elements |
+| "log content / performance / lead" | Quick data entry |
 
-## Slash Commands
+## Reference Library
 
-| Command | What It Does |
-|---------|-------------|
-| `/ai-cmo:new-client [name]` | Set up a new client with guided onboarding |
-| `/ai-cmo:generate-week [client]` | Generate this week's content plan with optional Typefully drafts |
-| `/ai-cmo:generate-month [client]` | Generate next month's content strategy |
-| `/ai-cmo:generate-biweekly [client]` | Generate a two-week plan with performance data and research |
-| `/ai-cmo:overview [client]` | Get a structured client summary and enter Q&A mode |
-| `/ai-cmo:organize-shoot [path] [client]` | Organize raw shoot day footage into content-piece folders using AI |
+In addition to the core workflows, AI-CMO includes specialized marketing knowledge that it pulls from when relevant:
 
-## Natural Language Commands
-
-| Command | What It Does |
-|---------|-------------|
-| `brief me on [client]` | Get a summary of a client's strategy and ask questions |
-| `monthly plan for [client]` | Generate next month's content strategy |
-| `weekly plan for [client]` | Generate this week's specific content plan |
-| `biweekly plan for [client]` | Generate a two-week execution plan |
-| `analyze performance for [client]` | Review data and find patterns |
-| `update whats working for [client]` | Refresh performance insights |
-| `revenue report for [client]` | Analyze lead and revenue attribution |
-| `update strategy for [client]` | Change goals, voice, content mix, or other strategy elements |
-| `log content for [client]` | Record a published piece of content |
-| `log performance for [client]` | Record engagement metrics |
-| `log lead for [client]` | Record a new lead |
+| Reference | What's In It |
+|-----------|-------------|
+| **Marketing Psychology** | 70+ mental models for hooks, CTAs, messaging, and pricing |
+| **Content Strategy** | Topic clusters, buyer journey mapping, content prioritization |
+| **Email Sequences** | Drip campaigns, lifecycle automation, copy guidelines |
+| **SEO Audit** | 7-dimension technical SEO audit framework |
+| **Analytics Tracking** | GA4, GTM, event tracking, UTM frameworks |
 
 ## Client Folder Structure
 
+Each client gets an isolated folder:
+
 ```
-clients/[client-name]/
-├── .claude/CLAUDE.md             # Client-specific instructions
-├── knowledge/                    # Strategy documents
-│   ├── 00-client-overview.md     # Company info, positioning, landscape
-│   ├── voice-guidelines.md       # Brand voice, messaging pillars
-│   ├── personas-storybrand.md    # Audience segments, StoryBrand framework
-│   ├── goals-and-benchmarks.md   # 90-day goals, KPIs
-│   └── whats-working.md          # Performance patterns, hooks, timing
-├── tracking/                     # CSV data (content, performance, revenue)
-├── content/                      # Published content + competitors
-├── research/                     # Competitive analysis, audits
-├── transcripts/                  # Call recordings, interviews
-├── memory/                       # Operational memory across sessions
-└── outputs/                      # Generated plans and briefs
+clients/your-client/
+├── .claude/CLAUDE.md         # Client-specific instructions and context
+├── knowledge/                # Strategy documents (voice, personas, goals, what's working)
+├── tracking/                 # CSVs and content indexes
+├── content/                  # Published content + competitors
+├── transcripts/              # Call recordings, interviews
+├── memory/                   # Operational memory across sessions
+│   ├── MEMORY.md             # Curated summaries
+│   └── logs/                 # Daily session logs
+└── outputs/                  # Generated plans, briefs, and content notes
 ```
+
+Client data stays local — it's never tracked by git.
+
+## Weekly Workflow
+
+| When | What | Time |
+|------|------|------|
+| Monday | Log metrics, generate weekly plan | 30-45 min |
+| Tue-Thu | Create and publish content | Your pace |
+| Friday | Log content, quick metrics check | 15 min |
+| Monthly | Review performance, generate next month's strategy | 30 min |
 
 ## Optional Integrations
 
-The system works fully with local markdown and CSV files. These integrations enhance the workflow but are never required.
+| Integration | What It Does |
+|-------------|-------------|
+| **Typefully** | Draft social posts for X + LinkedIn |
+| **Google Drive/Sheets/Docs** | Collaborative tracking and deliverables |
+| **GA4 / Search Console** | Website analytics and search data |
+| **HubSpot** | CRM and lead pipeline management |
 
-| Integration | What It Does | Setup |
-|-------------|-------------|-------|
-| **Google Drive** | Store deliverables in shared folders | Add folder ID to client CLAUDE.md |
-| **Google Sheets** | Collaborative tracking dashboards | Add spreadsheet IDs to client CLAUDE.md |
-| **Google Docs** | Collaborative briefs | Specify in client CLAUDE.md |
-| **Typefully** | Draft social posts for X + LinkedIn | `TYPEFULLY_API_KEY` env var + config file |
-
-## Marketing Skills
-
-In addition to the core AI-CMO skill, the plugin includes specialized marketing skills for deeper work:
-
-| Skill | What It Does |
-|-------|-------------|
-| `email-sequence` | Design email sequences, drip campaigns, and lifecycle automation |
-| `content-strategy` | Long-form content planning — topic clusters, buyer journey mapping, searchable vs. shareable |
-| `marketing-psychology` | 70+ psychological frameworks for hooks, CTAs, messaging, and pricing |
-| `seo-audit` | Structured 7-dimension SEO audit (crawlability, Core Web Vitals, on-page, content quality) |
-| `analytics-tracking` | UTM frameworks, GA4 events, GTM patterns, and conversion tracking setup |
-
-These skills share client context with AI-CMO and are triggered by natural language — just describe what you need.
+All integrations are optional. The system works fully with local markdown and CSV files.
 
 ## Recommended: Humanizer
 
-AI-CMO directs strategy — but when you need Claude to write or polish copy, pair it with [Humanizer](https://github.com/blader/humanizer). It strips 24 common AI writing patterns (significance inflation, em dash overuse, filler hedging, etc.) so your captions and scripts sound like a person wrote them.
+AI-CMO directs strategy — when you need Claude to write or polish copy, pair it with [Humanizer](https://github.com/blader/humanizer). It strips common AI writing patterns so your captions and scripts sound like a person wrote them.
 
-```
-mkdir -p ~/.claude/skills
-git clone https://github.com/blader/humanizer.git ~/.claude/skills/humanizer
-```
+## Contributing
 
-Once installed, just ask Claude to "humanize" any output. Works great with the weekly plan captions and video scripts.
+1. Fork the repo
+2. Create a feature branch
+3. Make your changes
+4. Open a pull request against `main`
 
 ## Credits
 
-The marketing skills (`email-sequence`, `content-strategy`, `marketing-psychology`, `seo-audit`, `analytics-tracking`) are adapted from [marketingskills](https://github.com/coreyhaines31/marketingskills) by [Corey Haines](https://corey.co). Thank you Corey for building such a comprehensive, well-organized collection of marketing frameworks. The original skills are licensed under MIT and have been adapted here to integrate with the AI-CMO client knowledge system.
-
-## Getting Started Guide
-
-Full step-by-step setup for non-technical users: [dawsonschrader.com/tools/ai-cmo](https://dawsonschrader.com/tools/ai-cmo)
+The marketing skills (email-sequence, content-strategy, marketing-psychology, seo-audit, analytics-tracking) are adapted from [marketingskills](https://github.com/coreyhaines31/marketingskills) by [Corey Haines](https://corey.co). Licensed under MIT.
 
 ## License
 
