@@ -187,9 +187,9 @@ Continue the conversation until the user is done.
 
 For each approved idea, create a content note in `outputs/content/`:
 
-**Filename:** `YYYY-MM-DD-CP-NN-slug.md`
+**Filename:** `YYYY-MM-DD-[PREFIX]-NN-slug.md`
 - `YYYY-MM-DD` = target post date. If no brief cycle is active, use 7 days from today as a placeholder. Ask the user if they have a preferred date.
-- `PREFIX` = use client's prefix (e.g., `AB` for Acme Builders)
+- `[PREFIX]` = client's prefix (e.g., `AB` for Acme Builders — check existing content notes for the pattern)
 - `NN` = next available number (check existing files in `outputs/content/`)
 - `slug` = lowercase hyphenated title
 

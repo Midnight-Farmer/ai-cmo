@@ -20,7 +20,7 @@ Parse for:
 **Client detection:** Determine the active client from the current working directory (`clients/[client-name]/`). If ambiguous, ask.
 
 If no arguments provided, ask the user:
-1. "Do you have a new blog post URL from The Vault?"
+1. "Do you have a new blog post URL to work from?"
 2. "Do you have a video transcript to work from? (file path or paste it)"
 3. "Any specific themes, events, or things on your mind this week?"
 
@@ -72,8 +72,8 @@ Create 5-7 content pieces for the week. For each piece include:
 
 - **Title:** Descriptive name for the draft
 - **Platform(s):** X, LinkedIn, or both
-- **Content Pillar:** Builder / Believer / Father / Legacy / BTS
-- **Tag:** Typefully tag matching the pillar
+- **Content Pillar:** match to the client's pillars from voice-guidelines.md or goals-and-benchmarks.md
+- **Tag:** Typefully tag matching the pillar (if Typefully is configured)
 - **Source:** Which blog post / transcript / knowledge this came from
 - **Hook:** Opening line (platform-specific if cross-platform)
 - **Key Message:** The core point in one sentence
@@ -94,11 +94,11 @@ Then provide the full draft text for each platform:
 - Up to 3,000 characters but aim for 500-1,500
 - Slightly more professional framing than X, still warm and direct
 
-**Content mix for the week (align with goals-and-benchmarks.md):**
-- 2-3 pieces from the blog post or transcript (if provided) - pull different angles, don't just rehash
-- 1-2 thought leadership / hot takes (Builder pillar)
-- 1 faith/family/legacy piece
-- 0-1 behind-the-scenes or personal story
+**Content mix for the week (align with goals-and-benchmarks.md and whats-working.md):**
+- 2-3 pieces from the blog post or transcript (if provided) — pull different angles, don't just rehash
+- 1-2 thought leadership / educational pieces (match to client's content pillars)
+- 1 personal/brand story piece
+- 0-1 behind-the-scenes or community piece
 
 ### Step 5: Present Plan for Review
 

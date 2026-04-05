@@ -19,14 +19,15 @@ This can be:
 
 ## Process
 
-1. Read `clients/dawson-schrader/knowledge/typefully-config.md` to get the social_set_id and curl templates
-2. Read `clients/dawson-schrader/knowledge/voice-guidelines.md` for voice reference
-3. Parse the provided content
+1. Detect the active client from the current working directory (`clients/[client-name]/`). If ambiguous, ask.
+2. Read `clients/[client]/knowledge/typefully-config.md` to get the social_set_id and curl templates
+3. Read `clients/[client]/knowledge/voice-guidelines.md` for voice reference
+4. Parse the provided content
 
-4. Ask the user:
+5. Ask the user:
    - Which platform(s): X only, LinkedIn only, or both?
    - If both: should the content be adapted per platform or posted as-is?
-   - What content pillar tag? (builder, believer, father, legacy, bts)
+   - What content pillar/tag? (check the client's voice guidelines or typefully config for tags)
    - A descriptive title for the draft
 
 5. If adapting for multiple platforms:

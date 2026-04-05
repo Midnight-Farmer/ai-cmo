@@ -18,7 +18,9 @@ User provided: $ARGUMENTS
 
 ## Process
 
-1. Read `clients/dawson-schrader/knowledge/typefully-config.md` to get the social_set_id
+1. Detect the active client from the current working directory (`clients/[client-name]/`). If ambiguous, ask.
+
+2. Read `clients/[client]/knowledge/typefully-config.md` to get the social_set_id
 
 2. Fetch drafts from Typefully:
    ```bash
@@ -37,4 +39,4 @@ User provided: $ARGUMENTS
    - How many are unpublished/scheduled/published
    - Any drafts that are scheduled for today or this week
 
-5. If published drafts are shown, remind the user: "Don't forget to log performance data with `log performance for dawson-schrader`"
+5. If published drafts are shown, remind the user: "Don't forget to log performance data with `log performance for [client]`"

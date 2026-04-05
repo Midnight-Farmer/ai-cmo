@@ -65,7 +65,7 @@ platform:                          # Target platforms (list)
   - Instagram
   - Facebook
 format: "Carousel 6-8"            # Content format
-project: "Kirk"                    # Internal project name (if applicable)
+project: "Mitchell"                # Internal project name (if applicable)
 project_social_name: "1966 Kitchen" # Public-facing project name
 duration: ""                       # Target duration for video (e.g., "60-90s")
 source_footage: ""                 # File path or folder for raw footage
@@ -109,7 +109,7 @@ Text overlays, transitions, music direction, duration targets, any editor-facing
 ### `## Revision History`
 Append-only log. Every status change or significant update gets a line:
 - `YYYY-MM-DD: Created from [[brief-filename]]`
-- `YYYY-MM-DD: Status → captured (organize-shoot). Source: Post1-Kirk-Reveal.MP4`
+- `YYYY-MM-DD: Status → captured (organize-shoot). Source: ARoll-Mitchell-Reveal.MP4`
 - `YYYY-MM-DD: Status → editing. Assigned to [editor]`
 - `YYYY-MM-DD: Status → pre-approval. Edit v1 ready`
 - `YYYY-MM-DD: Status → editing (revision). Feedback: shorten intro, add text overlay at 0:15`

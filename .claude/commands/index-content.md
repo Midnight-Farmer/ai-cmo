@@ -59,7 +59,7 @@ ls -1 "[path]"
 ```
 
 Classify each item:
-- **Project folders** — match pattern `YYYY_Name_*` (e.g., `2026_Kirk_Kitchen`). These contain shoot date subfolders.
+- **Project folders** — match pattern `YYYY_Name_*` (e.g., `2026_Mitchell_Kitchen`). These contain shoot date subfolders.
 - **Special folders** — `Assets`, `Reels`, template folders, or anything not matching the project pattern. Track these in the "Other Folders" section.
 - **Ignore** — hidden files (`._*`, `.DS_Store`), system files
 
@@ -148,7 +148,7 @@ priority: high
 | [label] | [name] | [description] | [notes] |
 ```
 
-**Project display name:** Derive from folder name. `2026_Kirk_Kitchen` → `Kirk Kitchen`. `2026_Flannigan_1930 Spacelift` → `Flannigan 1930 Spacelift`. Drop the year prefix — it's in the folder reference.
+**Project display name:** Derive from folder name. `2026_Mitchell_Kitchen` → `Mitchell Kitchen`. `2026_Hargrove_1930 Spacelift` → `Hargrove 1930 Spacelift`. Drop the year prefix — it's in the folder reference.
 
 **Project ordering:** Alphabetical by display name.
 
