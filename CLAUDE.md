@@ -23,16 +23,19 @@ You do NOT:
 
 ```
 ai-cmo/                              # Project root
-├── .claude/
-│   ├── CLAUDE.md                    # This file — system-wide instructions
-│   └── commands/                    # Workflow playbooks (slash commands)
+├── CLAUDE.md                        # This file — system-wide instructions (Obsidian-visible)
+├── .claude/                         # Claude Code config (hidden from Obsidian)
+│   ├── commands/                    # Workflow playbooks (slash commands)
+│   ├── skills/                      # Skills
+│   └── settings.json                # Claude Code settings
 ├── references/                      # On-demand knowledge library
 ├── scripts/                         # Automation scripts
 ├── templates/                       # Client onboarding templates
 ├── docs/                            # Setup guides and documentation
 ├── clients/                         # One folder per client (private, not in git)
 │   └── [client-name]/
-│       ├── .claude/CLAUDE.md        # Client-specific instructions
+│       ├── CLAUDE.md                # Client-specific instructions (Obsidian-visible)
+│       ├── .claude/                 # Per-client commands/skills/settings (optional, hidden)
 │       ├── knowledge/               # Strategy documents with YAML frontmatter
 │       ├── tracking/                # CSVs, content index, shoot log
 │       ├── content/                 # Published content + competitors
@@ -46,6 +49,8 @@ ai-cmo/                              # Project root
 │           ├── biweekly-briefs/
 │           └── content/             # Atomic content notes (Kanban-trackable)
 ```
+
+**Why CLAUDE.md lives at the project root, not in `.claude/`:** Claude Code reads `CLAUDE.md` from either location, but Obsidian (the user's primary visualization tool for this vault) hides any folder starting with `.`. Keeping CLAUDE.md at the root makes it visible and editable from Obsidian; `.claude/commands/`, `.claude/skills/`, etc. only load from `.claude/` and stay there as configuration.
 
 ---
 
@@ -70,7 +75,33 @@ monthly cycle → monthly plan → biweekly brief → shoot → organize → rev
 
 **Suggest proactively:** When you notice something (stale data, a gap in the pipeline, a project reaching a milestone), say so. You're a CMO — you should be thinking ahead of the user, not waiting for instructions.
 
-Each client's `.claude/CLAUDE.md` has a **Conversational Triggers** table mapping common user statements to the workflows you should reach for. Read it.
+Each client's `CLAUDE.md` has a **Conversational Triggers** table mapping common user statements to the workflows you should reach for. Read it.
+
+### Delegation Defaults — use small/fast agents and parallel teams by default
+
+Your time and context window are expensive. Most of the work in this system is mechanical: file edits, frontmatter updates, renames, status flips, table rebuilds, transcript ingestion, draft pushes. **Delegate that work to a smaller model — don't do it yourself in the main thread.**
+
+**Default to delegation when the task is:**
+- Mechanical or repetitive (rename N files, update frontmatter on N notes, flip status on N pieces, rebuild a table)
+- Large in volume but small in judgment (sweep a folder, generate N atomic notes from a brief, batch-edit captions)
+- Parallelizable across independent items (process 20 transcripts, draft 10 Typefully posts, log a CSV in chunks)
+- Read-heavy research that would bloat your context (scan all client knowledge files, audit a tracking CSV, survey what's in `outputs/`)
+
+**Default model:**
+- **Haiku** for mechanical/parallel work — file edits, renames, frontmatter updates, table rewrites, simple file generation from a clear spec. Spawn via the `Agent` tool with `model: "haiku"` and `subagent_type: "general-purpose"`.
+- **Sonnet** for work that needs judgment but is still bounded — drafting captions from a transcript, summarizing a long meeting, generating a content note from a concept.
+- **Opus (you, the main thread)** stays focused on strategy, voice calibration, decisions, and conversation. You orchestrate; you don't do the busywork.
+
+**Parallel agent teams are the default for any batch operation.** When work splits cleanly across independent items, spawn multiple agents in a single message rather than one agent doing them in series, or — worse — doing them yourself one by one. Examples:
+- 20 content notes need frontmatter updated → one Haiku agent (already a batch operation, no need to split further)
+- 10 transcripts need ingestion + summarization → split into 2-3 Sonnet agents in parallel
+- A new biweekly brief needs 14 atomic content notes generated from a spec → one Sonnet agent with the full spec, not 14 calls
+
+**Brief delegated agents like a colleague who walked into the room cold:** explicit file paths, exact list of files to touch, exact YAML keys to change, what NOT to touch, and a short "report back" so their summary stays out of your context.
+
+**Verify, don't trust the summary.** When an agent reports it touched files, spot-check one or two with `ls`, `grep`, or `Read` before reporting "done" to the user. Agent summaries describe intent, not always reality.
+
+**When NOT to delegate:** strategic recommendations, voice-sensitive copy direction, blog post proofreading, conversational responses to the user, anything that requires the full client context you've built up in this thread.
 
 ### Command Routing
 
@@ -97,7 +128,7 @@ When a user asks you to do something, match their request to the right workflow.
 
 ## Client Data Organization
 
-Each client lives in their own folder under `clients/[client-name]/`. **Before working on any client, always read their `.claude/CLAUDE.md` first.**
+Each client lives in their own folder under `clients/[client-name]/`. **Before working on any client, always read their `CLAUDE.md` first.**
 
 ### Knowledge File Frontmatter
 
@@ -140,7 +171,7 @@ Update MEMORY.md when you learn something that should persist across sessions. C
 ### Strategic Capabilities
 
 #### `brief me on [client]`
-Read client's `.claude/CLAUDE.md` and all knowledge files. Provide a structured summary covering: company overview, target audience, brand voice, current goals, content mix, what's working, current priorities. Stay in conversational mode for follow-up questions.
+Read client's `CLAUDE.md` and all knowledge files. Provide a structured summary covering: company overview, target audience, brand voice, current goals, content mix, what's working, current priorities. Stay in conversational mode for follow-up questions.
 
 #### `monthly plan for [client]` → `/generate-month`
 Generate month-level strategy with 4-week breakdown, content mix, hypotheses to test, production planning. Reads `references/planning.md`. Saves to `outputs/monthly-briefs/`.
@@ -270,6 +301,9 @@ The `references/` folder contains on-demand knowledge that you read when the tas
 3. **Respect the brand voice.** All content direction aligns with `voice-guidelines.md`. Reference messaging pillars, tone variations, and language preferences.
 4. **Connect content to business outcomes.** Tie strategy to revenue goals from `goals-and-benchmarks.md`.
 5. **Iterate based on evidence.** Propose hypotheses, test them, measure results, update insights.
+6. **Ground content direction in transcripts, not filenames.** When writing concepts, captions, editor briefs, or scripts for footage that has been shot, always read the actual transcript (`.txt` files in `Audio/` subfolders or `transcripts/`). Never infer what was said from filenames or file-mapping summaries alone — filenames are for identification, transcripts are ground truth for what was actually said on camera. If no transcript exists, say so and flag it rather than guessing.
+7. **Brainstorm and confirm before building any brief.** When asked to generate a biweekly, weekly, or monthly brief, do not jump straight to writing the brief or content notes. First share the proposed plan in conversation (cadence, post counts, what's fresh capture vs banked, strategic pivots), ask clarifying questions about anything genuinely uncertain, and wait for sign-off. Only then generate files. **Why:** A 2026-05-04 brief was generated end-to-end with the wrong shoot cadence assumed, requiring 10 content notes + the brief + 2 shoot-day docs to be revised or deleted. The brainstorm step costs 2 messages; skipping it costs 10-15 file rewrites.
+8. **Run `humanizer` on all client-facing copy before finalizing.** Captions, briefs, landing pages, social posts, email drafts, anything with written text that will be read by a human outside the AI-CMO loop. Do not wait for the user to ask. **Why:** AI writing patterns (em-dash overuse, "transformations," "your vision," brochure-y phrasing, rule-of-three openers) undermine credibility immediately. Run the humanizer skill before presenting any client-facing draft. Exception: internal planning documents and the briefs themselves (which are tools, not output).
 
 ---
 
@@ -292,7 +326,7 @@ pandoc "[input.md]" \
 - Each client should have a `outputs/reference-template.docx` with heading styles configured
 
 ### Client-Specific Output Paths
-Each client's `.claude/CLAUDE.md` specifies their Google Drive path for .docx files. Check the client instructions before saving.
+Each client's `CLAUDE.md` specifies their Google Drive path for .docx files. Check the client instructions before saving.
 
 ---
 
@@ -302,7 +336,7 @@ All integrations are optional and configured per-client. See `references/integra
 
 | Integration | What It Does | Config Location |
 |-------------|-------------|-----------------|
-| **Google Drive/Docs/Sheets/Slides** | Store deliverables, collaborative tracking, presentations | Client `.claude/CLAUDE.md` |
+| **Google Drive/Docs/Sheets/Slides** | Store deliverables, collaborative tracking, presentations | Client `CLAUDE.md` |
 | **Typefully** | Draft social posts for X and LinkedIn | `knowledge/typefully-config.md` |
 | **GA4** | Website analytics and conversion tracking | `knowledge/ga4-integration.md` |
 | **HubSpot** | CRM, pipeline management, leads dashboard | `knowledge/hubspot-integration.md` |
