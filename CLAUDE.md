@@ -130,6 +130,41 @@ When a user asks you to do something, match their request to the right workflow.
 
 Each client lives in their own folder under `clients/[client-name]/`. **Before working on any client, always read their `CLAUDE.md` first.**
 
+### Privacy boundary: client folders are PRIVATE
+
+The public AI-CMO repo (`Midnight-Farmer/ai-cmo`) gitignores `clients/*/` so client data NEVER lands in public history. Each client folder is its own independent git repo, backed up to its own **private** GitHub repo.
+
+**Per-client repo convention:**
+- Repo name: `[client-slug]-content` (e.g. `dawson-schrader-content`)
+- Visibility: **private**
+- Owner: same GitHub account that owns the public AI-CMO repo
+- Branch: whatever the client folder was initialized with (commonly `master`)
+
+**When onboarding a new client, after the `new-client` workflow completes:**
+
+```bash
+cd clients/[client-slug]
+git init  # if not already a repo
+gh repo create [client-slug]-content --private --description "Private AI-CMO client folder for [Client Name]. Knowledge base, content notes, briefs, memory, transcripts. Not for public consumption."
+git remote add origin https://github.com/[gh-owner]/[client-slug]-content.git
+git add -A && git commit -m "Initial commit"
+git push -u origin master  # or main, match the local branch
+```
+
+**Per-client `.gitignore` must include at minimum:**
+```
+.DS_Store
+*.swp
+.claude/settings.local.json
+.claude/worktrees/
+**/node_modules/
+**/package-lock.json
+```
+
+**Push cadence:** at least weekly; ideally at the end of any session that produced new content notes, briefs, or knowledge updates. Diff visibility is the point — local commits with no remote backup defeat the purpose.
+
+**Never** add the public AI-CMO repo as a remote of any client folder. **Never** push client content to `Midnight-Farmer/ai-cmo`.
+
 ### Knowledge File Frontmatter
 
 All knowledge files use YAML frontmatter for scanning without reading full content:
