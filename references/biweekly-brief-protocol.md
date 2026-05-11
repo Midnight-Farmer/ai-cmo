@@ -47,6 +47,31 @@ If the client has GA4 configured (check for `knowledge/ga4-integration.md`):
 
 If no GA4 configured, skip this step.
 
+### Step 1c: Mine Recent Meeting Notes for Content Material
+
+If the client has a meeting-notes corpus configured in `CLAUDE.md` (look for `meeting_notes_path` or an "External Resources" section):
+
+1. List meeting notes since the prior biweekly cycle (or ~6 weeks back if no prior cycle)
+2. Use Bash + grep/awk to extract YAML `summary:` fields for fast triage. Do not read full files at this stage.
+3. Identify 5-10 content-worthy moments. Prioritize the **Near Past** bucket from the client's `knowledge/content-ideation.md` (specific moments with clear lessons, dollar amounts, decisions made)
+4. **Anonymization is mandatory.** Before surfacing any candidate:
+   - Replace company names with industry descriptors ("a construction client," "an ag client," "an outdoor brand")
+   - Replace person names with role descriptors ("an owner I work with," "a founder," "a CEO")
+   - Round or generalize identifying dollar amounts unless the specificity is the point and the amount is non-identifying
+   - Strip geographic identifiers
+   - Remove anything that uniquely identifies the relationship to anyone reading
+5. **Skip entirely** anything too personal, strategically sensitive, or non-anonymizable:
+   - Acquisitions in flight
+   - Hiring/firing decisions
+   - Founder personal-life decisions (winding down a business, family conflicts, etc.)
+   - Confidential strategy work
+   - Sensitive financials that could damage the client
+   - Anything that could embarrass the client even anonymized
+6. Surface candidates to the user with: (a) anonymized one-line framing, (b) original source/context (for the client's memory only), (c) suggested bucket + awareness level. Be transparent about how many meetings you scanned and why you skipped what you skipped.
+7. Do NOT auto-write content notes. After user selection, append chosen candidates to the client's configured content-ideas inbox (e.g., `+/Content Ideas — Running.md`).
+
+**If no meeting notes corpus is configured:** skip this step. Note in the brief output that this pre-brief step was skipped.
+
 ### Step 2: Research Current Platform Best Practices
 
 Search the web for what's working on social media RIGHT NOW — not just the primary platform, but cross-platform trends.
@@ -87,13 +112,13 @@ The brief should include:
 1. **Markdown (.md)** -> `outputs/biweekly-briefs/YYYY-MM-DD-biweekly-brief.md` (source of truth)
 2. **Google Sheet** -> copied from template via MCP tools (team-facing, editable) — only if the client has a Sheets template configured
 
-Check the client's `.claude/CLAUDE.md` for Google Drive folder ID and Sheet template ID.
+Check the client's `CLAUDE.md` for Google Drive folder ID and Sheet template ID.
 
 ---
 
 ## Google Sheets Template Workflow
 
-**Only run this if the client has a Google Sheets bi-weekly template configured in their `.claude/CLAUDE.md` or `knowledge/` files.**
+**Only run this if the client has a Google Sheets bi-weekly template configured in their `CLAUDE.md` or `knowledge/` files.**
 
 ### Step 1: Copy the Template
 
@@ -220,7 +245,7 @@ See `references/content-notes.md` for the full content note schema, naming conve
 
 ## Client-Specific Config
 
-Look for these in the client's `.claude/CLAUDE.md` or `knowledge/` files:
+Look for these in the client's `CLAUDE.md` or `knowledge/` files:
 - **Social API token env var** (e.g., `META_LONG_TOKEN_[CLIENT]`)
 - **Social account ID env var** (e.g., `META_IG_ID_[CLIENT]`)
 - **GA4 property ID env var** (e.g., `GA4_PROPERTY_ID_[CLIENT]`)

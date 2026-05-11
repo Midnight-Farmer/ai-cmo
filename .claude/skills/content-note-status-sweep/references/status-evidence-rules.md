@@ -53,7 +53,7 @@ This skill auto-advances through the **production statuses only**: `concept` →
 - A transcript file exists in `clients/[client]/transcripts/` whose filename or contents reference the content_id, the slug, or the project name. Examples:
   - `transcripts/DS-20260415-01.txt` matches content_id `DS-20260415-01`
   - `transcripts/2026-04-15-5-types-of-wealth.txt` matches a note with slug `5-types-of-wealth`
-- `source_footage:` is non-empty AND the file exists on disk at the resolved path (use the client's footage root from `.claude/CLAUDE.md`)
+- `source_footage:` is non-empty AND the file exists on disk at the resolved path (use the client's footage root from `CLAUDE.md`)
 - A subfolder under the project's footage tree contains a file whose timestamp matches the note's `shoot_date` (within ±1 day) AND the project name matches
 
 **Evidence string for Revision History:**
@@ -109,7 +109,7 @@ These are surfaced in the report's "Suggestions for human decision" section. The
 - A Typefully draft URL appears in the note (search for `typefully.com/draft`)
 - The note's `## Revision History` mentions Typefully draft creation
 
-**Why we don't auto-advance:** A Typefully draft might be unscheduled (Dawson's default — see his client `.claude/CLAUDE.md`). Creating a draft is not the same as scheduling.
+**Why we don't auto-advance:** A Typefully draft might be unscheduled (Dawson's default — see his client `CLAUDE.md`). Creating a draft is not the same as scheduling.
 
 ### `scheduled` → `published`
 

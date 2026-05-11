@@ -44,8 +44,8 @@ For each client you're sweeping, collect:
 
 1. **All content notes:** `clients/[client]/outputs/content/*.md` (skip `_archive/` and any non-`.md` files).
 2. **The content log:** `clients/[client]/tracking/content-log.csv` if it exists. Read every row; you'll need the `content_id`, `status`, and `date_published` columns to cross-check against notes.
-3. **The transcripts folder:** `clients/[client]/transcripts/` — note which files exist. You're matching by content_id or by date or by filename slug, whichever the client uses (check the client's `.claude/CLAUDE.md` for footage/transcript conventions).
-4. **The footage root** referenced by the client's `.claude/CLAUDE.md` (the "Footage & Drive Convention" or similar section). You'll use this to verify `source_footage:` paths point to real files when possible. If the footage root is on an external drive that isn't mounted, treat the existence check as "unknown" rather than "missing" — flag it in the report instead of advancing status based on a false negative.
+3. **The transcripts folder:** `clients/[client]/transcripts/` — note which files exist. You're matching by content_id or by date or by filename slug, whichever the client uses (check the client's `CLAUDE.md` for footage/transcript conventions).
+4. **The footage root** referenced by the client's `CLAUDE.md` (the "Footage & Drive Convention" or similar section). You'll use this to verify `source_footage:` paths point to real files when possible. If the footage root is on an external drive that isn't mounted, treat the existence check as "unknown" rather than "missing" — flag it in the report instead of advancing status based on a false negative.
 5. **Today's date.** You need it for "stuck for >N days" calculations and for the Revision History line.
 
 Read every content note's frontmatter. Build a working table in your head (or a scratch file if the client has >50 notes) with: `filename, content_id, current_status, post_date, shoot_date, assigned_to, source_footage, status_lock`.

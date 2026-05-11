@@ -40,7 +40,7 @@ Save review notes to `outputs/monthly-reviews/monthly-review-YYYY-MM.md`.
 ## Process
 
 1. **Read client context:**
-   - Client's `.claude/CLAUDE.md`
+   - Client's `CLAUDE.md`
    - All knowledge files in `knowledge/`
    - `memory/MEMORY.md` for operational context
 
@@ -78,7 +78,7 @@ Save review notes to `outputs/monthly-reviews/monthly-review-YYYY-MM.md`.
 
 ## Client-Specific Config
 
-Look for these in the client's `.claude/CLAUDE.md` or `knowledge/` files:
+Look for these in the client's `CLAUDE.md` or `knowledge/` files:
 - **Current projects file** (e.g., `knowledge/current-projects.md`)
 - **Content team roles and time budgets** (e.g., `knowledge/hybrid-workflow.md`)
 - **Google Drive folder ID** for saving DOCX/Google Doc versions

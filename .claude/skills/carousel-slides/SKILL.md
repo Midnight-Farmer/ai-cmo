@@ -52,7 +52,7 @@ If it exists and has all required fields, parse the values into local variables 
 
 If it is missing or incomplete, run the **Brand Discovery Flow**:
 
-1. Check the client's `.claude/CLAUDE.md` for a `Website` or repo path. If found, read `globals.css`, `tailwind.config.ts`, or any obvious brand stylesheet to seed initial values. Show the user what you found and ask for confirmation/corrections.
+1. Check the client's `CLAUDE.md` for a `Website` or repo path. If found, read `globals.css`, `tailwind.config.ts`, or any obvious brand stylesheet to seed initial values. Show the user what you found and ask for confirmation/corrections.
 2. If no website is referenced, ask the user (use `AskUserQuestion` for the small set of choices, free-text for hex codes):
    - Background / paper color (hex)
    - Primary brand color (hex)

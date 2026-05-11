@@ -84,8 +84,10 @@ For each A-Roll and CB piece from the file-mapping:
    - Description keywords → `title` or concept text
    - If ambiguous, use the transcript summary to disambiguate
 
-2. **Update the content note:**
-   - Set `source_footage` to the renamed filename (e.g., `ARoll-Henderson-Kitchen-Walkthrough.MP4`)
+2. **Read the full transcript** for every matched piece (`.txt` file in `Audio/` subfolder). This is mandatory — not optional, not "if ambiguous." The transcript is the ground truth for what was actually said on camera. Filenames and file-mapping summaries are shorthand for identification only. Before writing or updating ANY content direction (Editor Brief, Concept, Caption, Script), verify that the existing content note accurately describes what the speaker said. If the transcript reveals the piece is about something different than the note assumed, rewrite the Concept, Caption, Script, and Editor Brief to match reality.
+
+3. **Update the content note:**
+   - Set `source_footage` to the full navigable path from the client's footage root (read the client's `CLAUDE.md` → **Footage & Drive Convention** section for the path pattern and project folder mapping). Example: `Acme Builders / 2026_Jones_Kitchen / 2026-03-23`. For single-file CB pieces, append the filename.
    - Set `status: captured` (only if currently `concept` or `pre-production`)
    - Set `shoot_date` to the actual shoot date (if different from planned)
    - Check off matching items in the `## Shot List` section
@@ -93,8 +95,18 @@ For each A-Roll and CB piece from the file-mapping:
      ```
      YYYY-MM-DD: Status → captured (shoot-review). Source: [filename] ([duration]s)
      ```
+   - **Generate/update the `## Editor Brief` section** (insert after frontmatter, before `## Concept`). This is the editor handoff — everything an outside editor needs to start work without asking questions:
+     - **Deliverable:** `{format}` from frontmatter + `{platforms}` as comma-separated list
+     - **Footage:** Full path from footage root using the client's convention (e.g., `[Client Name] / [project folder] / [YYYY-MM-DD]`)
+     - **Key Files:** Primary A-roll filename + duration from file-mapping.csv. Note supplementary takes and B-roll count.
+     - **Duration:** From frontmatter `duration` field
+     - **What to Make:** Summarize the `## Concept` section in 2-3 plain sentences for an editor. Strip strategy language, data references, and performance citations. Keep only: what the piece IS, what story it tells, any series context.
+     - **Edit Direction:** Convert the `## Edit Notes` section into a bullet list of action items. Include text overlay exact text, transitions, music direction, trim targets.
+     - **Script:** If a `## Script` section exists, add "See full timing breakdown below." If it's a carousel, reference the Carousel Structure section instead.
+     - End the Editor Brief with a `---` horizontal rule to separate from internal sections.
+     - If a placeholder Editor Brief already exists (from brief generation), replace it entirely with the populated version.
 
-3. **Track what was matched** for the summary in Step 6.
+4. **Track what was matched** for the summary in Step 6.
 
 ### Step 5: Flag Planned but NOT Captured
 
@@ -209,7 +221,7 @@ format: "[Format]"
 project: "[Project name]"
 project_social_name: "[Social name]"
 duration: "[Duration from footage]"
-source_footage: "[Renamed filename from organize-shoot]"
+source_footage: "[Full path from client footage root per CLAUDE.md convention]"
 shoot_date: [actual shoot date]
 tags: [relevant tags]
 ---
@@ -220,7 +232,8 @@ tags: [relevant tags]
 - `status: captured` — footage already exists
 - `source_footage` — already populated with the actual file
 
-**Body sections to generate:**
+**Body sections to generate (in this order):**
+- `## Editor Brief` — fully populated (ad-hoc notes start at `status: captured`). Use the client's footage path convention from `CLAUDE.md`. Include: Deliverable, Footage path, Key Files, Duration, What to Make, Edit Direction, Script reference. End with `---` separator.
 - `## Concept` — why this content works, data backing from whats-working.md
 - `## Script` — if A-roll, note the existing footage duration and key talking points from transcript. Direction for trimming/editing.
 - `## Caption` — full draft caption following voice-guidelines.md and blog-voice-analysis.md

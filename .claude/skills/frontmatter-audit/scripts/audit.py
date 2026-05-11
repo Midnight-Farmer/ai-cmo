@@ -683,9 +683,10 @@ def main() -> int:
         print(f"error: client root does not exist or is not a directory: {client_root}",
               file=sys.stderr)
         return 2
-    if not (client_root / ".claude" / "CLAUDE.md").exists() or not (client_root / "knowledge").exists():
+    has_claude_md = (client_root / "CLAUDE.md").exists() or (client_root / ".claude" / "CLAUDE.md").exists()
+    if not has_claude_md or not (client_root / "knowledge").exists():
         print(f"error: client root does not look like an AI-CMO client folder "
-              f"(missing .claude/CLAUDE.md or knowledge/): {client_root}",
+              f"(missing CLAUDE.md or knowledge/): {client_root}",
               file=sys.stderr)
         return 2
 

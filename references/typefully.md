@@ -41,7 +41,7 @@ If source material is provided, log it:
 ### Step 2: Read All Client Knowledge
 
 Read these files in the client's directory:
-1. `.claude/CLAUDE.md`
+1. `CLAUDE.md`
 2. `knowledge/00-client-overview.md`
 3. `knowledge/voice-guidelines.md`
 4. `knowledge/personas-storybrand.md`

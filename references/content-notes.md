@@ -57,9 +57,12 @@ concept → pre-production → captured → editing → pre-approval → approve
 ---
 content_id: "AB-20260415-01"       # Unique ID, maps to content-log.csv
 title: "Kitchen Final Reveal"      # Human-readable name
+type: content-note                 # Always "content-note" — enables Dataview queries and Kanban filtering
 client: "acme-builders"            # Client folder name
 brief: "[[brief-filename]]"       # Wiki-link to source brief (empty string for ad-hoc)
 status: concept                    # Current workflow status
+assigned_to:                       # List of people assigned to this piece (e.g., editor, photographer)
+  - ""
 post_date: 2026-04-15             # Scheduled post date
 platform:                          # Target platforms (list)
   - Instagram
@@ -68,21 +71,99 @@ format: "Carousel 6-8"            # Content format
 project: "Mitchell"                # Internal project name (if applicable)
 project_social_name: "Vintage Kitchen" # Public-facing project name
 duration: ""                       # Target duration for video (e.g., "60-90s")
-source_footage: ""                 # File path or folder for raw footage
+source_footage: ""                 # Full path from client's footage root (see client CLAUDE.md → Footage & Drive Convention)
 shoot_date: 2026-04-06            # When footage was/will be shot
 tags: [reveal, carousel]           # Obsidian tags for filtering
 ---
 ```
 
-**Required fields:** content_id, title, client, status, post_date, platform, format
-**Optional fields:** brief, project, project_social_name, duration, source_footage, shoot_date, tags
+**Required fields:** content_id, title, type, client, status, post_date, platform, format
+**Optional fields:** brief, assigned_to, project, project_social_name, duration, source_footage, shoot_date, tags
 
 ---
 
 ## Body Sections
 
+### `## Editor Brief`
+
+**First section after frontmatter. This is the editor handoff — everything an outside editor needs to start work without asking questions.** Followed by a `---` separator to visually divide from internal planning sections.
+
+**This is what renders in the Obsidian Kanban modal.** Other sections (Concept, Script, Caption, etc.) are for strategic/internal use and are not shown to the editor on the board. If it's information the editor needs, it MUST live inside `## Editor Brief`.
+
+**Every populated Editor Brief (status `captured` or later) MUST contain these four blocks, in order:**
+1. **Deliverable + Footage + Key Files + Duration** (the logistics header)
+2. **What to Make** — 2-3 plain sentences describing the piece, the story it tells, and any series context. No strategy jargon.
+3. **Edit Direction** — bulleted list: text overlays (exact text), 3-second hook description, end card, trim targets, pacing/music notes, anything take-specific.
+4. **Brief** — wiki-link back to the source brief.
+
+Missing blocks 2 or 3 is the most common drift. Do not ship a captured note without both.
+
+**When to populate:**
+- At brief generation (`status: concept`): placeholder with Deliverable + Duration only
+- At shoot-review (`status: captured`): fully populated with all four blocks above
+
+**Video content:**
+```markdown
+## Editor Brief
+
+**Deliverable:** Reel 60-90s — Instagram, Facebook, YouTube Shorts
+**Footage:** `[footage root] / [project folder] / [shoot date]`
+**Key Files:** ARoll-Project-Description.MP4 (113s) + 2 supplementary takes
+**Duration:** 60-90s
+
+**What to Make:**
+2-3 plain sentences. What the piece IS, what story it tells, any series context. No strategy language.
+
+**Edit Direction:**
+- Text overlays (exact text)
+- Transitions, music, pacing notes
+- Trim targets, what to cut/keep
+
+**Script:** See full timing breakdown below.
+
+---
+```
+
+**Carousel/photo content:**
+```markdown
+## Editor Brief
+
+**Deliverable:** Carousel 6-8 slides — Instagram, Facebook, Pinterest
+**Photos:** `[footage root] / [project folder] / [shoot date]`
+**Slides:** 6-8
+
+**What to Make:**
+What the carousel shows, slide flow, any before/after matching.
+
+**Edit Direction:**
+- Slide-specific notes
+- Text overlays, branding
+
+**Slide Breakdown:** See carousel structure below.
+
+---
+```
+
+**Placeholder (pre-shoot):**
+```markdown
+## Editor Brief
+
+> Footage not yet captured. This section will be populated after the shoot.
+
+**Deliverable:** Reel 60-90s — Instagram, Facebook, YouTube Shorts
+**Duration:** 60-90s
+
+---
+```
+
+**Footage path convention:** Each client's `CLAUDE.md` defines their footage root and folder structure. When populating `source_footage` and the Editor Brief's Footage field, use the client's path convention (e.g., `Client Name / project_folder / YYYY-MM-DD`). For single-file content bank pieces, append the filename to the path.
+
+---
+
 ### `## Concept`
 Why this content exists. What story it tells. Data support from `whats-working.md`. Connection to goals.
+
+**If the footage has been shot:** Read the actual transcript (`.txt` file in `Audio/` subfolder) before writing this section. The concept must describe what was actually said and shown on camera — not what you infer from the filename or file-mapping summary. Use the speaker's real talking points, materials mentioned, and framing. If no transcript exists, flag it rather than guessing.
 
 ### `## Script` (for video content)
 | Section | Time | Visual | Audio |
@@ -104,7 +185,7 @@ Checklist of shots needed specifically for this piece:
 - [ ] Shot description
 
 ### `## Edit Notes`
-Text overlays, transitions, music direction, duration targets, any editor-facing instructions.
+Text overlays, transitions, music direction, duration targets, any editor-facing instructions. When the `## Editor Brief` is populated (after shoot-review), the Edit Direction field in the Editor Brief consolidates this section's content for the editor. `## Edit Notes` remains in the note as the working draft area — the Editor Brief pulls from it, not the other way around.
 
 ### `## Revision History`
 Append-only log. Every status change or significant update gets a line:
@@ -154,13 +235,15 @@ For one-off content ideas not tied to a brief:
 
 ## Integration with Other Workflows
 
-### organize-shoot
-After matching footage to content pieces, `organize-shoot` should:
+### organize-shoot / shoot-review
+After matching footage to content pieces:
 1. Find matching content notes in `outputs/content/`
-2. Set `status: captured`
-3. Set `source_footage` to the actual file path or renamed filename
-4. Append to Revision History: `YYYY-MM-DD: Status → captured (organize-shoot). Source: [filename]`
-5. For pieces NOT captured: append `YYYY-MM-DD: NOT CAPTURED — needs rescheduling`
+2. **Read the transcript** (`.txt` file in `Audio/` subfolder) for every matched piece before writing or updating any content direction. This is mandatory — do not skip it.
+3. Set `status: captured`
+4. Set `source_footage` to the full navigable path from the client's footage root (see client `CLAUDE.md` → Footage & Drive Convention). For single-file pieces, append the filename.
+5. Generate/update the `## Editor Brief` section with footage path, key files, deliverable, duration, what to make, and edit direction. **The "What to Make" and "Edit Direction" must reflect what was actually said in the transcript**, not what the filename or concept originally assumed. If the transcript reveals the piece is about something different than planned, rewrite the Concept, Caption, and Script sections to match reality.
+6. Append to Revision History: `YYYY-MM-DD: Status → captured. Source: [filename]`
+7. For pieces NOT captured: append `YYYY-MM-DD: NOT CAPTURED — needs rescheduling`
 
 ### Content logging
 When logging published content (`log content`):

@@ -10,7 +10,7 @@ Last week of the previous month, or first 2-3 days of the new month. Monthly pla
 ### Process
 
 1. **Read client context:**
-   - Client's `.claude/CLAUDE.md`
+   - Client's `CLAUDE.md`
    - All knowledge files in `knowledge/`
 
 2. **Review recent performance:**
@@ -53,7 +53,7 @@ Monday morning (or end of previous week). Weekly plans are the tactical executio
 ### Process
 
 1. **Read client context:**
-   - Client's `.claude/CLAUDE.md`
+   - Client's `CLAUDE.md`
 
 2. **Check for a current monthly plan:**
    - Look in `outputs/monthly-briefs/` for this month's plan
@@ -90,7 +90,7 @@ Monday morning (or end of previous week). Weekly plans are the tactical executio
 7. **Save the plan:**
    - Content notes: already saved to `outputs/content/` (step 6)
    - Markdown brief: `outputs/weekly-briefs/YYYY-MM-DD-weekly-plan.md`
-   - If client has alternate output formats configured (Google Sheets, DOCX, etc.), follow those instructions from client `.claude/CLAUDE.md`
+   - If client has alternate output formats configured (Google Sheets, DOCX, etc.), follow those instructions from client `CLAUDE.md`
 
 ### Planning Principles for Weekly Plans
 

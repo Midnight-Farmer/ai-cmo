@@ -6,7 +6,7 @@ Copy-paste these prompts into Claude Code. Replace `[bracketed items]` with your
 
 ## Getting Started
 
-Open Claude Code in the `ai-cmo/` directory. Claude will automatically read `.claude/CLAUDE.md` and understand the system.
+Open Claude Code in the `ai-cmo/` directory. Claude will automatically read `CLAUDE.md` and understand the system.
 
 ---
 
@@ -47,7 +47,7 @@ Claude will:
 1. Create the client folder structure
 2. Ask discovery questions one section at a time
 3. Fill in knowledge files as you answer
-4. Generate the client's CLAUDE.md
+4. Generate the client's CLAUDE.md file at the root
 
 ---
 
@@ -314,7 +314,7 @@ Or just start with any command:
 weekly plan for [client]
 ```
 
-Claude will automatically read that client's `.claude/CLAUDE.md` and all relevant files.
+Claude will automatically read that client's `CLAUDE.md` and all relevant files.
 
 ---
 
@@ -361,13 +361,13 @@ The AI-CMO system can connect to external services. All are optional and configu
 | **Google Slides** | Generate client presentations, strategy decks, quarterly reviews | None (available via MCP) |
 | **Typefully** | Create draft social posts for X and LinkedIn | API key as env var + `typefully-config.md` per client |
 
-See the main `.claude/CLAUDE.md` for full integration details.
+See the main `CLAUDE.md` (at project root) for full integration details.
 
 ---
 
 ## Tips
 
-1. **Be in the right directory** - Claude reads `.claude/CLAUDE.md` from your current location
+1. **Be in the right directory** - Claude reads `CLAUDE.md` from your current location (at project or client root)
 2. **Client names are folder names** - Use the exact folder name (e.g., `acme-corp` not "Acme Corp")
 3. **More context = better output** - Add notes about what's happening when you run weekly planning
 4. **Review before accepting** - Claude will often propose changes; review them before confirming

@@ -99,7 +99,7 @@ memory/
 
 ```
 [client-name]/
-├── .claude/CLAUDE.md          <- You are here (agent instructions)
+├── CLAUDE.md                  <- You are here (agent instructions)
 ├── knowledge/                 # Strategy files with YAML frontmatter
 ├── memory/                    # Operational memory (persists across sessions)
 │   ├── MEMORY.md              # Curated: people, projects, lessons, feedback

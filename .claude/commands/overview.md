@@ -11,7 +11,7 @@ The user wants a summary of a client's marketing strategy. This is the same as "
 
 **Process:**
 1. Identify the client (ask if ambiguous)
-2. Read the client's `.claude/CLAUDE.md` and all files in `knowledge/`
+2. Read the client's `CLAUDE.md` and all files in `knowledge/`
 3. Provide a structured summary covering:
    - Company overview and positioning
    - Target audience segments

@@ -12,7 +12,7 @@ The system accesses Google Workspace via MCP tools. No API keys are needed — a
 
 **Setup per client:**
 - Get the Google Drive folder ID from the folder URL (the long string after `/folders/`)
-- Add to client's `.claude/CLAUDE.md`:
+- Add to client's `CLAUDE.md`:
   ```
   **Google Drive Folder ID:** [folder-id]
   **Google Drive Path:** [descriptive path like "Client Name/Marketing/AI-CMO"]
@@ -29,7 +29,7 @@ The system accesses Google Workspace via MCP tools. No API keys are needed — a
 **Setup per client:**
 - Create spreadsheets for content-log, performance, and/or revenue-attribution
 - Get spreadsheet IDs from the URLs
-- Add to client's `.claude/CLAUDE.md`:
+- Add to client's `CLAUDE.md`:
   ```
   **Content Log Sheet ID:** [spreadsheet-id]
   **Performance Sheet ID:** [spreadsheet-id]
@@ -46,7 +46,7 @@ The system accesses Google Workspace via MCP tools. No API keys are needed — a
 **What it does:** Create briefs and plans directly as Google Docs (alternative to markdown + pandoc).
 
 **Setup per client:**
-- Specify in `.claude/CLAUDE.md` if the client prefers Google Docs over markdown/DOCX
+- Specify in `CLAUDE.md` if the client prefers Google Docs over markdown/DOCX
 - Plans will be created directly in the configured Drive folder
 
 ### Google Slides

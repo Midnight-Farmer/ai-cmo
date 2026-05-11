@@ -47,7 +47,7 @@ Then determine the **corpus**. Accept any of these inputs:
 - **Glob pattern** — e.g. `**/*.txt`, `Atlas/Notes/*.md`
 - **Explicit file list** — a set of paths the user pastes
 
-If nothing is specified, propose a default for this client: `clients/[client]/transcripts/`, plus any blog/post folders referenced in the client's `.claude/CLAUDE.md`. Confirm before reading.
+If nothing is specified, propose a default for this client: `clients/[client]/transcripts/`, plus any blog/post folders referenced in the client's `CLAUDE.md`. Confirm before reading.
 
 **Minimum viable corpus:** ~5,000 words across at least 3 distinct sources. Below that, frequency counts are unreliable. If the corpus is thin, tell the user how much more is needed and what to add (e.g. "Two more long-form blog posts or one 30-min transcript would push this past the threshold").
 

@@ -30,7 +30,9 @@ python3 [skill-path]/scripts/init-client.py [client-name] --path clients/
 This creates:
 ```
 clients/[client-name]/
-├── .claude/CLAUDE.md
+├── .gitignore (copied from templates/gitignore.template)
+├── .git/ (isolated repo, initial commit made automatically)
+├── CLAUDE.md
 ├── knowledge/ (all template files including 00-client-overview.md)
 ├── tracking/ (CSV headers)
 ├── content/our-content/
@@ -39,6 +41,14 @@ clients/[client-name]/
 ├── transcripts/
 ├── memory/MEMORY.md & logs/
 └── outputs/monthly-briefs/, weekly-briefs/, & biweekly-briefs/
+```
+
+**About the git repo:** The script initializes an isolated git repo inside the client folder for revision tracking. The parent AI CMO repo ignores `clients/*/`, so this repo stays private and never leaks when the plugin is published. Obsidian Sync will carry the `.git` folder across devices, giving multi-machine history without needing a remote. Commit progress as work is done:
+
+```bash
+cd clients/[client-name]
+git add .
+git commit -m "Updated what's working after March performance pull"
 ```
 
 ## Step 2: Discovery Interview
@@ -182,7 +192,7 @@ Keep this practical and grounded in where the user actually is.
 
 ---
 
-### Phase 5: Operational Setup (→ client `.claude/CLAUDE.md` + tracking files)
+### Phase 5: Operational Setup (→ client `CLAUDE.md` + tracking files)
 
 Ask about:
 - Who does what? (Content creation workflow — who films, edits, posts, writes)
@@ -200,7 +210,7 @@ Ask about:
 ### Phase 6: Finalize and Launch
 
 1. **Review all knowledge files** — read them back and confirm with the user that everything is accurate
-2. **Generate the client's `.claude/CLAUDE.md`** with:
+2. **Generate the client's `CLAUDE.md`** with:
    - Client overview table
    - Folder map
    - Brand voice quick reference

@@ -57,7 +57,7 @@ If new blog or transcript content was provided:
 ### Step 3: Read All Client Knowledge
 
 Read these files to build full context:
-1. `clients/[client]/.claude/CLAUDE.md`
+1. `clients/[client]/CLAUDE.md`
 2. `clients/[client]/knowledge/00-client-overview.md`
 3. `clients/[client]/knowledge/voice-guidelines.md`
 4. `clients/[client]/knowledge/personas-storybrand.md`

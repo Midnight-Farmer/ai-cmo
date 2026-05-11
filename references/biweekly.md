@@ -54,10 +54,32 @@ Search for what's working on social media right now — not just the primary pla
 
 **Sources to prioritize:** Buffer, Hootsuite, Later, Social Media Examiner, Sprout Social, Kapwing, platform-specific official announcements. Prefer data-backed findings over opinion pieces.
 
+#### Step 3: Mine Recent Meeting Notes for Content Material (if applicable)
+
+If the client has a meeting-notes corpus configured (check `CLAUDE.md` for `meeting_notes_path` or equivalent):
+
+1. List meeting notes since the prior biweekly cycle (or ~6 weeks back if no prior cycle)
+2. Use Bash + grep/awk to extract YAML `summary:` fields for fast triage — don't read every file
+3. Identify 5-10 content-worthy moments. Prioritize the **Near Past** bucket from the client's content-ideation framework (specific moments with clear lessons)
+4. **Anonymization is mandatory.** Strip:
+   - Company names (use "a [industry] client")
+   - Person names (use "an owner I work with," "a founder")
+   - Identifying dollar amounts (round, or generalize)
+   - Geographic identifiers
+   - Anything that uniquely identifies the relationship
+5. Skip anything too personal, strategically sensitive, or non-anonymizable: acquisitions in flight, hiring/firing decisions, founder personal-life decisions, confidential strategy work, sensitive financials, anything that could embarrass a client
+6. Surface candidates to the user — do **NOT** auto-write content notes. Each candidate gets:
+   - Anonymized one-line framing (the usable content)
+   - Original source/context (for the client's memory only)
+   - Suggested bucket + awareness level
+7. After user selection, append to the client's configured content-ideas inbox (e.g., `+/Content Ideas — Running.md`)
+
+If no meeting notes corpus is configured, skip this step.
+
 ### Generate the Bi-Weekly Brief
 
 1. **Read client context:**
-   - Client's `.claude/CLAUDE.md`
+   - Client's `CLAUDE.md`
    - All files in `knowledge/`
 
 2. **Check for a current monthly plan:**
@@ -82,8 +104,14 @@ Search for what's working on social media right now — not just the primary pla
    b. Generate filename: `YYYY-MM-DD-PREFIX-NN-slug.md` (slug = lowercase hyphenated title, max 40 chars)
    c. Create the file at `clients/[client]/outputs/content/[filename]`
    d. Fill YAML frontmatter (content_id, title, client, brief, status: concept, post_date, platform, format, project, project_social_name, duration, shoot_date, tags)
-   e. Fill body sections: Concept, Script (or Carousel Structure), Caption, Shot List, Edit Notes, Revision History
-   f. See `references/content-notes.md` for the full schema and naming convention
+   e. Fill body sections in this order:
+      - **Editor Brief** (placeholder for `status: concept` — just Deliverable + Duration + blockquote "Footage not yet captured. This section will be populated after the shoot." For content bank pieces already at `status: captured`, fully populate using the client's footage path convention from `CLAUDE.md`)
+      - `---` separator
+      - Concept, Script (or Carousel Structure), Caption, Shot List, Edit Notes, Revision History
+
+   **IMPORTANT — Already-shot content (content bank pieces, carried-over footage):**
+   When writing Concept, Caption, Script, or Editor Brief for any piece that has already been filmed, you MUST read the actual transcript (`.txt` file in the shoot folder's `Audio/` subfolder) before writing content direction. Do not infer what was said from the filename or file-mapping summary. The transcript is the ground truth for what the speaker actually said on camera. If no transcript file exists, flag it rather than guessing.
+   f. See `references/content-notes.md` for the full schema, Editor Brief structure, and naming convention
 
    After creating all content notes, **replace inline content details in the brief** with a linked table:
    ```

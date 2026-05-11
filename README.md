@@ -79,7 +79,7 @@ Each client gets an isolated folder:
 
 ```
 clients/your-client/
-├── .claude/CLAUDE.md         # Client-specific instructions and context
+├── CLAUDE.md                 # Client-specific instructions and context
 ├── knowledge/                # Strategy documents (voice, personas, goals, what's working)
 ├── tracking/                 # CSVs and content indexes
 ├── content/                  # Published content + competitors

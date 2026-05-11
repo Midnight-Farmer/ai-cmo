@@ -37,7 +37,7 @@ If the user named a client, use that. Otherwise:
    ```bash
    ls /Users/dawsonschrader/Obsidian/Tools/AI-CMO/clients/
    ```
-3. The client folder must contain `.claude/CLAUDE.md` and a `knowledge/` directory. If it doesn't, abort with a clear error.
+3. The client folder must contain `CLAUDE.md` and a `knowledge/` directory. If it doesn't, abort with a clear error.
 
 The client root path you'll pass to the script is the absolute path to `clients/[name]/`.
 

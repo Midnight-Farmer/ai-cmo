@@ -39,7 +39,7 @@ If no brief exists, ask the user what content pieces were planned for this shoot
 
 ### Step 2: Scan the Input Folder
 
-Inventory all files by subfolder:
+Inventory all files in the shoot folder:
 ```bash
 find "[shoot-folder]" -type f \( -name "*.MP4" -o -name "*.mp4" -o -name "*.CR3" -o -name "*.cr3" -o -name "*.JPG" -o -name "*.jpg" -o -name "*.RAF" -o -name "*.raf" \) | sort
 ```
@@ -49,19 +49,52 @@ Report:
 - File counts per location (video vs. photo)
 - Total file count and size
 
-### Step 3: Extract Audio from All Videos
+### Step 3: Sort Files by Media Type
 
-For each video file, extract audio to an `Audio/` subfolder per location:
+Create `Video/`, `Photos/` subfolders in each location and move files by extension. This makes it easy to upload just the video folder to share with the editor.
+
+```bash
+# For each location folder (or the shoot root if no location subfolders):
+mkdir -p "[location]/Video"
+mkdir -p "[location]/Photos"
+
+# Move video files
+mv [location]/*.MP4 [location]/*.mp4 "[location]/Video/" 2>/dev/null
+
+# Move photo files
+mv [location]/*.CR3 [location]/*.cr3 [location]/*.JPG [location]/*.jpg [location]/*.RAF [location]/*.raf "[location]/Photos/" 2>/dev/null
+```
+
+**Handle pre-existing structure:** If files are already in `Video/` or `Photos/` subfolders (from camera dump), skip the move for that media type. Check before moving.
+
+Result:
+```
+[shoot-date]/
+├── Video/              ← share this folder with editor
+│   ├── 064A7325.MP4
+│   └── ...
+├── Audio/              ← created in next step (transcripts + audio)
+│   ├── 064A7325.m4a
+│   ├── 064A7325.txt
+│   └── ...
+└── Photos/             ← CR3, JPG, RAF files
+    ├── IMG_1234.CR3
+    └── ...
+```
+
+### Step 4: Extract Audio from All Videos
+
+For each video file in `Video/`, extract audio to the `Audio/` subfolder:
 ```bash
 mkdir -p "[location]/Audio"
-ffmpeg -i "[input].MP4" -vn -acodec copy "[location]/Audio/[basename].m4a" -y
+ffmpeg -i "[location]/Video/[input].MP4" -vn -acodec copy "[location]/Audio/[basename].m4a" -y
 ```
 
 - `-vn` = no video stream
 - `-acodec copy` = copy AAC audio (no re-encoding, fast)
 - Skip files where `.m4a` already exists
 
-### Step 4: Transcribe ALL Videos
+### Step 5: Transcribe ALL Videos
 
 **Transcribe every video, not just long ones.** The shooter narrates what they're filming on B-roll clips (e.g., "Here's a pocket door," "B-roll of the soffit detail"). These narration cues identify what's in the clip and enable smart naming even for short B-roll.
 
@@ -91,7 +124,7 @@ Save transcripts as `.txt` files alongside the audio:
 
 **Skip transcription** only for clips where the audio is clearly empty/silent (file size <20KB for the .m4a).
 
-### Step 5: Match Footage to Content Pieces
+### Step 6: Match Footage to Content Pieces
 
 Using transcripts (both A-roll speech and shooter narration) and the bi-weekly brief, identify which videos match which content pieces:
 
@@ -111,9 +144,9 @@ Using transcripts (both A-roll speech and shooter narration) and the bi-weekly b
    - **B-Roll (silent)** — No useful audio. Leave original filename but note location.
    - **Unmatched** — Has speech but can't confidently assign to a content piece
 
-### Step 6: Rename Videos
+### Step 7: Rename Videos
 
-Rename **all videos that have useful transcript content** (A-roll and narrated B-roll). Silent B-roll keeps its original filename.
+Rename **all videos that have useful transcript content** (A-roll and narrated B-roll) inside the `Video/` subfolder. Silent B-roll keeps its original filename.
 
 **A-Roll naming pattern:**
 ```
@@ -132,16 +165,22 @@ Examples:
 - `BRoll-Waverly-Insulation-WideShot.MP4`
 - `BRoll-Henderson-Cabinet-Detail.MP4`
 
+**Also rename the corresponding Audio + Transcript files** to match:
+```
+Audio/064A7325.m4a → Audio/ARoll-Henderson-Kitchen-Walkthrough.m4a
+Audio/064A7325.txt → Audio/ARoll-Henderson-Kitchen-Walkthrough.txt
+```
+
 **Create a `file-mapping.txt`** in each location folder mapping original → new names:
 ```
-064A7325.MP4 → ARoll-Henderson-Kitchen-Walkthrough.MP4
-064A7326.MP4 → BRoll-Henderson-Window-Detail.MP4
-064A7327.MP4  (silent — not renamed)
+Video/064A7325.MP4 → Video/ARoll-Henderson-Kitchen-Walkthrough.MP4
+Video/064A7326.MP4 → Video/BRoll-Henderson-Window-Detail.MP4
+Video/064A7327.MP4  (silent — not renamed)
 ```
 
 Rename in place — no copies.
 
-### Step 7: Present Summary to User
+### Step 8: Present Summary to User
 
 Show a clear summary:
 
@@ -167,7 +206,7 @@ Show a clear summary:
 - [list any files that couldn't be confidently placed]
 ```
 
-### Step 8: Update Bi-Weekly Brief
+### Step 9: Update Bi-Weekly Brief
 
 Update the bi-weekly brief to reflect actual shoot results:
 - Check off captured shots in the shot list
@@ -175,17 +214,18 @@ Update the bi-weekly brief to reflect actual shoot results:
 - Note any unplanned footage that was captured
 - Update content piece status (which posts have footage, which need reshoots)
 
-### Step 9: Save File Mapping
+### Step 10: Save File Mapping
 
 Create a master `file-mapping.csv` in the shoot day root folder:
 ```csv
-original_path,new_name,location,content_piece,type,duration_s,transcript_summary
-Henderson/Video/064A7325.MP4,ARoll-Henderson-Kitchen-Walkthrough.MP4,Henderson,,a-roll,78,"Kitchen intro walkthrough — box window, range move, ceiling details"
-Henderson/Video/064A7326.MP4,BRoll-Henderson-Window-Detail.MP4,Henderson,,b-roll,7,"B-roll of the window situation"
-Henderson/Video/064A7327.MP4,,Henderson,,b-roll-silent,6,""
+original_name,new_name,location,subfolder,content_piece,type,duration_s,transcript_summary
+064A7325.MP4,ARoll-Henderson-Kitchen-Walkthrough.MP4,Henderson,Video/,a-roll,78,"Kitchen intro walkthrough — box window, range move, ceiling details"
+064A7326.MP4,BRoll-Henderson-Window-Detail.MP4,Henderson,Video/,b-roll,7,"B-roll of the window situation"
+064A7327.MP4,,Henderson,Video/,b-roll-silent,6,""
+IMG_1234.CR3,,Henderson,Photos/,photo,,"
 ```
 
-### Step 10: Update Shoot Log
+### Step 11: Update Shoot Log
 
 Append a new entry to the client's **shoot log** at `tracking/shoot-log.md`. This is a cumulative record that persists across sessions and prevents content from falling through the cracks.
 
@@ -226,7 +266,7 @@ Append a new entry to the client's **shoot log** at `tracking/shoot-log.md`. Thi
 
 Also update the `last_updated` date in the shoot log's YAML frontmatter.
 
-### Step 11: Update Content Index
+### Step 12: Update Content Index
 
 Update the client's `tracking/content-index.md` with the organized shoot data. This keeps the master asset inventory current.
 
@@ -296,5 +336,5 @@ ffmpeg -i input.MP4 -vf "fps=0.1" -q:v 2 frames/frame_%04d.jpg
 - **CR3 RAW files**: Can generate thumbnails but full-quality files stay in original location
 - **Whisper tiny** may miss words or misinterpret brief narration — flag low-confidence transcriptions for manual review
 - **Shooter narration** varies — some clips may have partial or unclear descriptions. When narration is ambiguous, keep original filename and note the raw transcript in the mapping.
-- **No automatic file moving** — renames happen in place, original folder structure preserved
+- **Files are moved into media subfolders** (Video/, Audio/, Photos/) — original flat structure is not preserved, but file-mapping.csv tracks all moves
 - **SSD paths**: Ensure the SSD is mounted before running. Check with `ls [path]`

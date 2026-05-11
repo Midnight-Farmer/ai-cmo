@@ -10,7 +10,7 @@ Example:
 
 Creates the full client directory structure with template files:
     clients/acme-corp/
-    ├── .claude/CLAUDE.md
+    ├── CLAUDE.md
     ├── knowledge/
     │   ├── 00-client-overview.md
     │   ├── voice-guidelines.md
@@ -34,6 +34,7 @@ Creates the full client directory structure with template files:
         └── biweekly-briefs/
 """
 
+import subprocess
 import sys
 import shutil
 from pathlib import Path
@@ -47,6 +48,55 @@ def find_templates_dir():
     if templates_dir.exists():
         return templates_dir
     return None
+
+
+def setup_git(client_dir, templates_dir):
+    """Initialize an isolated git repo in the client folder for revision tracking.
+
+    The parent AI CMO repo ignores clients/*/, so this creates a private,
+    standalone repo that stays outside the published plugin. Obsidian Sync
+    carries the .git folder across devices, giving multi-machine history
+    without needing a remote.
+    """
+    # Copy gitignore template
+    if templates_dir:
+        gitignore_src = templates_dir / "gitignore.template"
+        if gitignore_src.exists():
+            gitignore_dest = client_dir / ".gitignore"
+            shutil.copy2(gitignore_src, gitignore_dest)
+            print("  Copied .gitignore")
+        else:
+            print("  Warning: gitignore.template not found — creating minimal .gitignore")
+            (client_dir / ".gitignore").write_text(
+                ".DS_Store\n.claude/settings.local.json\n.env\n*.token.json\n"
+            )
+
+    # Initialize git repo and make an initial commit
+    try:
+        subprocess.run(
+            ["git", "init", "-q"],
+            cwd=client_dir,
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            ["git", "add", "."],
+            cwd=client_dir,
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            ["git", "commit", "-q", "-m", "Initial client setup"],
+            cwd=client_dir,
+            check=True,
+            capture_output=True,
+        )
+        print("  Initialized git repo with initial commit")
+        return True
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        print(f"  Warning: Could not initialize git ({e})")
+        print(f"  You can run 'cd {client_dir} && git init' manually later.")
+        return False
 
 
 def init_client(client_name, base_path):
@@ -82,7 +132,7 @@ def init_client(client_name, base_path):
     # Map template files to destinations
     template_map = {
         # Client CLAUDE.md
-        "CLIENT-CLAUDE.md": ".claude/CLAUDE.md",
+        "CLIENT-CLAUDE.md": "CLAUDE.md",
         # Knowledge files
         "00-client-overview.md": "knowledge/00-client-overview.md",
         "voice-guidelines.md": "knowledge/voice-guidelines.md",
@@ -131,6 +181,9 @@ def init_client(client_name, base_path):
             content = content.replace("[CLIENT NAME]", display_name.upper())
             content = content.replace("[client-name]", client_name)
             dest.write_text(content)
+
+    # Initialize git for revision tracking (isolated repo, private to client)
+    setup_git(client_dir, templates_dir)
 
     print(f"\nClient '{client_name}' initialized at {client_dir}")
     print("\nNext: Run through the onboarding interview to populate knowledge files.")

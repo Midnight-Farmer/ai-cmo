@@ -178,7 +178,7 @@ This command will:
   - Google Sheets: spreadsheet(s) created for tracking data, IDs documented
   - Google Docs: decide if deliverables go to Docs or markdown + pandoc
   - Typefully: API key set up, social set ID documented in `knowledge/typefully-config.md`
-  - Document all integration config in client's `.claude/CLAUDE.md` or `knowledge/integrations-config.md`
+  - Document all integration config in client's `CLAUDE.md` or `knowledge/integrations-config.md`
 
 - [ ] **Existing content audited**
   - Top 5 historical performers identified
@@ -193,7 +193,7 @@ This command will:
 
 ### Final Steps
 
-- [ ] **Client CLAUDE.md created**
+- [ ] **Client CLAUDE.md created** (at client root)
   - All placeholders filled in
   - Voice reminders added
   - Current priorities listed
