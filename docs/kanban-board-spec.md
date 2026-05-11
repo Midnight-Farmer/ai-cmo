@@ -436,7 +436,7 @@ There's a better version. Aluminum cavity sliders. Same concept, door disappears
 
 Send this to someone building or remodeling right now.
 
-`#AcmeBuilders #RemodelingTips #ExampleCity #DesignBuild`
+`#AcmeBuilders #RemodelingTips #DesignBuild`
 
 ## Shot List
 

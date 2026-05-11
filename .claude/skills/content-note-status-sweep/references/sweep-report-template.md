@@ -121,7 +121,7 @@ After all per-client reports, add a short cross-client summary:
 
 | Client | Notes swept | Auto-advances | Stuck | Discrepancies |
 |--------|-------------|---------------|-------|---------------|
-| dawson-schrader | 47 | 3 | 4 | 2 |
+| example-client | 47 | 3 | 4 | 2 |
 | acme-builders | 28 | 1 | 0 | 1 |
 
 Confirm to apply the auto-advances for each client (or specify which to apply).

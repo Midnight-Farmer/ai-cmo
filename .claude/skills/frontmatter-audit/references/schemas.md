@@ -58,7 +58,7 @@ priority: high
 | `content_id` | string | `[CLIENT-PREFIX]-YYYYMMDD-NN` | Must be globally unique within the client |
 | `title` | string | any non-empty | Human-readable name |
 | `type` | literal | `content-note` | Always exactly this string. Enables Dataview / Kanban filtering. |
-| `client` | string | client folder name (e.g., `dawson-schrader`) | Must match the folder under `clients/` |
+| `client` | string | client folder name (e.g., `example-client`) | Must match the folder under `clients/` |
 | `status` | enum | `concept`, `pre-production`, `captured`, `editing`, `pre-approval`, `approved`, `scheduled`, `published` | Drives Kanban lane |
 | `post_date` | date | `YYYY-MM-DD` | Scheduled post date |
 | `platform` | list of strings | non-empty list | Target platforms (Instagram, LinkedIn, X, etc.) |
@@ -92,7 +92,7 @@ priority: high
 content_id: "DS-20260513-01"
 title: "Open to Close — launch announcement"
 type: content-note
-client: "dawson-schrader"
+client: "example-client"
 brief: "[[2026-05-13-biweekly-brief]]"
 status: scheduled
 post_date: 2026-05-13
@@ -143,7 +143,7 @@ format: "Long-form post"
 ```yaml
 ---
 title: "Biweekly Brief — May 13-26, 2026"
-client: "dawson-schrader"
+client: "example-client"
 period_start: 2026-05-13
 period_end: 2026-05-26
 status: active

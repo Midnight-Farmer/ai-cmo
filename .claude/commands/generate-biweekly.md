@@ -19,7 +19,7 @@ The user wants a bi-weekly content plan. Read `references/biweekly.md` for the f
    a. Share the proposed plan in conversation: shoot cadence, post count per week, what's fresh capture vs banked, which banked items go where, which strategic pivots vs last cycle, open risks
    b. Ask clarifying questions about anything genuinely uncertain (shoot-day count, talent availability, banked-content blockers, projects closed/inaccessible, volume targets)
    c. **Wait for explicit sign-off or corrections before writing any files.** Iterate the plan in conversation until the user approves it.
-   - **Why:** A 2026-05-04 brief was generated end-to-end with wrong shoot cadence assumed (5/4 + 5/18 vs. actual 5/4 only); 10 content notes + brief + 2 shoot-day docs had to be revised or deleted. The brainstorm step costs 2 messages; skipping it costs 10-15 file rewrites.
+   - **Why:** A brief was generated end-to-end with wrong shoot cadence assumed (two days vs. actual one day); 10 content notes + brief + 2 shoot-day docs had to be revised or deleted. The brainstorm step costs 2 messages; skipping it costs 10-15 file rewrites.
 5. Generate 10-14 content pieces across two weeks (only after Step 4 sign-off)
 6. **Create atomic content notes** for each piece in `outputs/content/` (see `references/content-notes.md` for schema)
 7. Build the brief with a Content Pieces table linking to each note via `[[wiki-links]]`

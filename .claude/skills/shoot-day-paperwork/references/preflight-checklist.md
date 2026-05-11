@@ -6,13 +6,13 @@ Four questions. Ask them all before you generate anything. Every one of them com
 
 ## Why this exists
 
-On 2026-05-04, a shoot-day document was generated for Acme Builders assuming a two-shoot cadence (5/4 + 5/18). The actual cadence was one shoot day. By the time the assumption was caught:
+On (early production), a shoot-day document was generated for a client assuming a two-shoot cadence (5/4 + 5/18). The actual cadence was one shoot day. By the time the assumption was caught:
 
 - The brief had to be revised
 - 10 content notes had to be edited
 - 2 shoot-day documents had to be deleted
 
-That is fifteen-plus file mutations to fix something a two-message clarification would have prevented. The lesson — promoted to Acme's `memory/MEMORY.md` as a pinned correction — is: **brainstorm and confirm before generating.**
+That is fifteen-plus file mutations to fix something a two-message clarification would have prevented. The lesson — promoted to early-cycle incident notes as a pinned correction — is: **brainstorm and confirm before generating.**
 
 A polished call sheet built on wrong assumptions is more expensive than no call sheet at all. The crew shows up expecting one thing, the script assumes another, and someone notices halfway through the shoot. Or worse, no one notices and the editing pipeline absorbs the error.
 
@@ -22,7 +22,7 @@ The preflight is two messages. Run it.
 
 ## The four questions
 
-Ask all four. If the user answers some but not all, ask for the rest before continuing. If the user gets impatient, gently note: "Two messages here saves fifteen file edits later — Acme lesson."
+Ask all four. If the user answers some but not all, ask for the rest before continuing. If the user gets impatient, gently note: "Two messages here saves fifteen file edits later — lesson from past production."
 
 ### 1. Shoot date(s) — confirm exact dates
 

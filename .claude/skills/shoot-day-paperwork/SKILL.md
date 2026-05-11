@@ -15,7 +15,7 @@ This skill operates on briefs and content notes — it does not modify them, it 
 
 ## Why preflight matters (read this before you skip it)
 
-The most expensive failure mode for this skill is generating a polished call sheet against the wrong assumptions. Acme Builders on 2026-05-04: a shoot-day doc was generated assuming a two-shoot cadence (5/4 + 5/18); the actual cadence was one shoot day. The brief plus 10 content notes plus 2 shoot-day docs all needed surgery. The fix took an order of magnitude longer than the preflight conversation would have.
+The most expensive failure mode for this skill is generating a polished call sheet against the wrong assumptions. In an early client cycle, a shoot-day doc was generated assuming a two-shoot cadence (5/4 + 5/18); the actual cadence was one shoot day. The brief plus 10 content notes plus 2 shoot-day docs all needed surgery. The fix took an order of magnitude longer than the preflight conversation would have.
 
 The preflight is not bureaucracy. It is the difference between a useful artifact and rework. **Do not generate the call sheet until you have explicit confirmation on the four questions in `references/preflight-checklist.md`.** Read that file before you start.
 
@@ -57,7 +57,7 @@ If the brief references multiple shoot days, that's a flag for the preflight con
 
 Open `references/preflight-checklist.md` and walk the four questions with the user. Do not generate the call sheet yet. The user's answers feed directly into the frontmatter and header of the output file.
 
-If the user pushes back ("just generate it, I'll tell you what's wrong"), gently redirect: the preflight is two messages; rework is fifteen file edits. Cite the Acme lesson if needed.
+If the user pushes back ("just generate it, I'll tell you what's wrong"), gently redirect: the preflight is two messages; rework is fifteen file edits. Cite the lesson if needed.
 
 ### Step 3 — Read every in-scope content note
 
@@ -75,9 +75,9 @@ For each content_id the user confirmed is in scope this shoot day:
 3. Extract from body:
    - Full `## Shot List` checklist
    - Any prop / wardrobe / setup mentions in `## Concept`, `## Edit Notes`, or `## Script` (look for: "bring", "have on hand", "books to bring", "wear", "set up", "location:", or specific named items)
-   - Any talent context (who's on camera, references to "Alex reads", "Dawson holds", "kids in frame", etc.)
+   - Any talent context (who's on camera, references to "[talent] reads", "[talent] holds", "kids in frame", etc.)
 
-If a note has **no `## Shot List` section**, do not invent shots. Flag it under "Gaps to resolve before shoot" in the output and continue. Inventing shots is worse than flagging gaps — the on-set crew can ask Dawson; they cannot un-shoot a fabricated shot.
+If a note has **no `## Shot List` section**, do not invent shots. Flag it under "Gaps to resolve before shoot" in the output and continue. Inventing shots is worse than flagging gaps — the on-set crew can ask the operator; they cannot un-shoot a fabricated shot.
 
 If `shoot_date` on a note disagrees with the confirmed shoot date, flag it. Don't silently override.
 
@@ -122,7 +122,7 @@ Required sections in order:
 - Filename uses the **shoot date**, not today's date.
 - If a file already exists for that shoot date, do not silently overwrite. Show the user the existing file and ask: append, overwrite, or save with `-v2` suffix.
 
-**Hard rule from Acme:** never write to `outputs/` root. The skill's output folder is `outputs/shoot-days/` only.
+**Hard rule from past production:** never write to `outputs/` root. The skill's output folder is `outputs/shoot-days/` only.
 
 ### Step 7 — Suggest next steps
 
@@ -138,7 +138,7 @@ Don't dead-end the conversation. The skill exists inside a workflow; show the us
 
 ## Hard rules
 
-- **No call sheet without preflight confirmation.** Acme rule. Two messages of clarification beats fifteen file edits.
+- **No call sheet without preflight confirmation.** Two messages of clarification beats fifteen file edits.
 - **Every shot line carries its source `[CONTENT-ID]` tag.** This is the load-bearing decision in the whole skill — without it, on-set choices can't trace back to the brief.
 - **Output goes only in `outputs/shoot-days/`.** No orphan files at `outputs/` root.
 - **Don't invent shots.** If a content note has no `## Shot List`, flag it as a gap.
@@ -150,5 +150,5 @@ Don't dead-end the conversation. The skill exists inside a workflow; show the us
 
 ## Reference files
 
-- `references/preflight-checklist.md` — the four mandatory verification questions and why they matter (with the Acme 2026-05-04 incident as cited reason). Read before starting.
+- `references/preflight-checklist.md` — the four mandatory verification questions and why they matter (with the the early-cycle incident as cited reason). Read before starting.
 - `references/shoot-day-template.md` — the markdown template for the output file. Read when assembling the file.

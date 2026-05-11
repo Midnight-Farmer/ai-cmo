@@ -26,9 +26,9 @@ Listed in priority order. The skill enumerates images from each folder when pick
 
 | Source | Path | Mood / Use | Last refreshed |
 |--------|------|------------|----------------|
-| Personal favorites | `/Users/dawsonschrader/Pictures/favorites` | Hand-curated, mixed subjects, portrait + landscape | 2026-04-15 |
-| 2026 Spring shoot | `/Users/dawsonschrader/Obsidian/Tools/AI-CMO/clients/dawson-schrader/content/shoots/2026-04-spring/` | Outdoor, coffee, BTS | 2026-04-22 |
-| Family / fatherhood | `/Users/dawsonschrader/Pictures/family-content-only` | Permission-cleared family photos for stewardship-pillar content | 2026-03-30 |
+| Personal favorites | `/Users/[username]/Pictures/favorites` | Hand-curated, mixed subjects, portrait + landscape | 2026-04-15 |
+| 2026 Spring shoot | `/Users/[username]/Obsidian/Tools/AI-CMO/clients/[client]/content/shoots/YYYY-MM-shoot-slug/` | Outdoor, coffee, BTS | 2026-04-22 |
+| Family / fatherhood | `/Users/[username]/Pictures/[family-content-restricted]` | Permission-cleared family photos for stewardship-pillar content | 2026-03-30 |
 
 ## Conventions
 

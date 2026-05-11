@@ -2,6 +2,8 @@
 
 Concrete commands, model selection, and gotchas for running Whisper from this skill.
 
+Set AI_CMO_ROOT to the absolute path of your AI-CMO repo root before running these commands.
+
 ---
 
 ## Environment
@@ -48,7 +50,7 @@ The skill ships `scripts/transcribe.py`. It prints the transcript to stdout (or 
 **One audio file, transcript to stdout:**
 ```bash
 /Library/Frameworks/Python.framework/Versions/3.12/bin/python3 \
-  /Users/dawsonschrader/Obsidian/Tools/AI-CMO/.claude/skills/transcribe-audio/scripts/transcribe.py \
+  $AI_CMO_ROOT/.claude/skills/transcribe-audio/scripts/transcribe.py \
   "/path/to/audio.m4a" \
   --model tiny
 ```
@@ -56,7 +58,7 @@ The skill ships `scripts/transcribe.py`. It prints the transcript to stdout (or 
 **Write transcript next to the audio file (shoot-flow pattern):**
 ```bash
 PY=/Library/Frameworks/Python.framework/Versions/3.12/bin/python3
-SCRIPT=/Users/dawsonschrader/Obsidian/Tools/AI-CMO/.claude/skills/transcribe-audio/scripts/transcribe.py
+SCRIPT=$AI_CMO_ROOT/.claude/skills/transcribe-audio/scripts/transcribe.py
 AUDIO="/path/to/Audio/clip.m4a"
 OUT="${AUDIO%.*}.txt"
 "$PY" "$SCRIPT" "$AUDIO" --model tiny --out "$OUT"

@@ -36,7 +36,7 @@ Default to `tiny`. Promote to `medium` when any of these are true:
 - The user calls it "important" or says it's source material for a blog post
 - The user has previously asked you to redo a transcript because tiny missed words
 
-If you're about to run `medium` for the first time on a system that hasn't downloaded it, the cache check is fast — `~/.cache/whisper/medium.pt` is ~1.5 GB and is already pre-downloaded on Dawson's machine, so this is usually a non-issue.
+If you're about to run `medium` for the first time on a system that hasn't downloaded it, the cache check is fast — `~/.cache/whisper/medium.pt` is ~1.5 GB and is already pre-downloaded on your machine, so this is usually a non-issue.
 
 If a file is unusually long (>10 min) or you're batching a folder, run in the background. The harness will notify you when it's done.
 
@@ -62,7 +62,7 @@ The goal is to fill in two places on the meeting note: a `# Transcript` section 
    - Use the Edit tool with a precise old_string match. Do not rewrite unrelated parts of the file.
 6. **Generate the summary** (200-300 words). This is a prompt-driven step done in the agent's main thread (no script):
    - Read the transcript text you just produced.
-   - Write 200-300 words covering: who was there, what they decided, key takeaways, open questions, action items, anything that future-Dawson would want to remember at a glance.
+   - Write 200-300 words covering: who was there, what they decided, key takeaways, open questions, action items, anything that future-you would want to remember at a glance.
    - Match the existing tone of meeting notes in the vault (matter-of-fact, scannable, no marketing fluff).
    - Anonymize nothing in the summary itself — meeting notes are private. (Anonymization rules apply when *mining* meeting notes for content, not when summarizing them in place.)
 7. **Update the YAML `summary:` field** using the Edit tool. Quote the value with double quotes, escape internal `"` as needed, keep it on a single line (folded into one paragraph) unless the existing note uses multi-line YAML — preserve whatever style is already there. Touch only the `summary:` line. Leave `type`, `Links`, `company`, `attendees`, and any other fields exactly as they were.

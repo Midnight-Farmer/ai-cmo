@@ -71,7 +71,7 @@ If the file does not exist, create it fresh.
 
 Enumerate every file in scope. For each file, store the **source ID** you'll use in citations:
 
-- Markdown / text: relative path with line numbers (`clients/dawson/transcripts/2026-04-15.txt:42`)
+- Markdown / text: relative path with line numbers (`clients/example-client/transcripts/2026-04-15.txt:42`)
 - Transcripts with timestamps: keep the timestamp instead of the line number when present (`Audio/2026-04-15.txt:[00:14:32]`)
 
 Read each file in full. Strip obvious noise:

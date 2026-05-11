@@ -21,7 +21,7 @@ Multiple clients have hard rules that frontmatter integrity supports:
 - The proofread-blog flow loads `voice-guidelines.md` based on `category:` — wrong category, no voice context.
 - Briefs link to content notes via `[[wiki-link]]`. If the link target was renamed or deleted, the brief's "Content Pieces" table breaks.
 - Content notes link back to a brief via `brief: "[[YYYY-MM-DD-biweekly-brief]]"`. If the brief was renamed or archived, the chain of custody is broken.
-- The Acme client has an explicit "no files in the root of `outputs/`" rule. Any orphan there is a violation.
+- Some clients have an explicit "no files in outputs/ root" rule. Any orphan there is a violation.
 - Knowledge files marked `needs-update` quietly become stale. After 60 days they should be either updated or downgraded to `reference`.
 
 Without periodic audits, this drift accumulates. The audit catches it.
@@ -35,7 +35,7 @@ If the user named a client, use that. Otherwise:
 1. Check the current working directory. If you are inside `clients/[name]/...`, infer that name.
 2. If still ambiguous, list the client folders and ask:
    ```bash
-   ls /Users/dawsonschrader/Obsidian/Tools/AI-CMO/clients/
+   ls $AI_CMO_ROOT/clients/
    ```
 3. The client folder must contain `CLAUDE.md` and a `knowledge/` directory. If it doesn't, abort with a clear error.
 
@@ -48,8 +48,10 @@ The client root path you'll pass to the script is the absolute path to `clients/
 Invoke the script with the client root path:
 
 ```bash
-python3 /Users/dawsonschrader/Obsidian/Tools/AI-CMO/.claude/skills/frontmatter-audit/scripts/audit.py \
-  --client-root /Users/dawsonschrader/Obsidian/Tools/AI-CMO/clients/[client-name] \
+Set AI_CMO_ROOT to the absolute path of your AI-CMO repo root before running these commands.
+
+python3 $AI_CMO_ROOT/.claude/skills/frontmatter-audit/scripts/audit.py \
+  --client-root $AI_CMO_ROOT/clients/[client-name] \
   --today 2026-05-08
 ```
 
@@ -101,8 +103,8 @@ If the user says yes:
 
 1. Run the script again with `--apply-auto-fixes`:
    ```bash
-   python3 /Users/dawsonschrader/Obsidian/Tools/AI-CMO/.claude/skills/frontmatter-audit/scripts/audit.py \
-     --client-root /Users/dawsonschrader/Obsidian/Tools/AI-CMO/clients/[client-name] \
+   python3 $AI_CMO_ROOT/.claude/skills/frontmatter-audit/scripts/audit.py \
+     --client-root $AI_CMO_ROOT/clients/[client-name] \
      --apply-auto-fixes
    ```
 2. The script writes the changes and emits a JSON object listing every file touched and every key changed.

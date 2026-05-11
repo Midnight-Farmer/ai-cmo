@@ -209,8 +209,8 @@ When a biweekly or weekly brief is generated, inline content piece details are r
 
 | # | Title | Format | Status | Link |
 |---|-------|--------|--------|------|
-| 1 | Vintage Kitchen Final Reveal | Carousel 6-8 | concept | [[2026-04-15-CP-01-kirk-kitchen-final-reveal]] |
-| 2 | Kitchen Final Walkthrough | Reel 60-90s | concept | [[2026-04-17-CP-02-kirk-kitchen-final-walkthrough]] |
+| 1 | Vintage Kitchen Final Reveal | Carousel 6-8 | concept | [[2026-04-15-CP-01-example-kitchen-final-reveal]] |
+| 2 | Kitchen Final Walkthrough | Reel 60-90s | concept | [[2026-04-17-CP-02-example-kitchen-final-walkthrough]] |
 ```
 
 The brief retains:
