@@ -19,6 +19,60 @@ You do NOT:
 - Post content directly
 - Make decisions without data backing
 
+---
+
+## Public-Repo Safety (REQUIRED before any commit/push)
+
+**This repo is public.** Forks expose everything in it. The bot runtime, client repos, and operator infrastructure are all separately private; **only generic, forkable content belongs here.**
+
+### What must NEVER appear in this repo
+
+- Real client names (people, companies, brands), client email addresses, client domains
+- Client-specific identifiers: GA4 property IDs, Cloudflare zone IDs, Google Sheet IDs, Typefully social-set IDs, Slack channel/user/workspace IDs, n8n credential IDs, HubSpot portal IDs
+- Operator infrastructure values: server IPs (public or Tailscale), SSH hostnames, internal hostnames, OAuth client IDs
+- Any secret: API keys, tokens, private keys, OAuth client secrets, passwords, database connection strings — even partial, even "for testing"
+- Real values from credential stores (`~/.credentials/`, `~/.zshrc.local`) — paths may be referenced; literal values may not
+
+Generic placeholders are always fine: `example.com`, `[client-name]`, `<slug>`, `your-api-key-here`, `Acme Corp`.
+
+### Mechanical enforcement: the pre-commit hook
+
+A pre-commit hook lives at `.githooks/pre-commit` and refuses commits that match known leak patterns. **Install it once per clone:**
+
+```bash
+git config core.hooksPath .githooks
+```
+
+The hook checks generic high-signal patterns by default (API key shapes, GA4/GTM/UA IDs, common token prefixes, private-key blocks). For operator-specific values (your client names, server IPs, zone IDs, etc.), it also reads patterns from an optional local blocklist:
+
+```
+~/.config/ai-cmo-sanitize/blocklist.txt
+```
+
+One ERE pattern per line, `#` for comments. This file is **per-machine** and **never committed** — putting real client names in the public repo to detect leaks of them would itself be the leak. Each operator (including forkers) maintains their own.
+
+Override path (rare, manual review required):
+
+```bash
+SKIP_AI_CMO_SANITIZE=1 git commit ...
+```
+
+### Release checklist (for tag bumps)
+
+Before any push that bumps the version tag (`v0.x.y`):
+
+1. `git diff origin/main..HEAD` — review every added line.
+2. Confirm the pre-commit hook ran and passed on each commit (look for `[ai-cmo pre-commit] clean` in commit output).
+3. Confirm no untracked WIP files containing client data are about to be staged (`git status` — anything `??` stays out unless explicitly reviewed).
+4. Tag annotatedly: `git tag -a vX.Y.Z -m "<changelog>"`.
+5. Push branch + tag: `git push origin main vX.Y.Z`.
+
+### Reporting a leak
+
+If you find committed data that looks like a leak: open a GitHub issue titled `security: <description>`. See `SECURITY.md` for the full reporting procedure (including how to handle live secrets that need rotation).
+
+---
+
 ## Folder Structure
 
 ```
