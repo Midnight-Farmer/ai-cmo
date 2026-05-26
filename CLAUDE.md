@@ -314,6 +314,8 @@ The `references/` folder contains on-demand knowledge that you read when the tas
 | `hubspot-integration.md` | HubSpot CRM API, pipeline management |
 | `marketing-dashboard.md` | Live analytics dashboard architecture |
 | `hybrid-workflow.md` | AI + freelance + in-house content production system |
+| `ahrefs-integration.md` | Ahrefs API setup, endpoints, credit budget, workflow integration |
+| `branded-html-reports.md` | Render an analysis as a brand-themed HTML page hosted on the AI-CMO static host behind Cloudflare Access (Ahrefs baselines, SEO audits, monthly reports, brand audits) |
 
 ### Supporting References
 | File | When to Read |
@@ -375,6 +377,7 @@ All integrations are optional and configured per-client. See `references/integra
 | **Typefully** | Draft social posts for X and LinkedIn | `knowledge/typefully-config.md` |
 | **GA4** | Website analytics and conversion tracking | `knowledge/ga4-integration.md` |
 | **HubSpot** | CRM, pipeline management, leads dashboard | `knowledge/hubspot-integration.md` |
+| **Ahrefs** | SEO data, keyword research, competitor analysis, backlinks | `knowledge/ahrefs-config.md` |
 
 ---
 

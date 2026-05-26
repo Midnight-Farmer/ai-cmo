@@ -1,13 +1,13 @@
 ---
 name: transcribe-audio
-description: Transcribe audio files (m4a, mp3, wav, mp4 audio) with OpenAI Whisper and route the output to the right place — meeting notes get a Transcript section plus a 200-300 word YAML summary, shoot-folder audio gets sibling .txt files for each clip, and ad-hoc audio prints to stdout or a user-specified path. Use this skill whenever the user says "transcribe this audio", "transcribe the m4a", "summarize this meeting recording", "process the shoot audio", "fill in the meeting summary", "transcribe and summarize", or any time the conversation involves running Whisper on a recording, ingesting a meeting transcript, or batch-processing a folder of shoot clips. Trigger even if the user does not name Whisper explicitly — if the request is "turn this audio into text" or "I just dropped a recording, can you summarize it", this is the skill.
+description: Transcribe audio files (m4a, mp3, wav, mp4 audio) with mlx-whisper on the Apple Silicon GPU and route the output to the right place — meeting notes get a Transcript section plus a 200-300 word YAML summary, shoot-folder audio gets sibling .txt + .json files for each clip, and ad-hoc audio prints to stdout or a user-specified path. Use this skill whenever the user says "transcribe this audio", "transcribe the m4a", "summarize this meeting recording", "process the shoot audio", "fill in the meeting summary", "transcribe and summarize", or any time the conversation involves running Whisper on a recording, ingesting a meeting transcript, or batch-processing a folder of shoot clips. Trigger even if the user does not name Whisper explicitly — if the request is "turn this audio into text" or "I just dropped a recording, can you summarize it", this is the skill.
 metadata:
   version: 1.0.0
 ---
 
 # Transcribe Audio
 
-You are processing audio recordings with OpenAI Whisper and placing the output where it actually belongs in this Obsidian/AI-CMO system. The script (`scripts/transcribe.py`) does the raw transcription. **Your job is to detect what kind of audio this is, route the result correctly, and never destroy existing transcripts or summaries.**
+You are processing audio recordings with **mlx-whisper** (Apple Silicon GPU) and placing the output where it actually belongs in this Obsidian/AI-CMO system. The script (`scripts/transcribe.py`) does the raw transcription. **Your job is to detect what kind of audio this is, route the result correctly, and never destroy existing transcripts or summaries.**
 
 The Whisper environment is already set up. Concrete commands, model selection, and gotchas live in `references/whisper-usage.md` — read that file before you run anything for the first time in a session.
 
@@ -29,14 +29,19 @@ You may NEVER scan global locations like `~/Downloads`, `~/Desktop`, or the whol
 
 ## Step 2 — Pick the model
 
-Default to `tiny`. Promote to `medium` when any of these are true:
+Default to **`mlx-community/whisper-large-v3-turbo`** (Apple Silicon GPU, fast, top-tier accuracy). Drop down only with a reason:
 
-- File length > 30 minutes (use `ffprobe` to check — see `references/whisper-usage.md`)
-- It's a meeting recording with multiple voices
-- The user calls it "important" or says it's source material for a blog post
-- The user has previously asked you to redo a transcript because tiny missed words
+- `mlx-community/whisper-tiny` — short identification-only clips (e.g., B-roll naming) where speed matters more than accuracy. Promote back to turbo if anything will actually be edited from the transcript.
+- `mlx-community/whisper-medium` — fallback if turbo errors out for some reason; rarely needed.
+- `mlx-community/whisper-large-v3` (non-turbo) — only if the user said turbo missed words and asked you to redo with the heaviest model.
 
-If you're about to run `medium` for the first time on a system that hasn't downloaded it, the cache check is fast — `~/.cache/whisper/medium.pt` is ~1.5 GB and is already pre-downloaded on your machine, so this is usually a non-issue.
+Promote tiny → turbo whenever any of these are true:
+- File length > 5 minutes
+- Meeting recording with multiple voices
+- User flagged it as "important" or source material for a blog post / video edit
+- Previous run on tiny had obvious errors
+
+mlx-whisper caches models in `~/.cache/huggingface/hub/`. First use of a given model downloads it (turbo is ~800MB). Subsequent runs are instant to start.
 
 If a file is unusually long (>10 min) or you're batching a folder, run in the background. The harness will notify you when it's done.
 
@@ -105,7 +110,7 @@ User pointed at one audio file outside of a meeting or shoot context. Just trans
 ## Quick sanity checklist before running
 
 - [ ] Did I confirm the input flow (meeting / shoot / ad-hoc)?
-- [ ] Did I pick a model (tiny vs medium) with a reason?
+- [ ] Did I pick a model (turbo by default; tiny only for short identification clips) with a reason?
 - [ ] If meeting: did I check whether `# Transcript` and `summary:` already have content?
 - [ ] If shoot: did I list which files I'll skip vs transcribe, and confirm with the user?
 - [ ] For long jobs: did I plan to run in the background?

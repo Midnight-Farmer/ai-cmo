@@ -203,9 +203,32 @@ Example: If support tickets show implementation struggles:
 
 ## Content Ideation Sources
 
-### 1. Keyword Data
+### 1. Keyword Research with Ahrefs
 
-If user provides keyword exports (Ahrefs, SEMrush, GSC), analyze for:
+If the client has Ahrefs configured (`knowledge/ahrefs-config.md`), pull data directly via API. See `references/ahrefs-integration.md` for endpoint details, costs, and auth.
+
+**Step 1: What's already ranking**
+```bash
+curl -s "https://api.ahrefs.com/v3/site-explorer/organic-keywords?target=${DOMAIN}&date=$(date +%Y-%m-%d)&country=us&select=keyword,best_position,volume,sum_traffic,keyword_difficulty&limit=100&order_by=sum_traffic:desc" \
+  -H "Authorization: Bearer $AHREFS_API_KEY"
+```
+
+**Step 2: Quick wins (ranking 5-20 with decent volume)**
+Filter the results for keywords where `best_position` is 5-20 and `volume` > 100. These are the lowest-effort opportunities — existing content that needs optimization, not new content.
+
+**Step 3: Keyword validation**
+For planned topics, validate with Keywords Explorer:
+```bash
+curl -s "https://api.ahrefs.com/v3/keywords-explorer/overview?country=us&keywords=topic+one,topic+two&select=keyword,volume,difficulty,traffic_potential,cpc" \
+  -H "Authorization: Bearer $AHREFS_API_KEY"
+```
+
+**Step 4: Competitor gap**
+Use the Ahrefs UI Content Gap tool (or build manually from organic keyword pulls — see `references/ahrefs-integration.md`). Save export to `tracking/ahrefs/content-gap-YYYY-MM.csv`.
+
+**If no Ahrefs access:** fall back to user-provided keyword exports (Ahrefs CSV, SEMrush, GSC).
+
+Analyze keyword data for:
 - Topic clusters (group related keywords)
 - Buyer stage (awareness/consideration/decision/implementation)
 - Search intent (informational, commercial, transactional)
@@ -253,9 +276,21 @@ Extract: FAQs, misconceptions, debates, problems being solved, terminology used.
 
 ### 5. Competitor Analysis
 
-Use web search to analyze competitor content:
+**With Ahrefs (preferred):** Pull competitor data via API for quantitative analysis:
 
-**Find their content:** `site:competitor.com/blog`
+```bash
+# Who competes for the same keywords?
+curl -s "https://api.ahrefs.com/v3/site-explorer/organic-competitors?target=${DOMAIN}&date=$(date +%Y-%m-%d)&country=us&select=competitor_domain,domain_rating,keywords_common,traffic&limit=20&order_by=keywords_common:desc" \
+  -H "Authorization: Bearer $AHREFS_API_KEY"
+
+# What are their top pages by traffic?
+curl -s "https://api.ahrefs.com/v3/site-explorer/organic-keywords?target=competitor.com&date=$(date +%Y-%m-%d)&country=us&select=keyword,best_position,volume,sum_traffic&limit=100&order_by=sum_traffic:desc" \
+  -H "Authorization: Bearer $AHREFS_API_KEY"
+```
+
+This tells you: who the real organic competitors are (not just who you think they are), what topics drive their traffic, and where you overlap.
+
+**Qualitative layer (web search):** `site:competitor.com/blog`
 
 **Analyze:**
 - Top-performing posts (comments, shares)
@@ -265,8 +300,8 @@ Use web search to analyze competitor content:
 - Content structure (pillars, categories, formats)
 
 **Identify opportunities:**
-- Topics you can cover better
-- Angles they're missing
+- Topics you can cover better (Ahrefs shows their keyword difficulty)
+- Angles they're missing (content gap data)
 - Outdated content to improve on
 
 ### 6. Sales and Support Input

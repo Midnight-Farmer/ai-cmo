@@ -262,6 +262,83 @@ Many CMS plugins (AIOSEO, Yoast, RankMath) inject JSON-LD via client-side JavaSc
 
 ---
 
+## Authority & Links (Ahrefs-Powered)
+
+If the client has Ahrefs configured (`knowledge/ahrefs-config.md`), pull this data before writing the authority section. Read `references/ahrefs-integration.md` for API details.
+
+### Domain Authority Snapshot
+
+Pull three overview endpoints for the client + their tracked competitors. Each costs 50 API units (the minimum).
+
+```bash
+# Domain Rating
+curl -s "https://api.ahrefs.com/v3/site-explorer/domain-rating?target=${DOMAIN}&date=$(date +%Y-%m-%d)" \
+  -H "Authorization: Bearer $AHREFS_API_KEY"
+
+# Traffic + keyword metrics
+curl -s "https://api.ahrefs.com/v3/site-explorer/metrics?target=${DOMAIN}&date=$(date +%Y-%m-%d)&country=us" \
+  -H "Authorization: Bearer $AHREFS_API_KEY"
+
+# Referring domain count
+curl -s "https://api.ahrefs.com/v3/site-explorer/backlinks-stats?target=${DOMAIN}&date=$(date +%Y-%m-%d)" \
+  -H "Authorization: Bearer $AHREFS_API_KEY"
+```
+
+Report:
+- **Domain Rating (DR):** Client vs competitors
+- **Referring Domains:** Live count and all-time count
+- **Organic Traffic:** Estimated monthly visits
+- **Organic Keywords:** Total ranking keywords (and how many in positions 1-3)
+
+### Backlink Profile Health
+
+Pull top referring domains (sorted by DR). Lite cap: 100 rows max.
+
+```bash
+curl -s "https://api.ahrefs.com/v3/site-explorer/refdomains?target=${DOMAIN}&date=$(date +%Y-%m-%d)&select=domain,domain_rating,backlinks,first_seen,last_visited&limit=50&order_by=domain_rating:desc" \
+  -H "Authorization: Bearer $AHREFS_API_KEY"
+```
+
+Assess:
+- Quality distribution (how many DR 50+ referring domains?)
+- Any toxic or spammy patterns
+- Diversity of referring domain types (blogs, news, directories, forums)
+- Comparison to competitor backlink profiles
+
+### Organic Keyword Portfolio
+
+Pull top 100 organic keywords (Lite max per request):
+
+```bash
+curl -s "https://api.ahrefs.com/v3/site-explorer/organic-keywords?target=${DOMAIN}&date=$(date +%Y-%m-%d)&country=us&select=keyword,best_position,volume,sum_traffic,keyword_difficulty&limit=100&order_by=sum_traffic:desc" \
+  -H "Authorization: Bearer $AHREFS_API_KEY"
+```
+
+Analyze:
+- **Position distribution:** How many keywords in positions 1-3, 4-10, 11-20, 21-50?
+- **Quick wins:** Keywords ranking 5-20 with decent volume (candidates for optimization)
+- **Keyword cannibalization:** Multiple pages ranking for the same keyword
+- **Brand vs non-brand split:** How dependent on branded search?
+
+### Competitor Gap
+
+**No Content Gap API endpoint exists.** Two approaches:
+
+**Option A (API):** Pull organic keywords for the client and each competitor, then diff programmatically. Costs ~500 units per domain (see `references/ahrefs-integration.md` for the full procedure).
+
+**Option B (UI — preferred for deeper analysis):** Run Content Gap in the Ahrefs UI, export the CSV, and save to `tracking/ahrefs/content-gap-YYYY-MM.csv`. This uses UI credits instead of API units.
+
+Flag:
+- High-volume keywords competitors own that the client is missing
+- Topics where competitors have content and the client has none
+- Feed these into content strategy recommendations
+
+### API Cost for a Full SEO Audit
+
+~3,000-4,000 API units depending on competitor count. With 100,000 units/month, this is a small fraction. See `references/ahrefs-integration.md` for the full credit breakdown.
+
+---
+
 ## Content Quality Assessment
 
 ### E-E-A-T Signals
@@ -385,9 +462,9 @@ Same format as above
 
 > **Note on schema detection:** `web_fetch` strips `<script>` tags (including JSON-LD) and cannot detect JS-injected schema. Always use the browser tool, Rich Results Test, or Screaming Frog for schema checks. See the warning at the top of the Audit Framework section.
 
-**Paid Tools** (if available)
+**Paid Tools**
+- **Ahrefs** (Lite plan, API integrated — see `references/ahrefs-integration.md`)
 - Screaming Frog
-- Ahrefs / Semrush
 - Sitebulb
 - ContentKing
 

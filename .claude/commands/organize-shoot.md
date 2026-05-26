@@ -103,17 +103,32 @@ Get durations for all videos:
 ffprobe -v quiet -show_entries format=duration -of csv=p=0 "[file]"
 ```
 
-Transcribe **all** extracted audio files using Whisper tiny model:
-```python
-import whisper
-model = whisper.load_model('tiny')
-result = model.transcribe('[audio-file].m4a')
+Transcribe **all** extracted audio files using `mlx-whisper` (Apple Silicon GPU — 5-10x faster than CPU `openai-whisper`). Default model is `mlx-community/whisper-large-v3-turbo` — fast on the GPU and top-tier accuracy. Only drop to `mlx-community/whisper-tiny` for short identification-only B-roll where speed matters more than accuracy. When in doubt, use turbo — it's cheap and avoids having to re-transcribe later when someone wants to edit the clip.
+
+**Always emit word-level timestamps.** Downstream video editing (transcript-driven cuts via ffmpeg) relies on per-word timing, not just the text. The CLI invocation:
+
+```bash
+/Library/Frameworks/Python.framework/Versions/3.12/bin/mlx_whisper \
+  "[audio-file].m4a" \
+  --model mlx-community/whisper-large-v3-turbo \
+  --language en \
+  --output-format all \
+  --word-timestamps True \
+  --output-dir "[location]/Audio"
 ```
 
-Save transcripts as `.txt` files alongside the audio:
+`--output-format all` writes `.txt`, `.json`, `.srt`, `.vtt`, and `.tsv` alongside the audio. The `.json` carries word-level start/end times and is what enables transcript-driven cutting. Keep all of them — they're small.
+
+(Legacy CPU `openai-whisper` is still installed at `/Library/Frameworks/Python.framework/Versions/3.12/bin/whisper` as a fallback if mlx-whisper ever breaks, but new runs should use mlx_whisper.)
+
+Resulting layout:
 ```
 [location]/Audio/064A7325.m4a
-[location]/Audio/064A7325.txt   ← transcript
+[location]/Audio/064A7325.txt    ← human-readable transcript
+[location]/Audio/064A7325.json   ← word-level timestamps (for editing)
+[location]/Audio/064A7325.srt    ← subtitle file
+[location]/Audio/064A7325.vtt    ← web subtitle file
+[location]/Audio/064A7325.tsv    ← tab-separated segment table
 ```
 
 **Parallelization:** Batch transcriptions in parallel using background tasks. Group by location (one batch per location folder) to maximize throughput. Whisper tiny is fast per-file but 60+ files adds up.
@@ -165,10 +180,14 @@ Examples:
 - `BRoll-Waverly-Insulation-WideShot.MP4`
 - `BRoll-Henderson-Cabinet-Detail.MP4`
 
-**Also rename the corresponding Audio + Transcript files** to match:
+**Also rename the corresponding Audio + Transcript files** to match. Rename every sidecar Whisper produced (`.m4a`, `.txt`, `.json`, `.srt`, `.vtt`, `.tsv`) — they must stay in lockstep so editing workflows can find the JSON by the video's basename:
 ```
-Audio/064A7325.m4a → Audio/ARoll-Henderson-Kitchen-Walkthrough.m4a
-Audio/064A7325.txt → Audio/ARoll-Henderson-Kitchen-Walkthrough.txt
+Audio/064A7325.m4a  → Audio/ARoll-Henderson-Kitchen-Walkthrough.m4a
+Audio/064A7325.txt  → Audio/ARoll-Henderson-Kitchen-Walkthrough.txt
+Audio/064A7325.json → Audio/ARoll-Henderson-Kitchen-Walkthrough.json
+Audio/064A7325.srt  → Audio/ARoll-Henderson-Kitchen-Walkthrough.srt
+Audio/064A7325.vtt  → Audio/ARoll-Henderson-Kitchen-Walkthrough.vtt
+Audio/064A7325.tsv  → Audio/ARoll-Henderson-Kitchen-Walkthrough.tsv
 ```
 
 **Create a `file-mapping.txt`** in each location folder mapping original → new names:
@@ -214,7 +233,26 @@ Update the bi-weekly brief to reflect actual shoot results:
 - Note any unplanned footage that was captured
 - Update content piece status (which posts have footage, which need reshoots)
 
-### Step 10: Save File Mapping
+### Step 10: Flip Content Notes to `captured`
+
+For every content piece confirmed as shot in Step 8, find the matching content note in `outputs/content/` and update its `status:` frontmatter to `captured` — but only if the current status is `concept` or `pre-production`. Don't downgrade notes already at `captured` or later.
+
+1. Match by content ID, title, or brief slot number (e.g., "CP-08 5/14" → `2026-05-14-CP-08-*.md`)
+2. Read the note, check current status
+3. If `concept` or `pre-production` → flip to `captured`
+4. If already `captured` or later → skip
+
+Report what changed:
+```
+## Kanban Updates
+✅ 2026-05-14-CP-08 SOS P4 — concept → captured
+✅ 2026-05-18-CP-01 Rokeby Weekly — concept → captured
+⏭️ 2026-05-07-CP-03 SOS P5 — already pre-approval, skipped
+```
+
+Also flip any matching BANKED notes (in `outputs/content/BANKED-*.md`) if they map to footage captured on this shoot.
+
+### Step 11: Save File Mapping
 
 Create a master `file-mapping.csv` in the shoot day root folder:
 ```csv
@@ -225,7 +263,7 @@ original_name,new_name,location,subfolder,content_piece,type,duration_s,transcri
 IMG_1234.CR3,,Henderson,Photos/,photo,,"
 ```
 
-### Step 11: Update Shoot Log
+### Step 12: Update Shoot Log
 
 Append a new entry to the client's **shoot log** at `tracking/shoot-log.md`. This is a cumulative record that persists across sessions and prevents content from falling through the cracks.
 
@@ -266,7 +304,7 @@ Append a new entry to the client's **shoot log** at `tracking/shoot-log.md`. Thi
 
 Also update the `last_updated` date in the shoot log's YAML frontmatter.
 
-### Step 12: Update Content Index
+### Step 13: Update Content Index
 
 Update the client's `tracking/content-index.md` with the organized shoot data. This keeps the master asset inventory current.
 
@@ -310,14 +348,20 @@ ffmpeg -i input.MP4 -vn -acodec copy output.m4a -y
 ffprobe -v quiet -show_entries format=duration -of csv=p=0 input.MP4
 ```
 
-### Whisper Transcription
-```python
-import whisper
-model = whisper.load_model('tiny')  # Fast, good for clear audio
-result = model.transcribe('input.m4a')
-print(result['text'])
+### Whisper Transcription (mlx-whisper, GPU, word-level timestamps, all formats)
+```bash
+/Library/Frameworks/Python.framework/Versions/3.12/bin/mlx_whisper \
+  input.m4a \
+  --model mlx-community/whisper-large-v3-turbo \
+  --language en \
+  --output-format all \
+  --word-timestamps True \
+  --output-dir ./Audio
 ```
-Use `medium` model if tiny produces poor results on specific files.
+
+Use `mlx-community/whisper-tiny` for short identification-only B-roll clips where raw speed matters; use `mlx-community/whisper-large-v3-turbo` (default) for anything that might be edited later. `--word-timestamps True` is required for downstream transcript-driven editing (the `.json` carries per-word start/end times).
+
+**Note the flag dialect.** mlx-whisper uses **dashes** (`--output-format`, `--word-timestamps`); the legacy CPU `openai-whisper` CLI used **underscores** (`--output_format`, `--word_timestamps`). Don't mix them up.
 
 ### CR3 to JPEG Thumbnail (for visual analysis if needed)
 ```bash

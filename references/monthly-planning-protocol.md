@@ -35,6 +35,37 @@ How to generate monthly content plans. Monthly plans are brainstorming + alignme
 - Is messaging resonating? Need to adjust content mix?
 - Any new competitors or market changes?
 
+### 4. Ahrefs competitive analysis (if configured):
+
+If the client has `knowledge/ahrefs-config.md`, pull fresh SEO data before planning. See `references/ahrefs-integration.md` for API details and costs.
+
+```bash
+# Client's current DR and traffic
+curl -s "https://api.ahrefs.com/v3/site-explorer/domain-rating?target=${DOMAIN}&date=$(date +%Y-%m-%d)" \
+  -H "Authorization: Bearer $AHREFS_API_KEY"
+curl -s "https://api.ahrefs.com/v3/site-explorer/metrics?target=${DOMAIN}&date=$(date +%Y-%m-%d)&country=us" \
+  -H "Authorization: Bearer $AHREFS_API_KEY"
+
+# Who's competing for the same keywords?
+curl -s "https://api.ahrefs.com/v3/site-explorer/organic-competitors?target=${DOMAIN}&date=$(date +%Y-%m-%d)&country=us&select=competitor_domain,domain_rating,keywords_common,traffic&limit=20&order_by=keywords_common:desc" \
+  -H "Authorization: Bearer $AHREFS_API_KEY"
+
+# Client's top 100 organic keywords (compare to last month)
+curl -s "https://api.ahrefs.com/v3/site-explorer/organic-keywords?target=${DOMAIN}&date=$(date +%Y-%m-%d)&country=us&select=keyword,best_position,volume,sum_traffic,keyword_difficulty&limit=100&order_by=sum_traffic:desc" \
+  -H "Authorization: Bearer $AHREFS_API_KEY"
+
+# Top competitor's keywords (for content gap ideas)
+curl -s "https://api.ahrefs.com/v3/site-explorer/organic-keywords?target=competitor.com&date=$(date +%Y-%m-%d)&country=us&select=keyword,best_position,volume,sum_traffic&limit=100&order_by=sum_traffic:desc" \
+  -H "Authorization: Bearer $AHREFS_API_KEY"
+```
+
+**What to do with the data:**
+- Compare DR and traffic to last month's snapshot (saved in `tracking/ahrefs/`)
+- Check for new organic competitors that weren't on the radar
+- Identify keyword themes from competitor data that could inform this month's content pillars
+- Flag quick wins (client keywords at position 5-20 with strong volume)
+- Save snapshots to `tracking/ahrefs/monthly-YYYY-MM.json`
+
 Save review notes to `outputs/monthly-reviews/monthly-review-YYYY-MM.md`.
 
 ## Process
@@ -82,4 +113,5 @@ Look for these in the client's `CLAUDE.md` or `knowledge/` files:
 - **Current projects file** (e.g., `knowledge/current-projects.md`)
 - **Content team roles and time budgets** (e.g., `knowledge/hybrid-workflow.md`)
 - **Google Drive folder ID** for saving DOCX/Google Doc versions
+- **Ahrefs config** (`knowledge/ahrefs-config.md`) for SEO/competitor data
 - **Any additional pre-plan review questions** specific to this client

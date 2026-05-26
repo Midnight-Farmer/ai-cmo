@@ -54,6 +54,43 @@ Search for what's working on social media right now — not just the primary pla
 
 **Sources to prioritize:** Buffer, Hootsuite, Later, Social Media Examiner, Sprout Social, Kapwing, platform-specific official announcements. Prefer data-backed findings over opinion pieces.
 
+#### Step 2b: Pull Ahrefs SEO Data (if configured)
+
+If the client has `knowledge/ahrefs-config.md`, pull fresh keyword and competitor data. See `references/ahrefs-integration.md` for API details.
+
+1. **Metrics refresh** — check for organic traffic shifts since last brief:
+   ```bash
+   curl -s "https://api.ahrefs.com/v3/site-explorer/metrics?target=${DOMAIN}&date=$(date +%Y-%m-%d)&country=us" \
+     -H "Authorization: Bearer $AHREFS_API_KEY"
+   ```
+
+2. **Keyword position changes** — pull top 100 organic keywords and compare to last brief's data (saved in `tracking/ahrefs/`):
+   ```bash
+   curl -s "https://api.ahrefs.com/v3/site-explorer/organic-keywords?target=${DOMAIN}&date=$(date +%Y-%m-%d)&country=us&select=keyword,best_position,volume,sum_traffic,keyword_difficulty&limit=100&order_by=sum_traffic:desc" \
+     -H "Authorization: Bearer $AHREFS_API_KEY"
+   ```
+
+3. **Topic inspiration** — pull a key competitor's top keywords for fresh ideas:
+   ```bash
+   curl -s "https://api.ahrefs.com/v3/site-explorer/organic-keywords?target=competitor.com&date=$(date +%Y-%m-%d)&country=us&select=keyword,best_position,volume,sum_traffic&limit=100&order_by=sum_traffic:desc" \
+     -H "Authorization: Bearer $AHREFS_API_KEY"
+   ```
+
+4. **Validate planned topics** — batch-check keyword metrics for the topics you're considering:
+   ```bash
+   curl -s "https://api.ahrefs.com/v3/keywords-explorer/overview?country=us&keywords=topic+one,topic+two&select=keyword,volume,difficulty,traffic_potential" \
+     -H "Authorization: Bearer $AHREFS_API_KEY"
+   ```
+
+**What to do with the data:**
+- Save raw responses to `tracking/ahrefs/biweekly-YYYY-MM-DD.json`
+- Note any keywords that jumped or dropped significantly since last brief
+- Flag quick wins (positions 5-20 with decent volume) as candidates for optimization content
+- Use competitor keyword data to inform topic selection
+- Include keyword data in the brief's content piece rationale
+
+**Cost:** ~1,250 API units per biweekly cycle. See `references/ahrefs-integration.md` for budget details.
+
 #### Step 3: Mine Recent Meeting Notes for Content Material (if applicable)
 
 If the client has a meeting-notes corpus configured (check `CLAUDE.md` for `meeting_notes_path` or equivalent):
