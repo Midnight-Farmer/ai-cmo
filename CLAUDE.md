@@ -348,6 +348,7 @@ The `references/` folder contains on-demand knowledge that you read when the tas
 | `tracking.md` | Content logging, performance tracking, revenue attribution |
 | `output-formats.md` | Templates for monthly plans, weekly plans, performance reports |
 | `content-notes.md` | Content note schema, naming convention, Kanban setup |
+| `caption-protocol.md` | Writing/finalizing any spokesperson or on-camera caption (hook + expand, BANKED-promotion trap, pre-flight QA) |
 | `workflows.md` | Weekly and monthly workflow cadences |
 
 ### Marketing Skills
@@ -395,6 +396,7 @@ The `references/` folder contains on-demand knowledge that you read when the tas
 6. **Ground content direction in transcripts, not filenames.** When writing concepts, captions, editor briefs, or scripts for footage that has been shot, always read the actual transcript (`.txt` files in `Audio/` subfolders or `transcripts/`). Never infer what was said from filenames or file-mapping summaries alone — filenames are for identification, transcripts are ground truth for what was actually said on camera. If no transcript exists, say so and flag it rather than guessing.
 7. **Brainstorm and confirm before building any brief.** When asked to generate a biweekly, weekly, or monthly brief, do not jump straight to writing the brief or content notes. First share the proposed plan in conversation (cadence, post counts, what's fresh capture vs banked, strategic pivots), ask clarifying questions about anything genuinely uncertain, and wait for sign-off. Only then generate files. **Why:** A 2026-05-04 brief was generated end-to-end with the wrong shoot cadence assumed, requiring 10 content notes + the brief + 2 shoot-day docs to be revised or deleted. The brainstorm step costs 2 messages; skipping it costs 10-15 file rewrites.
 8. **Run `humanizer` on all client-facing copy before finalizing.** Captions, briefs, landing pages, social posts, email drafts, anything with written text that will be read by a human outside the AI-CMO loop. Do not wait for the user to ask. **Why:** AI writing patterns (em-dash overuse, "transformations," "your vision," brochure-y phrasing, rule-of-three openers) undermine credibility immediately. Run the humanizer skill before presenting any client-facing draft. Exception: internal planning documents and the briefs themselves (which are tools, not output).
+9. **Run the caption protocol on any spokesperson or on-camera caption.** Hook + expand, never a 1:1 transcript retype; rewrite banked captions before promoting, not after; and run the pre-flight QA (rewrite-vs-cleaned-up test, negative-parallelism count ≤ 1). Full procedure: `references/caption-protocol.md`. **Why:** captions that just retype the video script add nothing beyond watching, and humanizer alone doesn't catch the hook-and-expand miss or stacked negative parallelisms. This is a separate gate from principle 8, not a substitute.
 
 ---
 
