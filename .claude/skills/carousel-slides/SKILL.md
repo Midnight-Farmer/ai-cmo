@@ -13,6 +13,14 @@ The skill works alongside the `ai-cmo` skill and shares client context. **Strate
 
 ---
 
+## Where this fits in the standard carousel flow
+
+Rendering (this skill) is step 4 of a fuller loop run every time: (1) source & concept, (2) identify candidate photos, (3) **photo handling — a per-client policy**, (4) build slides [this skill], (5) caption + humanizer, (6) assemble a single-file review and publish via `publish-share`, (7) revise to the same slug, (8) on approval render PNGs + package/schedule.
+
+**Photo handling is a per-client policy, not a per-run question — read the client's CLAUDE.md.** Some clients always edit stills before use (e.g. Carlson: stage candidate raws → human edits into an `_edited/` folder → build from edited); others never edit and you use photos as-is (e.g. Energy Pro). If a client's policy isn't recorded, ask once and write it to their CLAUDE.md. Carlson's `memory/reference_carousel_flow.md` is the reference pattern for the full loop.
+
+---
+
 ## Hard preflight gates
 
 **Do not generate any slides until both gates pass.** If a gate fails, run the recovery flow for that gate, then continue.
@@ -27,6 +35,17 @@ The skill works alongside the `ai-cmo` skill and shares client context. **Strate
 2. **Photo library is reachable.** You must have a list of candidate photo paths that exist on disk. At least 1 photo per slide is required — if there are fewer photos than slides, you may either reuse photos or fall back to a `text-only` slide variant.
 
 ---
+
+## Brand fidelity — the failure mode that gets carousels rejected
+
+A slide that "looks like a nice generic template" is a failure. The test is: *could this be any other business in the category?* If yes, it's not done. These rules prevent the most common rejection (learned the hard way on Energy Pro):
+
+1. **Derive brand from the client's LIVE website, not a guess or a provisional doc.** If `brand-identity.md` is marked provisional/needs-update, or if it disagrees with the site, read the actual site first: `globals.css`/`tailwind.config` for exact color hex + design tokens, the font loader (`layout.tsx`, `<link>`, `@font-face`) for the real font family, and `public/`/`assets/` for logo files. Then update `brand-identity.md` with the real values. Guessing colors and fonts produces off-brand slides.
+2. **Put the logo on every slide.** No logo = no brand recognition. Pull the real logo asset (light variant on dark/photo slides, dark variant on light slides; badge/seal for the CTA). Copy it into the carousel's `assets/`.
+3. **Match the client's real emphasis convention — do NOT default to italic + accent-color on a word.** Italic-highlighting a single word is a classic AI tell and is off-brand for most trade/industrial clients. Check how the site emphasizes: most use **bold weight in the same color**, or an underline/rule in the accent color. Use that. Reserve the accent color for structural elements (eyebrows, numerals, rules, CTA), not inline word-coloring, unless the site does otherwise.
+4. **Match the site's typographic posture** — all-caps vs sentence case, letter-spacing, serif vs sans. An editorial serif (e.g. Playfair) on a workmanlike trade brand reads wrong even if it's "pretty."
+
+When in doubt, open the client's homepage and a real slide side by side. They should feel like the same company.
 
 ## Step 1 — Identify client and source
 
