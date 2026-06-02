@@ -4,6 +4,12 @@ Read this whenever you write or finalize a caption for a reel, short, or any vid
 
 This is the **generic** procedure. Each client keeps their own voice specifics (signature phrases, vocabulary, do/don't lists, named examples) in their `knowledge/voice-analysis.md` and `knowledge/voice-guidelines.md`. Read those for the register; read this for the structure and the QA gate.
 
+## Scope: the gate is universal, the structure is for captions
+
+The hook-and-expand **structure** below is for spokesperson/on-camera captions. The **QA gate** — run the client's voice-guidelines/voice-analysis check AND actually invoke the `humanizer` skill — applies to **every piece of client-facing copy on every brand**: captions, blog posts, landing pages, emails, ad copy, social posts. Nothing client-facing ships without both passes. (Internal-only working docs — briefs, content-note editor sections, planning — are exempt.)
+
+This is enforced, not just documented. A global `PostToolUse` hook (`~/.claude/hooks/humanizer-voice-guard.py`) fires whenever a content note / landing page / email draft under any client folder is written, and reminds you to run both passes and log the humanizer result. The hook is a backstop for the recurring "asserted humanizer-clean but never invoked the tool" miss — it does not replace doing it.
+
 ---
 
 ## The rule: hook + expand, never a 1:1 transcript
