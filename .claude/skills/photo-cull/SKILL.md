@@ -1,23 +1,53 @@
 ---
 name: photo-cull
-description: Review a photo shoot day and cull a large pool of stills down to a tight, ordered "best of" set staged for the edit pass. Use whenever the user wants to go through shoot photos, pick the keepers, narrow a big folder down to the best N, decide which shots to edit, choose carousel/reveal stills, or build a reusable background library from a shoot. Trigger on phrases like "review the photos from the shoot", "which of these should we edit", "pick the best shots", "cull the shoot", "narrow this down to the top 20", "go through the [project] finals", "I need to choose carousel photos", or any time there's a folder of many images (often raws/CR3 you can't see directly) and the goal is a smaller curated subset. Also reach for this right after organize-shoot when stills need selecting, or before carousel-slides when a carousel needs its photos chosen. Works for any AI-CMO client.
+description: Review any photo shoot and cull a large pool of stills down to a tight, curated set staged for the edit pass. Works for any shoot type — project/remodel reveals, weddings, brand/corporate events, real-estate and interiors, portraits, or anything else via a custom path. Use whenever the user wants to go through shoot photos, pick the keepers, narrow a big folder down to the best N, decide which shots to edit, choose carousel/reveal stills, select a wedding gallery, pick listing photos, or build a reusable background library from a shoot. Trigger on phrases like "review the photos from the shoot", "which of these should we edit", "pick the best shots", "cull the shoot", "narrow this down to the top 20", "go through the [project/wedding/event] gallery", "choose the listing photos", "select the gallery", or any time there's a folder of many images (often raws/CR3 you can't see directly) and the goal is a smaller curated subset. Reach for it right after organize-shoot when stills need selecting, or before carousel-slides when a carousel needs its photos chosen. Works for any AI-CMO client.
 metadata:
-  version: 1.0.0
+  version: 2.0.0
 ---
 
 # Photo Cull
 
-You are a photo editor culling a shoot. The input is a folder with too many images to eyeball one by one — often hundreds of raws you can't even open directly. The output is a small, ordered set of the strongest frames, staged full-res so a human can do the final edit pass, plus a clear record of why each made the cut.
+You are a photo editor culling a shoot. The input is a folder with too many images to eyeball one by one — sometimes 50 finished JPEGs, sometimes 3,000 raws you can't even open. The output is a smaller, curated set staged so a human can do the final edit pass, plus a clear record of why each frame made the cut.
 
-This is the front end of the carousel/reveal pipeline: **shoot pool → contact sheets → curate → staged edit set.** It hands off to the human edit pass, then to `carousel-slides` (rendering) or a straight multi-photo post. It complements `organize-shoot` (which transcribes/renames/catalogs a whole shoot day) — run this when you specifically need to *choose stills*, not process footage.
+The mechanics (rendering, contact sheets, staging) are the same for every shoot. **What changes by shoot type is the judgment** — what "best" means, whether order matters, how many to keep, how hard to dedup, what to flag. That lives in a per-shoot-type **profile** (`references/*.md`). You read the shared loop here, pick the profile, and load only that one file.
 
-The hard part isn't the file shuffling — the scripts do that. The hard part is **judgment**: which 20 of 200 frames actually earn a slot, and in what order. That's your job. Don't outsource it to filename or filesize.
+This complements `organize-shoot` (which transcribes/renames/catalogs a whole shoot day) — reach for `photo-cull` when you specifically need to *choose stills*. It hands off to the human edit pass, then to `carousel-slides` (rendering) or a straight gallery/post delivery.
+
+The scripts do the file shuffling. The hard part is judgment: which N of M frames earn a slot, and (when it matters) in what order. Don't outsource that to filename or filesize.
 
 ---
 
-## Why you can't skip looking
+## Why you can't cull from a listing
 
-You cannot cull from a file listing. RAW files (`.CR3`, `.NEF`, `.ARW`, `.DNG`) aren't viewable as-is, and even JPEGs tell you nothing from their names. Past attempts to "pick by filename" or trust a mapping CSV produce confident, wrong selections — a blurry frame and the keeper next to it have adjacent names. **Always render contact sheets and actually read them.** The whole skill is built around making that fast.
+You cannot cull from a file listing. RAW files (`.CR3`, `.NEF`, `.ARW`, `.DNG`) aren't viewable as-is, and even JPEGs tell you nothing from their names. Picking "by filename" or trusting a mapping CSV produces confident, wrong selections — a blink and the keeper next to it have adjacent names. **Always render contact sheets and actually read them.** The whole skill is built around making that fast.
+
+---
+
+## Step 0 — Pick the profile and the target count
+
+Two things decide everything downstream. Settle them first.
+
+**1. Which profile?** Infer from context (client type, folder name, the content note, what the user said), then confirm. Read the matching reference file and follow its curation logic:
+
+| Shoot type | Profile | Output shape |
+|------------|---------|--------------|
+| Remodel / build / project reveal | `references/project-reveal.md` | **Ordered** narrative carousel |
+| Wedding | `references/wedding.md` | **Unordered** representative gallery, by-moment; tiered at scale |
+| Corporate / brand event | `references/event.md` | Hero moments for a recap |
+| Real-estate / interiors / listing | `references/real-estate.md` | Full room coverage, walkthrough order |
+| Anything else | `references/custom.md` | You ask the user to define goal, order, count |
+
+If two could fit, ask. If none fit, use `custom.md` — don't force a shoot into the wrong profile.
+
+**2. What's the target count?** If the user gave a number ("top 20", "best 12"), use it. **If they didn't, ask before culling** — the count changes how aggressively you cut, and re-culling to a different number is wasted work. For weddings and large galleries, ask whether the target is a *total* or *per-segment* (e.g. "50 total" vs "the best of each: prep, ceremony, portraits, reception"). The profile gives sensible defaults to offer.
+
+**3. Is there a taste guide? (optional, but use it when it exists.)** The profiles encode *generic* good-photo logic. The person culling almost always has a more specific eye — frames they always cut, a look they reach for, a one-line creed. Let them supply it, in any of three forms, and weight it heavily:
+
+- **Inline** — a quote or a few lines in the request ("I hate anything centered; give me window light and negative space; candid beats posed every time").
+- **A file** — a path to a markdown file describing what a good picture is to them (their rubric, sample hero shots, hard nos). Read it.
+- **A per-client default** — check the client's `knowledge/photo-taste.md` and auto-load it if present. If a client keeps asking you to re-explain their eye, offer to write what you've learned to that file so it persists.
+
+A taste guide is a **high-priority overlay on the profile**: when the guide and the generic logic disagree, the guide wins — it's the user's eye and brand, not yours. Cite it when you justify a pick ("kept #12 over the sharper #14 because your guide favors the candid moment over the posed one"). If no taste guide exists, fall back to the profile's defaults and say so.
 
 ---
 
@@ -25,90 +55,92 @@ You cannot cull from a file listing. RAW files (`.CR3`, `.NEF`, `.ARW`, `.DNG`) 
 
 ### 1. Resolve the source folder (and the edit policy)
 
-Find the folder of candidates. Prefer a finals/`edits/` subfolder if the photographer already culled+edited — those are stronger starting frames than the full raw dump. Otherwise point at the raw shoot folder.
+Find the folder of candidates. If a photographer already culled+edited into a finals/`edits/` subfolder, prefer it — those are stronger starting frames than the full raw dump (unless the task is explicitly "which raws should I edit", where you want the raws).
 
-Then check the **client's edit policy** — this is the one per-client variable, and it lives in the client's `CLAUDE.md` (and `memory/reference_carousel_flow.md` for the clients that have it):
+Then check the **client's edit policy** — the one per-client variable, recorded in the client's `CLAUDE.md` (and `memory/reference_carousel_flow.md` where present):
 
-- **Edit-always** clients: every still gets a human edit pass before it ships. Your job ends at *staging the picks* into a `_to-edit` folder; the human edits them into `_edited/`; downstream builds read from `_edited/`.
-- **Never-edit** clients: stills ship as shot. Your picks are the finals; no staging-for-edit step, just hand them off.
+- **Edit-always** clients: every still gets a human edit pass before it ships. Your job ends at *staging the picks*; the human edits them into `_edited/`; downstream builds read from `_edited/`.
+- **Never-edit** clients: stills ship as shot. Your picks are the finals; hand them off directly.
 
-If the policy isn't recorded for this client, ask once and write the answer to their `CLAUDE.md` so the next run doesn't have to.
+If the policy isn't recorded for this client, ask once and write the answer to their `CLAUDE.md`.
 
 ### 2. Build contact sheets
 
 ```bash
-bash scripts/contact-sheets.sh --src "<photo-folder>" [--out <workdir>] [--batch 18]
+bash scripts/contact-sheets.sh --src "<photo-folder>" [--out <workdir>] [--batch 18] [--recurse]
 ```
 
-This enumerates every image (raws rendered via `sips`), writes a labeled thumbnail per frame, batches them into readable contact sheets, and writes `manifest.tsv` mapping each on-sheet index `#N` back to the original full-res file. Defaults are tuned so each sheet stays legible when you Read it (≈18 frames, 4 across). Output paths print at the end.
+Enumerates every image (raws rendered via `sips`), writes a labeled thumbnail per frame, batches them into readable contact sheets, and writes `manifest.tsv` mapping each on-sheet index `#N` back to the original full-res file. Use `--recurse` when the shoot is split across subfolders (common for weddings/events). For very large galleries, see the tiered approach in `wedding.md` before rendering everything at full review depth.
 
-**Then Read every sheet.** This is the actual review — don't shortcut it. Build a mental (or written) catalog as you go: for each `#N`, what's the subject, the angle, is it sharp, is it a wide/detail/context shot, is it background-worthy.
+**Then Read every sheet.** This is the actual review — don't shortcut it. Build a catalog as you go: for each `#N`, the subject, the moment/zone, is it sharp, is it a keeper.
 
-### 3. Curate — the judgment that matters
+### 3. Curate — per the active profile
 
-Pick the keepers by their `#N` labels. Hold two goals in tension:
+Pick the keepers by their `#N` labels, applying the active profile's logic. A few principles are **universal across profiles**:
 
-- **Story / coverage.** A reveal walks a space: open strong, establish wide, move through the zones (for a kitchen: the feature wall → cooking → sink → storage details → materials), close on a pull-back or lifestyle frame. Cover the beats the content note or brief calls for.
-- **Each frame standing alone.** Especially if the set doubles as a reusable background library (text-over-photo slides later), favor clean, composed frames with breathing room over busy tight crops.
+- **You must have looked.** Every pick traces to a frame you actually saw on a sheet.
+- **Dedup.** Near-identical frames waste slots. Pick the better one. (How aggressive depends on the profile — a wedding kills dupes hard; a reveal keeps two angles of a hero feature.)
+- **Honor the target.** Hit the count the user asked for, and do the math when one photo becomes two slides (e.g. a split-hero opener — see `project-reveal.md`).
+- **Name what you benched and why.** One line per notable cut lets the user overrule you cheaply.
+- **Ordering is profile-dependent.** A reveal is an ordered narrative (no adjacent duplicate angles). A wedding gallery is chronological/by-segment, not a story. Real-estate is a walkthrough. The profile says which.
+- **The taste guide overrides the generic.** If a taste guide was supplied in Step 0, it outranks the profile's default sense of "best." Curate to the user's eye, not yours, and reference the guide when a pick would otherwise look surprising.
 
-Discipline that keeps a cull good:
-- **No adjacent duplicates.** Two near-identical angles back to back waste a slot and read as filler. Pick the better one, move on.
-- **Vary the shot type across the sequence.** Don't stack five wides then five details — interleave so the swipe keeps surprising.
-- **Match the deliverable's count.** A carousel caps at 20 slides on Instagram. If you're opening with a split-hero (see step 6), that one photo eats *two* slides, so 20 slides = 19 photos. Do that math before you promise a number.
-- **Name what you benched and why.** When you drop a frame, say so in one line — it lets the user overrule you cheaply.
-
-Show the user your picks before staging — ideally as a contact sheet of just the chosen set, in order (re-run a montage on the staged folder, or build one from the picked thumbnails). They're about to spend real time editing these; a 30-second confirm beats re-editing the wrong 20.
+Show the user your picks before staging — ideally a contact sheet of just the chosen set. They're about to spend real time editing these; a 30-second confirm beats re-editing the wrong set.
 
 ### 4. Stage the picks
 
 ```bash
 bash scripts/stage-picks.sh --manifest <workdir>/manifest.tsv \
-  --picks "11,3,44,9,..." --dest "<project>/<date>/Photos/_to-edit"
+  --picks "11,3,44,9,..." --dest "<staging-folder>"
 ```
 
-`--picks` is your ordered `#N` list — order = posting/deliverable order. The script copies each full-res original into the dest as `01_<name>`, `02_<name>`, … in that order, records the mapping in `_pick-order.tsv`, and sweeps the `._*` AppleDouble sidecars that copying to exFAT/network drives leaves behind. For edit-always clients this dest is the `_to-edit` folder; for never-edit clients it's just the handoff folder.
+`--picks` is your ordered `#N` list. The script copies each full-res original into the dest as `01_<name>`, `02_<name>`, … in that order, records `_pick-order.tsv`, and sweeps the `._*` AppleDouble sidecars that copying to exFAT/network drives leaves behind. For unordered deliveries (weddings), the slot numbers are just a stable sequence; for by-segment delivery, run it once per segment into a per-segment subfolder.
 
 ### 5. Hand off to the edit pass (edit-always clients)
 
-Tell the user exactly which files to edit and flag anything orientation-sensitive (verticals that may need straightening, a hero that must stay landscape for a split). They edit into a sibling `_edited/` folder. Wait for that before building anything downstream — don't build slides from unedited frames.
+Tell the user exactly which files to edit and flag anything orientation-sensitive. They edit into a sibling `_edited/` folder. Wait for that before building anything downstream.
 
-### 6. Rebuild the deliverable (optional, after edits land)
+### 6. Rebuild the deliverable (optional, ordered profiles)
 
-If the deliverable is a carousel and the user wants the "swipe to reveal one continuous image" opener, split the hero landscape frame into two seamless halves:
+For a carousel opener with the "swipe to reveal one continuous image" effect, split the hero landscape into two seamless halves:
 
 ```bash
 bash scripts/split-hero.sh --src "<edited>/01_<hero>.jpg" --dest "<post-folder>"
 ```
 
-This writes `01.jpg` + `02.jpg` (each a clean 4:5 panel that lines up edge-to-edge) plus a `.seam-check.jpg` — **Read the seam check** and confirm the join is invisible and nothing important is bisected. Then place the remaining edited photos as `03.jpg…` in order, drop the caption file in, and that folder is ready to post. For the full carousel-rendering path (branded text slides, not full-bleed photos), hand off to the `carousel-slides` skill instead.
+Writes `01.jpg` + `02.jpg` (each a clean 4:5 panel that lines up edge-to-edge) plus a `.seam-check.jpg` — **Read the seam check** and confirm the join is invisible and nothing important is bisected. Then place the remaining edited photos as `03.jpg…` in order. For full branded text-over-photo slides, hand off to `carousel-slides`.
 
 ---
 
-## The scripts (and why they're bundled)
-
-Three small, generic, client-agnostic helpers live in `scripts/`. They exist because every manual run of this workflow otherwise re-derives the same fiddly ImageMagick incantations and re-hits the same platform gotchas:
+## The scripts (generic, client- and shoot-type-agnostic)
 
 | Script | Does | Key gotchas it handles for you |
 |--------|------|-------------------------------|
-| `contact-sheets.sh` | thumbnails + contact sheets + manifest | renders unviewable RAW via `sips`; macOS ImageMagick has **no default font** so annotate/montage need an explicit `-font` (baked in); filters `._*` sidecars; portable to macOS's bash 3.2 |
-| `stage-picks.sh` | copies chosen full-res files in order | resolves `#N`→original via manifest; slot-numbers in pick order; sweeps `._*` after copying |
-| `split-hero.sh` | seamless 4:5 split of a landscape hero | computes the exact center-crop so halves are distortion-free; writes a seam-check image; refuses non-landscape input |
+| `contact-sheets.sh` | thumbnails + contact sheets + manifest | renders unviewable RAW via `sips`; macOS ImageMagick has **no default font** so annotate/montage need an explicit `-font` (baked in); `--recurse` for multi-folder shoots; filters `._*`; bash-3.2 portable |
+| `stage-picks.sh` | copies chosen full-res files in order | resolves `#N`→original via manifest; slot-numbers in pick order; sweeps `._*` |
+| `split-hero.sh` | seamless 4:5 split of a landscape hero | exact distortion-free crop; seam-check image; refuses non-landscape input |
 
-Run them with `bash scripts/<name>.sh` (no chmod needed). Pass `--help`-style by reading the header comment in each — every argument is documented there. They take paths as arguments and hardcode no client values, so they're safe in the public repo and work for any client.
-
-If you find yourself reaching for a fourth repeated operation across runs (e.g. cover-cropping a batch to 1080×1350 — `magick in -resize 1080x1350^ -gravity center -extent 1080x1350 out`), consider adding it as a script rather than re-typing it each time.
+Run with `bash scripts/<name>.sh` (no chmod needed). Every argument is documented in each script's header comment. They take paths as arguments and hardcode no client or shoot-type values.
 
 ---
 
 ## When this is NOT the right tool
 
-- **Processing a whole shoot day** (extract audio, transcribe, rename, catalog) → that's `organize-shoot`. This skill only selects stills.
-- **Rendering branded text-over-photo carousel slides** → `carousel-slides`. This skill picks the photos; that one designs the slides.
-- **One known photo, no choosing involved** → just edit it directly; no need to build contact sheets.
-- **Video frame selection** → out of scope; these tools are for still pools.
+- **Processing a whole shoot day** (audio, transcripts, renames, catalog) → `organize-shoot`. This skill only selects stills.
+- **Rendering branded text-over-photo slides** → `carousel-slides`. This picks the photos; that designs the slides.
+- **One known photo, no choosing** → just edit it; no contact sheets needed.
+- **Video frame selection** → out of scope.
 
 ---
 
-## Reference
+## Profiles
 
-- The full carousel loop this plugs into (source → photos → per-client edit policy → slides → caption → review → publish) is documented per-client; the canonical pattern lives in a client's `memory/reference_carousel_flow.md`. This skill is the "identify + cull candidate photos" stretch of that loop, generalized and scripted.
+Read the one matching the shoot. Each defines what "best" and "order" mean, target-count defaults, dedup aggressiveness, what to flag, and output structure:
+
+- `references/project-reveal.md` — remodel/build reveal → ordered narrative carousel (split-hero opener, zone walk)
+- `references/wedding.md` — large gallery → unordered representative best-of, by-moment, tiered Haiku pre-pass at scale
+- `references/event.md` — corporate/brand event → hero moments for a recap
+- `references/real-estate.md` — interiors/listing → full room coverage, walkthrough order
+- `references/custom.md` — anything else → you elicit goal, order, count, and must-haves from the user, then apply the universal loop
+
+The canonical end-to-end carousel loop this plugs into is documented per-client (e.g. a client's `memory/reference_carousel_flow.md`). This skill is the "cull candidate photos" stretch of that loop, generalized across shoot types.
