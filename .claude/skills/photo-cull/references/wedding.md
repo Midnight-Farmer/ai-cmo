@@ -39,6 +39,8 @@ At 2,000 frames you cannot fine-curate one by one. Go in two passes:
 
 Small weddings (a few hundred frames) skip the coarse pass.
 
+**Rendering speed at scale.** `contact-sheets.sh` extracts the embedded JPEG preview from each raw via `exiftool` (~0.2s/frame), not a full `sips` raw decode (~2.3s/frame) — the difference between ~12 minutes and ~3 hours for 3,000 frames. Install `exiftool` (`brew install exiftool`) before a large run; the script falls back to `sips` if it's missing, but you do not want that fallback on thousands of frames. Rendering is IO-bound on the read of the raws, so a fast disk / not-a-USB-bus helps more than CPU parallelism.
+
 ## Dedup
 
 Aggressive within bursts (keep the best frame of a 6-shot burst), gentle across genuinely different expressions of the same moment.

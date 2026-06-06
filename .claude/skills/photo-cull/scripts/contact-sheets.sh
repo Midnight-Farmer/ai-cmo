@@ -85,11 +85,23 @@ while IFS= read -r f; do
   src_for_magick="$f"
   tmp=""
   if is_raw "$f"; then
-    # Render a viewable JPEG preview from the RAW via sips (macOS ImageIO reads CR3 etc.)
+    # Render a viewable JPEG preview from the RAW.
+    # FAST PATH: extract the embedded JPEG preview with exiftool — no full-raw decode,
+    # ~10x faster than sips (matters enormously at wedding scale: minutes vs hours for
+    # thousands of 30MB+ raws). FALLBACK: sips (macOS ImageIO) if exiftool is absent or
+    # the file has no usable embedded preview.
     tmp="$OUT/thumbs/.raw-$idx.jpg"
-    if ! sips -s format jpeg "$f" --out "$tmp" >/dev/null 2>&1; then
+    if command -v exiftool >/dev/null 2>&1 \
+       && exiftool -b -PreviewImage "$f" > "$tmp" 2>/dev/null && [ -s "$tmp" ]; then
+      :  # got the embedded preview
+    elif command -v exiftool >/dev/null 2>&1 \
+       && exiftool -b -JpgFromRaw "$f" > "$tmp" 2>/dev/null && [ -s "$tmp" ]; then
+      :  # some raws expose the full-res JPEG under JpgFromRaw instead
+    elif sips -s format jpeg "$f" --out "$tmp" >/dev/null 2>&1 && [ -s "$tmp" ]; then
+      :  # slow but reliable
+    else
       echo "WARN: could not render RAW preview for $f (skipping)" >&2
-      continue
+      rm -f "$tmp"; continue
     fi
     src_for_magick="$tmp"
   fi
