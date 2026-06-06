@@ -14,6 +14,8 @@ Weddings break into moments. Cull within each, not across the whole pile:
 
 Use `--recurse` on `contact-sheets.sh` if the photographer already foldered by segment; otherwise catalog each frame's segment as you review.
 
+**Chunking a huge flat folder (no copying).** A 3,000-frame wedding is often one flat folder of raws. Don't copy it. Get the sorted file list once (`ls "$SRC"/*.CR3 | sort > all.txt`), slice it into chunks (`sed -n '1,300p' all.txt > chunk-1.txt`), and render each chunk with `contact-sheets.sh --filelist chunk-N.txt --out <dir>`. Because filenames are usually a single chronological camera sequence, each contiguous chunk ≈ one time-span of the day — convenient for segment-by-segment work and for fanning the coarse pass out across chunks in parallel.
+
 ## What "best" means
 
 Coverage of the *moments that matter*, not the prettiest 50 frames. A blurry-but-only first-kiss frame beats a gorgeous redundant portrait. Two priorities fight and the first wins: **(1) never miss a key moment, (2) then pick the strongest frames within each moment.**
